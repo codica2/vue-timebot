@@ -28,7 +28,7 @@
         <a v-else :href="child.path" :key="child.name" target="_blank" @click="clickLink(child.path,$event)">
           <el-menu-item :index="resolvePath(child.path)">
             <!--<item v-if="child.meta" :icon="child.meta.icon" :title="generateTitle(child.meta.title)" />-->
-            <item v-if="child.meta" :icon="child.meta.icon" :title="item.meta.title" />
+            <item v-if="child.meta" :icon="child.meta.icon" :title="child.meta.title" />
           </el-menu-item>
         </a>
       </template>

@@ -67,7 +67,7 @@ export const constantRouterMap = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
+        meta: { title: 'Dashboard', icon: 'dashboard', noCache: true }
       }
     ]
   }
@@ -94,13 +94,13 @@ export const asyncRouterMap = [
         path: 'estimations',
         component: () => import('@/views/reports/estimations/index'),
         name: 'Estimations',
-        meta: { title: 'Estimations', noCache: true }
+        meta: { title: 'Estimations', icon: 'time', noCache: true }
       },
       {
         path: 'weekly',
         component: () => import('@/views/reports/weekly/index'),
         name: 'Weekly',
-        meta: { title: 'Weekly', noCache: true }
+        meta: { title: 'Weekly', icon: 'calendar', noCache: true }
       },
       {
         path: 'absens',
@@ -119,7 +119,7 @@ export const asyncRouterMap = [
         path: 'time-entries',
         component: () => import('@/views/time-entries/index'),
         name: 'Time entries',
-        meta: { title: 'Time entries', icon: 'icon', noCache: true }
+        meta: { title: 'Time entries', icon: 'time', noCache: true }
       }
     ]
   },
@@ -132,7 +132,7 @@ export const asyncRouterMap = [
         path: 'users',
         component: () => import('@/views/users/index'),
         name: 'Users',
-        meta: { title: 'Users', icon: 'icon', noCache: true }
+        meta: { title: 'Users', icon: 'user', noCache: true }
       }
     ]
   },
@@ -145,7 +145,7 @@ export const asyncRouterMap = [
         path: 'teams',
         component: () => import('@/views/teams/index'),
         name: 'Teams',
-        meta: { title: 'Teams', icon: 'icon', noCache: true }
+        meta: { title: 'Teams', icon: 'teams', noCache: true }
       }
     ]
   },
@@ -158,7 +158,7 @@ export const asyncRouterMap = [
         path: 'projects',
         component: () => import('@/views/projects/index'),
         name: 'Projects',
-        meta: { title: 'Projects', icon: 'icon', noCache: true }
+        meta: { title: 'Projects', icon: 'projects', noCache: true }
       }
     ]
   },
@@ -171,7 +171,7 @@ export const asyncRouterMap = [
         path: 'holidays',
         component: () => import('@/views/holidays/index'),
         name: 'Holidays',
-        meta: { title: 'Holidays', icon: 'icon', noCache: true }
+        meta: { title: 'Holidays', icon: 'rocket', noCache: true }
       }
     ]
   },
@@ -184,7 +184,7 @@ export const asyncRouterMap = [
         path: 'absense',
         component: () => import('@/views/absense/index'),
         name: 'Absense',
-        meta: { title: 'Absense', icon: 'icon', noCache: true }
+        meta: { title: 'Absense', icon: 'sofa', noCache: true }
       }
     ]
   },
@@ -197,7 +197,7 @@ export const asyncRouterMap = [
         path: 'admins',
         component: () => import('@/views/admins/index'),
         name: 'Admins',
-        meta: { title: 'Admins', icon: 'icon', noCache: true }
+        meta: { title: 'Admins', icon: 'admins', noCache: true }
       }
     ]
   },

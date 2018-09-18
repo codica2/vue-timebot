@@ -25,6 +25,14 @@ export default {
       type: String,
       default: ''
     },
+    color: {
+      type: Array,
+      default: () => { return [] }
+    },
+    legend: {
+      type: Object,
+      default: () => { return undefined }
+    },
     payloadData: {
       type: Array,
       default: () => [
@@ -39,8 +47,8 @@ export default {
       type: Object,
       default: () => {
         return {
-          text: 'Title',
-          subtext: 'subtext'
+          text: '',
+          subtext: ''
         }
       }
     },
@@ -81,29 +89,34 @@ export default {
           subtext: this.title.subtext,
           x: 'center'
         },
+        color: this.color,
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
-        legend: {
-          left: 'center',
-          bottom: '10',
-          data: () => {if (this.legendData) return this.payloadData}
-        },
+        legend: this.legend,
         calculable: true,
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: '',
             type: 'pie',
-            roseType: 'radius',
-            radius: [5, 95],
+            // roseType: 'radius',
+            radius: [0, '60%'],
             center: ['50%', '50%'],
             data: this.payloadData,
             animationEasing: 'cubicInOut',
-            animationDuration: 2600,
+            animationDuration: 1600,
             label: {
               normal: {
-                position: this.labelSector
+                position: this.labelSector,
+                distance: 0,
+                backgroundColor: '#eee',
+                borderColor: '#555',
+                borderWidth: 2,
+                borderRadius: 5,
+                padding: 10,
+                fontSize: 18,
+                color: '#000'
               }
             }
           }

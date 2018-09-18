@@ -9,7 +9,8 @@
         :key="tag.path"
         class="tags-view-item"
         @contextmenu.prevent.native="openMenu(tag,$event)">
-        {{ generateTitle(tag.title) }}
+        <!--{{ generateTitle(tag.title) }}-->
+        {{ tag.title }}
         <span class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)"/>
       </router-link>
     </scroll-pane>
