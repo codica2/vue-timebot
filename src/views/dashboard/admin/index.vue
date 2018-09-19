@@ -17,94 +17,45 @@
     el-col(:xs="24" :sm="24" :lg="12")
       .chart-wrapper
         PieChart(
-        :legend="{orient: 'horizontal', bottom: '10', data: [{name: 'Qwerty'}, {name: 'Lorem'}]}"
+        :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('developers')}"
         :legendData="true"
-        :payloadData="[{name: 'Qwerty', value: 100}, {name: 'Lorem', value: 33}]")
+        :payloadData="chartData('developers')")
     el-col(:xs="24" :sm="24" :lg="12")
       .chart-wrapper
         PieChart(
-          :payloadData="[{name: 'QA 200', value: 200}, {name: 'PM 25', value: 25}, {name: 'Review 100', value: 100}, {name: 'Development', value: 400}]"
+        :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('departments')}"
+        :payloadData="chartData('departments')"
         )
     el-col(:xs="24" :sm="24" :lg="24")
       h2 Tickets in work:
       .chart-container
-        .chart-wrapper
+        .chart-wrapper(v-for="(ticket, ticketIndex) in tickets" :key="ticketIndex")
           PieChart(
             :labelSector="'center'"
-            :payloadData="[{name: '50', value: 100}]"
-            :title="{text: 'Development'}"
-          )
-        .chart-wrapper
-          PieChart(
-            :labelSector="'center'"
-            :color="['#333']",
-            :payloadData="[{name: '45', value: 200}]"
-            :title="{text: 'Staging'}"
-          )
-        .chart-wrapper
-          PieChart(
-            :labelSector="'center'"
-            :color="['#666']",
-            :payloadData="[{name: '250', value: 300}]"
-            :title="{text: 'Production'}"
+            :payloadData="ticket.data"
+            :title="ticket.title"
+            :color="ticket.color"
           )
 </template>
 
 <script>
 import PieChart from './components/PieChart'
+import { mixDate } from '@/mixins/index.js'
+import { mapGetters } from 'vuex'
 export default {
   name: 'DashboardAdmin',
   components: {
     PieChart
   },
+  mixins: [mixDate],
   data: () => ({
-    date: ['16-09-2018', '17-09-2018'],
-    pickerOptions: {
-      shortcuts: [{
-        text: 'Last week',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-          picker.$emit('pick', [start, end])
-        }
-      }, {
-        text: 'Last month',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-          picker.$emit('pick', [start, end])
-        }
-      }, {
-        text: 'Last 3 months',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-          picker.$emit('pick', [start, end])
-        }
-      }]
-    }
   }),
-  created() {
-    const end = new Date()
-    const start = new Date()
-    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-    this.date = [this.formatDate(start), this.formatDate(end)]
-  },
-  methods: {
-    formatDate(date) {
-      if (date) {
-        let dd = date.getDate()
-        if (dd < 10) dd = '0' + dd
-        let mm = date.getMonth() + 1
-        if (mm < 10) mm = '0' + mm
-        let yy = date.getFullYear()
-        if (yy < 10) yy = '0' + yy
-        return dd + '-' + mm + '-' + yy
-      }
-    }
+  computed: {
+    ...mapGetters([
+      'chartDataNames',
+      'chartData',
+      'tickets'
+    ])
   }
 }
 </script>
