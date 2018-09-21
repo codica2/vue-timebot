@@ -1,14 +1,16 @@
 <template lang="pug">
   div Filters
-    el-select(v-model="user" placeholder="Select")
-      el-option(v-for="item in users" :key="item.value" :label="item.label" :value="item.value")
-    el-select(v-model="project" placeholder="Select")
-      el-option(v-for="item in projects" :key="item.value" :label="item.label" :value="item.value")
-    div(v-for="(textarea, textareaIndex) in textareas" :key="textareaIndex")
+    div
+      el-select(v-model="searchParams.user" placeholder="Select")
+        el-option(v-for="item in users" :key="item.value" :label="item.label" :value="item.value")
+    div
+      el-select(v-model="searchParams.project" placeholder="Select")
+        el-option(v-for="item in projects" :key="item.value" :label="item.label" :value="item.value")
+    div(v-for="(textarea, textareaIndex) in searchParams.textareas" :key="textareaIndex")
       textarea(v-model="textarea.input")
-      div(@click="addSearchQuery" v-if="textareaIndex + 1 === textareas.length") OR
+      div(@click="addSearchQuery" v-if="textareaIndex + 1 === searchParams.textareas.length").active OR
       div(v-else) OR
-    el-date-picker(v-model="searchDate" type="daterange" range-separator="To" start-placeholder="Start date"
+    el-date-picker(v-model="searchParams.searchDate" type="daterange" range-separator="To" start-placeholder="Start date"
     end-placeholder="End date")
     div
       el-button Filter
@@ -19,10 +21,14 @@
 export default {
   name: "filters",
   data: () => ({
-    textareas: [
-      {input: ''}
-    ],
-    searchDate: [],
+    searchParams: {
+      textareas: [
+        {input: ''}
+      ],
+      searchDate: [],
+      user: '',
+      project: ''
+    },
     users: [{
       value: 'Option1',
       label: 'Option1'
@@ -54,13 +60,11 @@ export default {
     }, {
       value: 'Option5',
       label: 'Option5'
-    }],
-    user: '',
-    project: '',
+    }]
   }),
   methods: {
     addSearchQuery () {
-      this.textareas.push({input: ''})
+      this.searchParams.textareas.push({input: ''})
     }
   }
 }

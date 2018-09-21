@@ -8,6 +8,7 @@ import charts from './modules/charts'
 import user from './modules/user'
 import globalData from './modules/globalData'
 import tables from './modules/tables'
+import actionEntityTable from './modules/actionEntityTable'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -21,7 +22,8 @@ const store = new Vuex.Store({
     charts,
     user,
     globalData,
-    tables
+    tables,
+    actionEntityTable
   },
   getters
 })

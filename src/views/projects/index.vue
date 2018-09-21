@@ -3,10 +3,10 @@
       strong(v-if="date") Statistics for {{date[0]}} - {{date[1]}}
       el-select(v-model="value" placeholder="Select")
         el-option(
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value")
+          v-for="item in list"
+          :key="item.id"
+          :label="item.attributes.name"
+          :value="item.id")
       el-date-picker(
         v-model="date",
         type="daterange",
@@ -15,7 +15,7 @@
         start-placeholder="Start date",
         :picker-options="pickerOptions",
         end-placeholder="End date")
-      el-col(:xs="24" :sm="24" :lg="12")
+      el-col(:xs="24" :sm="24" :lg="24")
         .chart-wrapper
           PieChart(
           :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('developers')}"
@@ -26,6 +26,8 @@
             :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('departments')}"
             :payloadData="chartData('departments')"
           )
+      filters
+      projectsTable
       el-table(:data="tableData('tableData1').data" style="width: 100%")
         el-table-column(
         v-for="(row, rowIndex) in tableData('tableData1').data"
@@ -34,7 +36,6 @@
         :prop="Object.keys(row)[rowIndex]",
         :label="Object.keys(row)[rowIndex][0].toUpperCase() + Object.keys(row)[rowIndex].slice(1)"
         width="180")
-      <!--TableCollapse(:tableData="tableData('tableData')")-->
       tree-table(:data="tableData('tableData').data" :eval-func="func" :eval-args="args" border)
         el-table-column(label="Project")
           template(slot-scope="scope")
@@ -54,7 +55,6 @@
         el-table-column(label="Time")
           template(slot-scope="scope")
             span {{ scope.row.time }}
-
 </template>
 
 <script>
@@ -63,11 +63,14 @@ import PieChart from '../dashboard/admin/components/PieChart'
 import { mapGetters } from 'vuex'
 import treeToArray from '@/components/TreeTable/customEval'
 import treeTable from '@/components/TreeTable/index'
+import projectsTable from './projectsTable'
+import filters from './filters'
 export default {
   name: 'Projects',
   components: {
     PieChart,
-    treeTable
+    treeTable,
+    projectsTable
   },
   mixins: [mixDate],
   data: () => ({
@@ -81,16 +84,19 @@ export default {
         label: 'Africar'
       }
     ],
-    value: '1',
-    args: [null, null, 'timeLine'],
-    func: treeToArray
+    value: '',
+    func: treeToArray,
+    args: [null, null, 'timeLine']
   }),
   computed: {
     ...mapGetters([
       'chartDataNames',
       'chartData',
-      'tableData'
-    ])
+      'tableData',
+    ]),
+    ...mapGetters({
+      list: 'actionEntityTable/list'
+    })
   }
 }
 </script>
