@@ -2,11 +2,11 @@
   div
     div
       div(style="display: flex")
-        div
-          el-dropdown(type="primary")
-            span.el-dropdown-link Batch Actions
-            el-dropdown-menu(slot="dropdown")
-              el-dropdown-item(:disabled="multipleSelection.length <= 0") Delete selected
+        <!--div-->
+          <!--el-dropdown(type="primary")-->
+            <!--span.el-dropdown-link Batch Actions-->
+            <!--el-dropdown-menu(slot="dropdown")-->
+              <!--el-dropdown-item(:disabled="multipleSelection.length <= 0") Delete selected-->
         div
           el-button(@click="handleCreate",
           class="filter-item",
@@ -43,14 +43,7 @@
             size="mini"
             type="danger"
             @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
-    <!--div.pagination-container-->
-      <!--el-pagination(v-show="total>0"-->
-      <!--:current-page="listQuery.page"-->
-      <!--:page-sizes="[10,20,30, 50]"-->
-      <!--:page-size="listQuery.limit"-->
-      <!--:total="total"-->
-      <!--background layout="total, sizes, prev, pager, next, jumper"-->
-      <!--@size-change="handleSizeChange" @current-change="handleCurrentChange")-->
+      pagination(:type="type" v-if="list.length")
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
       el-form(ref="dataForm"
       :rules="rules"
@@ -69,6 +62,8 @@
       div {{temp.id}} Id
       div {{temp.attributes.name}} Project
       div {{temp.attributes.alias}} Alias
+      div(slot="footer" class="dialog-footer")
+        el-button(@click="dialogViewVisible = false") Close
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogCreateVisible")
       el-form(ref="createForm"
       :rules="rules"
@@ -82,39 +77,45 @@
           el-input(placeholder="Please input" v-model="temp.attributes.alias" clearable)
         el-form-item(label="Team" prop="team")
       div(slot="footer" class="dialog-footer")
-        el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
+        el-button(@click="dialogCreateVisible = false") {{ $t('table.cancel') }}
         el-button(type="primary" @click="createEntity") {{ $t('table.confirm') }}
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import * as mixin from "@/mixins/index";
-  export default {
-    name: 'projectsTable',
-    mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixPagination, mixin.mixQuery],
-    data () {
-      return {
-        multipleSelection: [],
-        tableKey: 0,
-        dialogFormVisible: false,
-        dialogViewVisible: false,
-        dialogCreateVisible: false,
-        listLoading: true,
-        type: 'projects'
-      }
-    },
-    computed: {
-      ...mapGetters({
-        list: 'actionEntityTable/list',
-        pagination: 'actionEntityTable/pagination'
-      })
-    },
-    methods: {
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      }
+import { mapGetters } from 'vuex'
+import * as mixin from '@/mixins/index'
+import pagination from '@/components/Pagination/index'
+export default {
+  name: 'ProjectsTable',
+  components: {
+    pagination
+  },
+  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery],
+  data() {
+    return {
+      multipleSelection: [],
+      tableKey: 0,
+      dialogFormVisible: false,
+      dialogViewVisible: false,
+      dialogCreateVisible: false,
+      listLoading: true,
+      type: 'projects'
+    }
+  },
+  computed: {
+    ...mapGetters({
+      list: 'actionEntityTable/list'
+    })
+  },
+  created() {
+    this.getList()
+  },
+  methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = val
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

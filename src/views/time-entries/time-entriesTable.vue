@@ -33,14 +33,7 @@
           el-button(type="primary" size="mini" @click="handleView(scope.row)") View
           el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
           el-button(v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')") {{ $t('table.delete') }}
-    <!--div.pagination-container-->
-      <!--el-pagination(v-show="total>0"-->
-      <!--:current-page="listQuery.page"-->
-      <!--:page-sizes="[10,20,30, 50]"-->
-      <!--:page-size="listQuery.limit"-->
-      <!--:total="total"-->
-      <!--background layout="total, sizes, prev, pager, next, jumper"-->
-      <!--@size-change="handleSizeChange" @current-change="handleCurrentChange")-->
+      pagination(:type="type" v-if="list.length")
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
       el-form(ref="dataForm"
       :rules="rules"
@@ -77,9 +70,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import * as mixin from "@/mixins/index";
+import * as mixin from '@/mixins/index'
+import pagination from '@/components/Pagination/index'
+
 export default {
-  name: 'time-entriesTable',
+  name: 'TimeEntriesTable',
+  components: {
+    pagination
+  },
   mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixPagination, mixin.mixQuery],
   data: () => ({
     multipleSelection: [],
@@ -93,12 +91,12 @@ export default {
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list',
-      pagination: 'actionEntityTable/pagination'
+      pagination: 'actionEntityTable/Pagination'
     })
   },
   methods: {
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleSelection = val
     }
   }
 }

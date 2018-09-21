@@ -5,16 +5,16 @@
 </template>
 
 <script>
-  import filters from './filters'
-  import timeEntriesTable from './time-entriesTable'
-  export default {
-    name: 'TimeEntries',
-    data: () => ({
-    }),
-    components: {
-      filters,
-      timeEntriesTable
-    },
+import filters from './filters'
+import timeEntriesTable from './time-entriesTable'
+export default {
+  name: 'TimeEntries',
+  components: {
+    filters,
+    timeEntriesTable
+  },
+  data: () => ({
+  })
 }
 </script>
 

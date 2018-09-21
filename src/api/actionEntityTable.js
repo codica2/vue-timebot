@@ -5,12 +5,11 @@ export function fetchList(query) {
   return request({
     url: query,
     method: 'get',
-    params: query
+    params: ''
   })
 }
 export function createEntity(row, query) {
   const entity = {
-    //row.type => projects
     project: {
       alias: row.attributes.alias,
       name: row.attributes.name,
@@ -26,7 +25,7 @@ export function createEntity(row, query) {
 }
 export function deleteEntity(row, query) {
   return request({
-    url: `${query}${row.id}`,
+    url: `${query}/${row.id}`,
     method: 'delete',
     params: row,
     paramsSerializer: params => qs.stringify(row, { arrayFormat: 'brackets' })
@@ -35,14 +34,14 @@ export function deleteEntity(row, query) {
 
 export function updateEntity(row, query) {
   const entity = {
-      project: {
-        alias: row.attributes.alias,
-        name: row.attributes.name,
-        team_id: 1
-      }
+    project: {
+      alias: row.attributes.alias,
+      name: row.attributes.name,
+      team_id: 1
+    }
   }
   return request({
-    url: `${query}${row.id}`,
+    url: `${query}/${row.id}`,
     method: 'put',
     params: entity,
     paramsSerializer: params => qs.stringify(entity, { arrayFormat: 'brackets' })

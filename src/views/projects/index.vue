@@ -70,7 +70,8 @@ export default {
   components: {
     PieChart,
     treeTable,
-    projectsTable
+    projectsTable,
+    filters
   },
   mixins: [mixDate],
   data: () => ({
@@ -92,7 +93,7 @@ export default {
     ...mapGetters([
       'chartDataNames',
       'chartData',
-      'tableData',
+      'tableData'
     ]),
     ...mapGetters({
       list: 'actionEntityTable/list'

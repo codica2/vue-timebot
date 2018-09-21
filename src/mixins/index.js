@@ -61,28 +61,28 @@ export const mixDate = {
   }
 }
 export const mixValidationRules = {
-  data () {
-    let checkName = (rule, value, callback) => {
+  data() {
+    const checkName = (rule, value, callback) => {
       if (!value) {
-        callback(new Error());
+        callback(new Error())
       } else {
-        callback();
+        callback()
       }
     }
     return {
       rules: {
-        type: [{required: true, message: 'type is required', trigger: 'change'}],
-        timestamp: [{type: 'date', required: true, message: 'timestamp is required', trigger: 'change'}],
-        title: [{required: true, message: 'title is required', trigger: 'blur'}],
-        name: [{validator: checkName, required: true, message: 'Name of project is requires', trigger: 'change'}],
-        alias: [{validator: checkName, required: true, message: 'Alias of project is requires', trigger: 'change'}]
-      },
+        type: [{ required: true, message: 'type is required', trigger: 'change' }],
+        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
+        title: [{ required: true, message: 'title is required', trigger: 'blur' }],
+        name: [{ validator: checkName, required: true, message: 'Name of project is requires', trigger: 'change' }],
+        alias: [{ validator: checkName, required: true, message: 'Alias of project is requires', trigger: 'change' }]
+      }
     }
   }
 }
 
 export const mixDialog = {
-  data () {
+  data() {
     return {
       dialogStatus: '',
       textMap: {
@@ -110,7 +110,6 @@ export const mixDialog = {
       })
     },
     handleCreate() {
-      console.log(this.$refs)
       this.resetTemp()
       this.dialogStatus = 'create'
       this.dialogCreateVisible = true
@@ -138,32 +137,24 @@ export const mixDialog = {
 
 export const mixPagination = {
   data: () => ({
-    listQuery: {
-      page: 1,
-      limit: 20,
-      total: null,
-      importance: undefined,
-      title: undefined,
-      type: undefined,
-      sort: '+id'
-    }
   }),
   methods: {
     handleSizeChange(val) {
-      this.listQuery.limit = val
-      this.getList()
+      this.$store.dispatch('actionEntityTable/setPagination', { type: 'limit', value: val })
+        .then(() => {
+          this.getList()
+        })
     },
     handleCurrentChange(val) {
-      this.listQuery.page = val
-      this.getList()
-    },
+      this.$store.dispatch('actionEntityTable/setPagination', { type: 'page', value: val })
+        .then(() => {
+          this.getList()
+        })
+    }
   }
 }
 
 export const mixQuery = {
-  created() {
-    this.getList()
-  },
   methods: {
     getList() {
       this.listLoading = true
@@ -171,23 +162,32 @@ export const mixQuery = {
         .then(() => {
           this.listLoading = false
         })
-      this.listQuery.total = 30
-      this.listLoading = false
     },
     removeEntity(row, status) {
-      this.$store.dispatch('actionEntityTable/deleteEntity', {row, type: this.type})
-        .then(() => {
-          this.$message({
-            message: 'Project was deleted',
-            type: 'success'
+      this.$confirm('This will permanently delete the entity. Continue?', 'Warning', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('actionEntityTable/deleteEntity', { row, type: this.type })
+          .then(() => {
+            this.$message({
+              message: 'Project was deleted',
+              type: 'success'
+            })
+            row.status = status
           })
-          row.status = status
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Delete canceled'
         })
+      })
     },
     createEntity() {
       this.$refs['createForm'].validate((valid) => {
         if (valid) {
-          this.$store.dispatch('actionEntityTable/createEntity', {row: this.temp, type: this.type})
+          this.$store.dispatch('actionEntityTable/createEntity', { row: this.temp, type: this.type })
             .then(() => {
               this.dialogCreateVisible = false
               this.$notify({
@@ -204,7 +204,7 @@ export const mixQuery = {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
-          this.$store.dispatch('actionEntityTable/updateEntity', {row: tempData, type: this.type})
+          this.$store.dispatch('actionEntityTable/updateEntity', { row: tempData, type: this.type })
             .then(() => {
               this.dialogFormVisible = false
               this.$notify({

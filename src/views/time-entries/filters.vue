@@ -19,11 +19,11 @@
 
 <script>
 export default {
-  name: "filters",
+  name: 'Filters',
   data: () => ({
     searchParams: {
       textareas: [
-        {input: ''}
+        { input: '' }
       ],
       searchDate: [],
       user: '',
@@ -63,8 +63,8 @@ export default {
     }]
   }),
   methods: {
-    addSearchQuery () {
-      this.searchParams.textareas.push({input: ''})
+    addSearchQuery() {
+      this.searchParams.textareas.push({ input: '' })
     }
   }
 }
