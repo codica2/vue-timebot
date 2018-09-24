@@ -32,12 +32,12 @@
         template(slot-scope="scope")
           el-button(type="primary" size="mini" @click="handleView(scope.row)") View
           el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
-          el-button(v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')") {{ $t('table.delete') }}
+          el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')") {{ $t('table.delete') }}
       pagination(:type="type" v-if="list(type).length")
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
       el-form(ref="dataForm"
       :rules="rules"
-      :model="temp"
+      :model="temp.attributes"
       label-position="left"
       label-width="70px"
       style="width: 400px; margin-left:50px;")
@@ -51,8 +51,8 @@
           el-input(v-model="temp.details" type="details" placeholder="Write smth")
       div(slot="footer" class="dialog-footer")
         el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-        el-button(v-if="dialogStatus=='create'" type="primary" @click="createEntity") {{ $t('table.confirm') }}
-        el-button(v-else type="primary" @click="updateEntity") {{ $t('table.confirm') }}
+        el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="createEntity") {{ $t('table.confirm') }}
+        el-button(v-else type="primary" :loading="dialogFormLoading" @click="updateEntity") {{ $t('table.confirm') }}
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
       div {{temp.user_id}} User
       div {{temp.created_at}} Created at
@@ -78,14 +78,10 @@ export default {
   components: {
     pagination
   },
-  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixPagination, mixin.mixQuery],
+  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery],
   data: () => ({
     multipleSelection: [],
     tableKey: 0,
-    dialogFormVisible: false,
-    dialogViewVisible: false,
-    dialogCreateVisible: false,
-    listLoading: true,
     type: 'time-entries'
   }),
   computed: {
@@ -93,6 +89,9 @@ export default {
       list: 'actionEntityTable/list',
       pagination: 'actionEntityTable/Pagination'
     })
+  },
+  beforeDestroy() {
+    this.$store.dispatch('actionEntityTable/clearStore')
   },
   methods: {
     handleSelectionChange(val) {
@@ -102,6 +101,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

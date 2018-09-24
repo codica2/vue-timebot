@@ -85,6 +85,10 @@ export const mixDialog = {
   data() {
     return {
       dialogStatus: '',
+      dialogFormVisible: false,
+      dialogViewVisible: false,
+      dialogFormLoading: false,
+      listLoading: true,
       textMap: {
         update: 'Edit',
         create: 'Create',
@@ -112,9 +116,9 @@ export const mixDialog = {
     handleCreate() {
       this.resetTemp()
       this.dialogStatus = 'create'
-      this.dialogCreateVisible = true
+      this.dialogFormVisible = true
       this.$nextTick(() => {
-        this.$refs['createForm'].clearValidate()
+        this.$refs['dataForm'].clearValidate()
       })
     },
     handleView(row) {
@@ -185,12 +189,12 @@ export const mixQuery = {
       })
     },
     createEntity() {
-      this.$refs['createForm'].validate((valid) => {
+      this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           this.dialogFormLoading = true
           this.$store.dispatch('actionEntityTable/createEntity', { row: this.temp, type: this.type })
             .then(() => {
-              this.dialogCreateVisible = false
+              this.dialogFormVisible = false
               this.dialogFormLoading = false
               this.$notify({
                 title: 'Success',

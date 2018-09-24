@@ -29,6 +29,7 @@ const actionEntityTable = {
         Api.fetchList(setQuery(payload))
           .then(response => {
             console.log(response)
+            console.dir(response.headers)
             commit('FETCH_LIST', { data: response.data, type: payload })
             resolve()
           })
