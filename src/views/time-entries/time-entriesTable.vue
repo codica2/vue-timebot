@@ -3,7 +3,7 @@
     el-table(
     v-loading="listLoading"
     :key="tableKey"
-    :data="list"
+    :data="list(type)"
     border
     fit
     @selection-change="handleSelectionChange"
@@ -33,7 +33,7 @@
           el-button(type="primary" size="mini" @click="handleView(scope.row)") View
           el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
           el-button(v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')") {{ $t('table.delete') }}
-      pagination(:type="type" v-if="list.length")
+      pagination(:type="type" v-if="list(type).length")
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
       el-form(ref="dataForm"
       :rules="rules"

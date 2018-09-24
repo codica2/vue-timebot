@@ -13,7 +13,7 @@
 import * as mixin from '@/mixins/index'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'Index',
+  name: 'Pagination',
   mixins: [mixin.mixPagination, mixin.mixQuery],
   props: {
     type: {

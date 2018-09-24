@@ -18,7 +18,7 @@
         @selection-change="handleSelectionChange"
         v-loading="listLoading"
         :key="tableKey"
-        :data="list"
+        :data="list(type)"
         border
         fit
         highlight-current-row
@@ -43,7 +43,7 @@
             size="mini"
             type="danger"
             @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
-      pagination(:type="type" v-if="list.length")
+      pagination(:type="type" v-if="list(type).length")
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
       el-form(ref="dataForm"
       :rules="rules"
@@ -57,7 +57,7 @@
           el-input(placeholder="Please input" v-model="temp.attributes.alias" clearable)
       div(slot="footer" class="dialog-footer")
         el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-        el-button(type="primary" @click="updateEntity") Update
+        el-button(type="primary" :loading="dialogFormLoading" @click="updateEntity") Update
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
       div {{temp.id}} Id
       div {{temp.attributes.name}} Project
@@ -78,7 +78,7 @@
         el-form-item(label="Team" prop="team")
       div(slot="footer" class="dialog-footer")
         el-button(@click="dialogCreateVisible = false") {{ $t('table.cancel') }}
-        el-button(type="primary" @click="createEntity") {{ $t('table.confirm') }}
+        el-button(type="primary" :loading="dialogFormLoading" @click="createEntity") {{ $t('table.confirm') }}
 </template>
 
 <script>
@@ -98,6 +98,7 @@ export default {
       dialogFormVisible: false,
       dialogViewVisible: false,
       dialogCreateVisible: false,
+      dialogFormLoading: false,
       listLoading: true,
       type: 'projects'
     }
@@ -109,6 +110,9 @@ export default {
   },
   created() {
     this.getList()
+  },
+  beforeDestroy() {
+    this.$store.dispatch('actionEntityTable/clearStore')
   },
   methods: {
     handleSelectionChange(val) {

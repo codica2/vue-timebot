@@ -187,9 +187,11 @@ export const mixQuery = {
     createEntity() {
       this.$refs['createForm'].validate((valid) => {
         if (valid) {
+          this.dialogFormLoading = true
           this.$store.dispatch('actionEntityTable/createEntity', { row: this.temp, type: this.type })
             .then(() => {
               this.dialogCreateVisible = false
+              this.dialogFormLoading = false
               this.$notify({
                 title: 'Success',
                 message: 'Entity was created',
@@ -197,22 +199,34 @@ export const mixQuery = {
                 duration: 2000
               })
             })
+            .catch(err => {
+              console.log(err)
+              this.dialogFormVisible = false
+              this.dialogFormLoading = false
+            })
         }
       })
     },
     updateEntity() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
+          this.dialogFormLoading = true
           const tempData = Object.assign({}, this.temp)
           this.$store.dispatch('actionEntityTable/updateEntity', { row: tempData, type: this.type })
             .then(() => {
               this.dialogFormVisible = false
+              this.dialogFormLoading = false
               this.$notify({
                 title: 'Success',
                 message: 'Entity was updated',
                 type: 'success',
                 duration: 2000
               })
+            })
+            .catch(err => {
+              console.log(err)
+              this.dialogFormVisible = false
+              this.dialogFormLoading = false
             })
         }
       })

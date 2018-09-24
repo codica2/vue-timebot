@@ -9,18 +9,11 @@ export function fetchList(query) {
   })
 }
 export function createEntity(row, query) {
-  const entity = {
-    project: {
-      alias: row.attributes.alias,
-      name: row.attributes.name,
-      team_id: 1
-    }
-  }
   return request({
     url: query,
     method: 'post',
-    params: entity,
-    paramsSerializer: params => qs.stringify(entity, { arrayFormat: 'brackets' })
+    params: row,
+    paramsSerializer: params => qs.stringify(row, { arrayFormat: 'brackets' })
   })
 }
 export function deleteEntity(row, query) {
@@ -33,17 +26,10 @@ export function deleteEntity(row, query) {
 }
 
 export function updateEntity(row, query) {
-  const entity = {
-    project: {
-      alias: row.attributes.alias,
-      name: row.attributes.name,
-      team_id: 1
-    }
-  }
   return request({
     url: `${query}/${row.id}`,
     method: 'put',
-    params: entity,
-    paramsSerializer: params => qs.stringify(entity, { arrayFormat: 'brackets' })
+    params: row,
+    paramsSerializer: params => qs.stringify(row, { arrayFormat: 'brackets' })
   })
 }
