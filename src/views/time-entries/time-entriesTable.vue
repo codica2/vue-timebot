@@ -90,6 +90,9 @@ export default {
       pagination: 'actionEntityTable/Pagination'
     })
   },
+  created() {
+    this.getList()
+  },
   beforeDestroy() {
     this.$store.dispatch('actionEntityTable/clearStore')
   },
