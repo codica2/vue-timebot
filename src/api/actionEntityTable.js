@@ -8,6 +8,20 @@ export function fetchList(query) {
     params: ''
   })
 }
+export function fetchEntity(query, id) {
+  return request({
+    url: `${query}/${id}`,
+    method: 'get',
+    params: ''
+  })
+}
+export function fetchAllEntities(query) {
+  return request({
+    url: `${query}/all`,
+    method: 'get',
+    params: ''
+  })
+}
 export function createEntity(row, query) {
   return request({
     url: query,

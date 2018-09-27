@@ -1,10 +1,10 @@
 <template lang="pug">
-    div Absens
+    div Absence
 </template>
 
 <script>
 export default {
-  name: 'Absens',
+  name: 'Absence',
   data: () => ({
   })
 }

@@ -1,31 +1,33 @@
 <template lang="pug">
     div
-      strong(v-if="date") Statistics for {{date[0]}} - {{date[1]}}
-      el-select(v-model="value" placeholder="Select")
-        el-option(
-          v-for="item in list"
-          :key="item.id"
-          :label="item.attributes.name"
-          :value="item.id")
-      el-date-picker(
-        v-model="date",
-        type="daterange",
-        range-separator="-",
-        value-format="dd-MM-yyyy",
-        start-placeholder="Start date",
-        :picker-options="pickerOptions",
-        end-placeholder="End date")
+      div
+        div
+          strong(v-if="date") Statistics for {{date[0]}} - {{date[1]}}
+        el-select(v-model="value" placeholder="Select")
+          el-option(
+            v-for="item in list"
+            :key="item.id"
+            :label="item.attributes.name"
+            :value="item.id")
+        el-date-picker(
+          v-model="date",
+          type="daterange",
+          range-separator="-",
+          value-format="dd-MM-yyyy",
+          start-placeholder="Start date",
+          :picker-options="pickerOptions",
+          end-placeholder="End date")
       el-col(:xs="24" :sm="24" :lg="24")
-        .chart-wrapper
-          PieChart(
-          :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('developers')}"
-          :legendData="true"
-          :payloadData="chartData('developers')")
-        .chart-wrapper
-          PieChart(
-            :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('departments')}"
-            :payloadData="chartData('departments')"
-          )
+        <!--.chart-wrapper-->
+          <!--PieChart(-->
+          <!--:legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('developers')}"-->
+          <!--:legendData="true"-->
+          <!--:payloadData="chartData('developers')")-->
+        <!--.chart-wrapper-->
+          <!--PieChart(-->
+            <!--:legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('departments')}"-->
+            <!--:payloadData="chartData('departments')"-->
+          <!--)-->
       filters
       projectsTable
       el-table(:data="tableData('tableData1').data" style="width: 100%")
@@ -75,6 +77,7 @@ export default {
   },
   mixins: [mixDate],
   data: () => ({
+    type: 'dashboardChart',
     options: [
       {
         value: '1',

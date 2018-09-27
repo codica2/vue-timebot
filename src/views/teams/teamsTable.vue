@@ -6,7 +6,7 @@
         class="filter-item",
         style="margin-left: 10px;",
         type="primary",
-        icon="el-icon-edit") Add new project
+        icon="el-icon-edit") Add new team
       el-table(
       v-loading="listLoading"
       :key="tableKey"
@@ -20,21 +20,12 @@
         el-table-column(:label="$t('table.id')" align="center" width="65")
           template(slot-scope="scope")
             span {{ scope.row.id }}
-        el-table-column(label="User")
+        el-table-column(label="Name")
           template(slot-scope="scope")
-            span {{ scope.row.relationships.user.data.id }}
-        el-table-column(label="Project")
+            span {{ scope.row.name }}
+        el-table-column(label="Description")
           template(slot-scope="scope")
-            span {{ getProject(scope.row.relationships.project.data.id) }}
-        el-table-column(label="Date")
-          template(slot-scope="scope")
-            span {{ scope.row.attributes.date }}
-        el-table-column(label="Time")
-          template(slot-scope="scope")
-            span {{ scope.row.attributes.time }}
-        el-table-column(label="Details")
-          template(slot-scope="scope")
-            span {{ scope.row.attributes.details }}
+            span {{ scope.row.description }}
         el-table-column(:label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="primary" size="mini" @click="handleView(scope.row)") View
@@ -69,43 +60,39 @@
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="createEntityMod()") Create
           el-button(v-else type="primary" :loading="dialogFormLoading" @click="updateEntity") {{ $t('table.confirm') }}
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-        div {{temp.relationships.user.data.id}} User
-        div {{temp.attributes.date}} Date
-        div {{temp.attributes.details}} Details
-        div {{temp.id}} Id
-        div {{temp.attributes.time}} Minutes
-        div {{temp.relationships.project.data.id}} Project
-        div {{temp.attributes.details}} Ticket
-        div {{temp.attributes['trello-labels']}} Trello labels
+        div {{temp.name}} Name
+        div {{temp.uid}} Uid
+        div {{temp.updated_at}} Updated at
+        div {{temp.is_speaking}} IS SPEAKING
+        div {{temp.is_active}} IS ACTIVE
+        div {{temp.team_id}} TEAM
+        div {{temp.last_message}} Last message
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import * as mixin from '@/mixins/index'
 import pagination from '@/components/Pagination/index'
-
 export default {
-  name: 'TimeEntriesTable',
+  name: 'TeamsTable',
   components: {
     pagination
   },
   mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery],
-  data: () => ({
-    multipleSelection: [],
-    tableKey: 0,
-    type: 'time-entries'
-  }),
+  data() {
+    return {
+      multipleSelection: [],
+      tableKey: 0,
+      type: 'projects'
+    }
+  },
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list',
-      pagination: 'actionEntityTable/Pagination'
+      list: 'actionEntityTable/list'
     })
   },
   created() {
     this.getList()
-      .then((res) => {
-        this.$store.dispatch('actionEntityTable/fetchAllEntities', { type: 'projects' })
-      })
   },
   beforeDestroy() {
     this.$store.dispatch('actionEntityTable/clearStore')
@@ -113,25 +100,11 @@ export default {
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val
-    },
-    getProject(id) {
-      const findProj = this.list('projects').find(pj => {
-        if (pj.id === `${id - 176}`) return pj
-      })
-      if (findProj) {
-        return findProj.attributes.name
-      }
-    },
-    createEntityMod() {
-      this.createEntity()
-        .then(() => {
-          this.$store.dispatch('actionEntityTable/fetchAllEntities', { type: 'projects' })
-        })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

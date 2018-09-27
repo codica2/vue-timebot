@@ -1,27 +1,19 @@
+import * as Api from '@/api/charts'
+import { setQuery } from '@/api/queryConst'
 const charts = {
   state: {
+    absent: [],
+    hours_worked: '',
+    hours_to_work: '',
+    holidays: [],
     departments: {
       title: '',
       data: [
-        { name: 'QA 200', value: 200 },
-        { name: 'PM 25', value: 25 },
-        { name: 'Review 100', value: 100 },
-        { name: 'Development', value: 400 }
       ]
     },
     projects: {
       title: '',
       data: [
-        { name: 'Qwerty', value: 100 },
-        { name: 'Lorem', value: 33 }
-      ]
-    },
-    developers: {
-      title: '',
-      data: [
-        { name: 'Dima', value: 100 },
-        { name: 'Alex', value: 33 },
-        { name: 'Sasha', value: 77 }
       ]
     },
     tickets: [
@@ -49,12 +41,15 @@ const charts = {
           { name: '250', value: 300 }
         ]
       }
-    ]
+    ],
+    rangeDate: []
   },
   getters: {
     chartData: (state) => path => {
       return state[path].data
     },
+    staticData: (state) => path => state[path],
+    rangeDate: (state) => state.rangeDate,
     tickets: (state) => state.tickets,
     chartDataNames: (state) => path => {
       let arr = []
@@ -67,10 +62,31 @@ const charts = {
     }
   },
   mutations: {
-
+    FETCH_CHART_BY_DATE(state, payload) {
+      console.log(payload.data)
+      state.departments = payload.data.users_chart
+      state.projects = payload.data.projects_chart
+      state.absent = payload.data.absent
+      state.holidays = payload.data.holidays
+      state.hours_to_work = payload.data.hours_to_work
+      state.hours_worked = payload.data.hours_worked
+      state.rangeDate = [payload.data.start_of_week, payload.data.end_of_week]
+    },
+    SET_RANGE_DATE(state, payload) {
+      state.rangeDate = payload
+    }
   },
   actions: {
-
+    async fetchChartByDate({ state, commit }, payload) {
+      console.log(payload)
+      await Api.fetchChartByDate(setQuery(payload.type), payload.params)
+        .then((res) => {
+          commit('FETCH_CHART_BY_DATE', res)
+        })
+    },
+    setRangeDate({ state, commit }, payload) {
+      commit('SET_RANGE_DATE', payload)
+    }
   }
 }
 

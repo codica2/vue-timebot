@@ -7,7 +7,7 @@
       el-select(v-model="searchParams.project" placeholder="Select")
         el-option(v-for="item in projects" :key="item.value" :label="item.label" :value="item.value")
     div(v-for="(textarea, textareaIndex) in searchParams.textareas" :key="textareaIndex")
-      textarea(v-model="textarea.input")
+      el-input(type="textarea" v-model="textarea.input")
       div(@click="addSearchQuery" v-if="textareaIndex + 1 === searchParams.textareas.length").active OR
       div(v-else) OR
     el-date-picker(v-model="searchParams.searchDate" type="daterange" range-separator="To" start-placeholder="Start date"

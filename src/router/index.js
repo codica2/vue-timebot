@@ -101,13 +101,13 @@ export const asyncRouterMap = [
         component: () => import('@/views/reports/weekly/index'),
         name: 'Weekly',
         meta: { title: 'Weekly', icon: 'calendar', noCache: true }
-      },
-      {
-        path: 'absens',
-        component: () => import('@/views/reports/absens/index'),
-        name: 'Absens',
-        meta: { title: 'Absens', noCache: true }
       }
+      // {
+      //   path: 'absence',
+      //   component: () => import('@/views/reports/absence/index'),
+      //   name: 'Absence',
+      //   meta: { title: 'Absence', noCache: true }
+      // }
     ]
   },
   {
@@ -181,10 +181,10 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     children: [
       {
-        path: 'absense',
-        component: () => import('@/views/absense/index'),
-        name: 'Absense',
-        meta: { title: 'Absense', icon: 'sofa', noCache: true }
+        path: 'absence',
+        component: () => import('@/views/absence/index'),
+        name: 'Absence',
+        meta: { title: 'Absence', icon: 'sofa', noCache: true }
       }
     ]
   },

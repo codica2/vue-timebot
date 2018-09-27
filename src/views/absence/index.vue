@@ -1,10 +1,15 @@
 <template lang="pug">
-    div Absense
+    div Absence
+      absenceTable
 </template>
 
 <script>
+import absenceTable from './absenceTable'
 export default {
   name: 'Absense',
+  components: {
+    absenceTable
+  },
   data: () => ({
   })
 }

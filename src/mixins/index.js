@@ -27,7 +27,8 @@ export const mixDate = {
           picker.$emit('pick', [start, end])
         }
       }]
-    }
+    },
+    isAnswered: true
   }),
   methods: {
     formatDate(date) {
@@ -38,7 +39,7 @@ export const mixDate = {
         if (mm < 10) mm = '0' + mm
         let yy = date.getFullYear()
         if (yy < 10) yy = '0' + yy
-        return dd + '-' + mm + '-' + yy
+        return yy + '-' + mm + '-' + dd
       }
     }
   },
@@ -51,18 +52,41 @@ export const mixDate = {
       set(value) { this.$store.dispatch('setRangeDate', value) }
     }
   },
+  created() {
+  },
   mounted() {
     if (this.date) {
       const end = new Date()
       const start = new Date()
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       this.$store.dispatch('setRangeDate', [this.formatDate(start), this.formatDate(end)])
+      this.isAnswered = false
+      this.$store.dispatch('fetchChartByDate', { type: this.type, params: { start_date: this.date[0], end_date: this.date[1] }})
+        .then(() => {
+          this.isAnswered = true
+        })
     }
   }
 }
 export const mixValidationRules = {
   data() {
     const checkName = (rule, value, callback) => {
+      console.log(value)
+      if (!value) {
+        callback(new Error())
+      } else {
+        callback()
+      }
+    }
+    const checkProject = (rule, value, callback) => {
+      console.log(value)
+      if (!value) {
+        callback(new Error())
+      } else {
+        callback()
+      }
+    }
+    const checkDate = (rule, value, callback) => {
       if (!value) {
         callback(new Error())
       } else {
@@ -72,8 +96,11 @@ export const mixValidationRules = {
     return {
       rules: {
         type: [{ required: true, message: 'type is required', trigger: 'change' }],
-        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
+        date: [{ validator: checkDate, type: 'date', required: true, message: 'Date is required', trigger: 'blur' }],
+        time: [{ validator: checkDate, type: 'datetime', required: true, message: 'Time is required', trigger: 'blur' }],
         title: [{ required: true, message: 'title is required', trigger: 'blur' }],
+        id: [{ validator: checkName, required: true, message: 'User is required', trigger: 'change' }],
+        project: [{ validator: checkProject, required: true, message: 'Project is required', trigger: 'change' }],
         name: [{ validator: checkName, required: true, message: 'Name of project is requires', trigger: 'change' }],
         alias: [{ validator: checkName, required: true, message: 'Alias of project is requires', trigger: 'change' }]
       }
@@ -97,9 +124,16 @@ export const mixDialog = {
       temp: {
         id: undefined,
         type: '',
+        date: '',
         attributes: {},
         relationships: {
-          team: {}
+          team: {},
+          user: {
+            data: {}
+          },
+          project: {
+            data: {}
+          }
         }
       }
     }
@@ -130,9 +164,16 @@ export const mixDialog = {
       this.temp = {
         id: undefined,
         type: '',
+        date: '',
         attributes: {},
         relationships: {
-          team: {}
+          team: {},
+          user: {
+            data: {}
+          },
+          project: {
+            data: {}
+          }
         }
       }
     }
@@ -161,11 +202,14 @@ export const mixPagination = {
 export const mixQuery = {
   methods: {
     getList() {
-      this.listLoading = true
-      this.$store.dispatch('actionEntityTable/fetchList', this.type)
-        .then(() => {
-          this.listLoading = false
-        })
+      return new Promise((resolve, reject) => {
+        this.listLoading = true
+        this.$store.dispatch('actionEntityTable/fetchList', this.type)
+          .then(() => {
+            this.listLoading = false
+          })
+        resolve()
+      })
     },
     removeEntity(row, status) {
       this.$confirm('This will permanently delete the entity. Continue?', 'Warning', {
@@ -189,26 +233,29 @@ export const mixQuery = {
       })
     },
     createEntity() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          this.dialogFormLoading = true
-          this.$store.dispatch('actionEntityTable/createEntity', { row: this.temp, type: this.type })
-            .then(() => {
-              this.dialogFormVisible = false
-              this.dialogFormLoading = false
-              this.$notify({
-                title: 'Success',
-                message: 'Entity was created',
-                type: 'success',
-                duration: 2000
+      return new Promise((resolve, reject) => {
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            this.dialogFormLoading = true
+            this.$store.dispatch('actionEntityTable/createEntity', { row: this.temp, type: this.type })
+              .then((res) => {
+                this.dialogFormVisible = false
+                this.dialogFormLoading = false
+                this.$notify({
+                  title: 'Success',
+                  message: 'Entity was created',
+                  type: 'success',
+                  duration: 2000
+                })
+                resolve()
               })
-            })
-            .catch(err => {
-              console.log(err)
-              this.dialogFormVisible = false
-              this.dialogFormLoading = false
-            })
-        }
+              .catch(err => {
+                console.log(err)
+                this.dialogFormVisible = false
+                this.dialogFormLoading = false
+              })
+          }
+        })
       })
     },
     updateEntity() {

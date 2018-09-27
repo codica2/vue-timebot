@@ -19,7 +19,7 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '500px'
     },
     labelSector: {
       type: String,
@@ -62,6 +62,11 @@ export default {
       chart: null
     }
   },
+  watch: {
+    payloadData() {
+      this.initChart()
+    }
+  },
   mounted() {
     this.initChart()
     this.__resizeHandler = debounce(() => {
@@ -102,21 +107,21 @@ export default {
             type: 'pie',
             // roseType: 'radius',
             radius: [0, '60%'],
-            center: ['50%', '50%'],
+            center: ['50%', '40%'],
             data: this.payloadData,
             animationEasing: 'cubicInOut',
             animationDuration: 1600,
             label: {
               normal: {
                 position: this.labelSector,
-                distance: 0,
-                backgroundColor: '#eee',
-                borderColor: '#555',
-                borderWidth: 2,
-                borderRadius: 5,
-                padding: 10,
-                fontSize: 18,
-                color: '#000'
+                // distance: 0,
+                // backgroundColor: '#eee',
+                // borderColor: '#555',
+                // borderWidth: 2,
+                // borderRadius: 5,
+                // padding: 10,
+                fontSize: 18
+                // color: '#000'
               }
             }
           }

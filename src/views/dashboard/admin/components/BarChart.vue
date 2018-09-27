@@ -7,8 +7,6 @@ import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import { debounce } from '@/utils'
 
-const animationDuration = 6000
-
 export default {
   props: {
     className: {
@@ -21,7 +19,15 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '500px'
+    },
+    series: {
+      type: Array,
+      default: () => []
+    },
+    xAxisData: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -57,16 +63,9 @@ export default {
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           }
         },
-        grid: {
-          top: 10,
-          left: '2%',
-          right: '2%',
-          bottom: '3%',
-          containLabel: true
-        },
         xAxis: [{
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: this.xAxisData,
           axisTick: {
             alignWithLabel: true
           }
@@ -74,31 +73,10 @@ export default {
         yAxis: [{
           type: 'value',
           axisTick: {
-            show: false
+            show: true
           }
         }],
-        series: [{
-          name: 'pageA',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageB',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageC',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }]
+        series: this.series
       })
     }
   }

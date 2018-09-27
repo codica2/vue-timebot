@@ -29,11 +29,28 @@ const actionEntityTable = {
         Api.fetchList(setQuery(payload))
           .then(response => {
             console.log(response)
-            console.dir(response.headers)
             commit('FETCH_LIST', { data: response.data, type: payload })
             resolve()
           })
           .catch(err => console.log(err))
+      })
+    },
+    fetchEntity({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        Api.fetchEntity(payload.id, setQuery(payload.type))
+          .then((res) => {
+            resolve()
+          })
+      })
+    },
+    fetchAllEntities({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        Api.fetchAllEntities(setQuery(payload.type))
+          .then((res) => {
+            console.log(res)
+            commit('FETCH_ALL_ENTITIES', { type: payload.type, data: res.data.data })
+            resolve()
+          })
       })
     },
     createEntity({ state, commit }, payload) {
@@ -52,7 +69,7 @@ const actionEntityTable = {
             for (const v of state[payload.type].list) {
               if (v.id === payload.row.id) {
                 const index = state[payload.type].list.indexOf(v)
-                commit('UPDATE_ENTITY', { index, data: payload.row, type: payload.type })
+                commit('UPDATE_ENTITY', { index, data: res.data.data, type: payload.type })
                 break
               }
             }
@@ -87,6 +104,9 @@ const actionEntityTable = {
     },
     CREATE_ENTITY(state, payload) {
       state[payload.type].list.unshift(payload.data)
+    },
+    FETCH_ALL_ENTITIES(state, payload) {
+      state[payload.type].list = payload.data
     },
     UPDATE_ENTITY(state, payload) {
       state[payload.type].list.splice(payload.index, 1, payload.data)
