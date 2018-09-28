@@ -199,6 +199,20 @@ export const mixPagination = {
   }
 }
 
+export const mixClean = {
+  methods: {
+    cleanObj(obj) {
+      const object = Object.assign({}, obj)
+      for (const prop in object) {
+        if (object.hasOwnProperty(prop) && !object[prop]) {
+          Reflect.deleteProperty(object, prop)
+        }
+      }
+      return object
+    }
+  }
+}
+
 export const mixQuery = {
   methods: {
     getList() {

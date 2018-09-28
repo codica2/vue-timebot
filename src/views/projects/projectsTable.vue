@@ -76,7 +76,7 @@ export default {
   components: {
     pagination
   },
-  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery],
+  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery, mixin.mixClean],
   data() {
     return {
       multipleSelection: [],

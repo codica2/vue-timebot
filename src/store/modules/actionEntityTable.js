@@ -24,16 +24,13 @@ const actionEntityTable = {
     clearStore({ state, commit }) {
       commit('CLEAR_STORE')
     },
-    fetchList({ state, commit }, payload) {
-      return new Promise((resolve, reject) => {
-        Api.fetchList(setQuery(payload))
-          .then(response => {
-            console.log(response)
-            commit('FETCH_LIST', { data: response.data, type: payload })
-            resolve()
-          })
-          .catch(err => console.log(err))
-      })
+    async fetchList({ state, commit }, payload) {
+      await Api.fetchList(setQuery(payload))
+        .then(response => {
+          console.log(response)
+          commit('FETCH_LIST', { data: response.data, type: payload })
+        })
+        .catch(err => console.log(err))
     },
     fetchEntity({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
@@ -53,14 +50,11 @@ const actionEntityTable = {
           })
       })
     },
-    createEntity({ state, commit }, payload) {
-      return new Promise((resolve, reject) => {
-        Api.createEntity(payload.row, setQuery(payload.type))
-          .then((res) => {
-            commit('CREATE_ENTITY', { data: res.data.data, type: payload.type })
-            resolve()
-          })
-      })
+    async createEntity({ state, commit }, payload) {
+      await Api.createEntity(payload.row, setQuery(payload.type))
+        .then((res) => {
+          commit('CREATE_ENTITY', { data: res.data.data, type: payload.type })
+        })
     },
     updateEntity({ state, commit }, payload) {
       return new Promise((resolve, reject) => {

@@ -42,7 +42,9 @@ const charts = {
         ]
       }
     ],
-    rangeDate: []
+    rangeDate: [],
+    series: [],
+    xAxisData: []
   },
   getters: {
     chartData: (state) => path => {
@@ -59,6 +61,20 @@ const charts = {
         return pt
       })
       return arr
+    },
+    barDataNames: (state) => {
+      let arr = []
+      let arrNames = []
+      arr = JSON.parse(JSON.stringify(state.series))
+      arr.forEach(item => {
+        for (const prop in item) {
+          if (item.hasOwnProperty(prop) && prop !== 'name') {
+            Reflect.deleteProperty(item, prop)
+          }
+        }
+        arrNames.push(item.name)
+      })
+      return arrNames
     }
   },
   mutations: {
@@ -71,6 +87,8 @@ const charts = {
       state.hours_to_work = payload.data.hours_to_work
       state.hours_worked = payload.data.hours_worked
       state.rangeDate = [payload.data.start_of_week, payload.data.end_of_week]
+      state.series = payload.data.series
+      state.xAxisData = payload.data.xAxisData
     },
     SET_RANGE_DATE(state, payload) {
       state.rangeDate = payload

@@ -36,11 +36,12 @@
         :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('departments')}"
         :payloadData="chartData('departments')"
         )
-    el-col(:xs="24" :sm="24" :lg="24")
+    el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series').length")
       .chart-wrapper
         BarChart(
-          :xAxisData="['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] "
-          :series="[{name: 'pageA',type: 'bar',stack: 'vistors',barWidth: '60%',data: [79, 52, 200, 334, 390, 330, 220],animationDuration: 3000},{name: 'pageB',type: 'bar',stack: 'vistors',barWidth: '60%',data: [80, 52, 200, 334, 390, 330, 220],animationDuration: 3000}, {name: 'pageC',type: 'bar',stack: 'vistors',barWidth: '60%',data: [30, 52, 200, 334, 390, 330, 220],animationDuration: 3000}]"
+        :legend="{data: barDataNames}"
+        :xAxisData="staticData('xAxisData')"
+          :series="staticData('series')"
         )
 </template>
 
@@ -64,7 +65,8 @@ export default {
       'chartDataNames',
       'chartData',
       'tickets',
-      'staticData'
+      'staticData',
+      'barDataNames'
     ])
   },
   methods: {
