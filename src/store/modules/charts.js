@@ -78,7 +78,6 @@ const charts = {
   },
   mutations: {
     FETCH_CHART_BY_DATE(state, payload) {
-      console.log(payload)
       state.departments = payload.data.users_chart
       state.projects = payload.data.projects_chart
       state.absent = payload.data.absent

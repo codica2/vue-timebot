@@ -24,18 +24,20 @@ const actionEntityTable = {
     clearStore({ state, commit }) {
       commit('CLEAR_STORE')
     },
-    async fetchList({ state, commit }, payload) {
-      await Api.fetchList(setQuery(payload))
-        .then(response => {
-          console.log(response)
-          commit('FETCH_LIST', { data: response.data, type: payload })
-        })
-        .catch(err => console.log(err))
+    fetchList({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        Api.fetchList(setQuery(payload))
+          .then((response) => {
+            commit('FETCH_LIST', { data: response.data, type: payload })
+            resolve()
+          })
+      })
     },
     fetchEntity({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
         Api.fetchEntity(payload.id, setQuery(payload.type))
-          .then((res) => {
+          .then((response) => {
+            console.log(response)
             resolve()
           })
       })
@@ -44,17 +46,22 @@ const actionEntityTable = {
       return new Promise((resolve, reject) => {
         Api.fetchAllEntities(setQuery(payload.type))
           .then((res) => {
-            console.log(res)
             commit('FETCH_ALL_ENTITIES', { type: payload.type, data: res.data.data })
             resolve()
           })
       })
     },
-    async createEntity({ state, commit }, payload) {
-      await Api.createEntity(payload.row, setQuery(payload.type))
-        .then((res) => {
-          commit('CREATE_ENTITY', { data: res.data.data, type: payload.type })
-        })
+    createEntity({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        Api.createEntity(payload.row, setQuery(payload.type))
+          .then((response) => {
+            commit('CREATE_ENTITY', { data: response.data.data, type: payload.type })
+            resolve()
+          })
+          .catch(() => {
+            reject()
+          })
+      })
     },
     updateEntity({ state, commit }, payload) {
       return new Promise((resolve, reject) => {

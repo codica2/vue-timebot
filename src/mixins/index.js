@@ -71,7 +71,6 @@ export const mixDate = {
 export const mixValidationRules = {
   data() {
     const checkName = (rule, value, callback) => {
-      console.log(value)
       if (!value) {
         callback(new Error())
       } else {
@@ -79,7 +78,6 @@ export const mixValidationRules = {
       }
     }
     const checkProject = (rule, value, callback) => {
-      console.log(value)
       if (!value) {
         callback(new Error())
       } else {
@@ -263,8 +261,7 @@ export const mixQuery = {
                 })
                 resolve()
               })
-              .catch(err => {
-                console.log(err)
+              .catch(() => {
                 this.dialogFormVisible = false
                 this.dialogFormLoading = false
               })

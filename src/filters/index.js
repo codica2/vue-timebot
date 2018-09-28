@@ -19,7 +19,6 @@ export function timeAgo(time) {
   }
 }
 
-/* 数字 格式化*/
 export function numberFormatter(num, digits) {
   const si = [
     { value: 1E18, symbol: 'E' },
