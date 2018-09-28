@@ -8,8 +8,7 @@ const charts = {
     holidays: [],
     departments: {
       title: '',
-      data: [
-      ]
+      data: []
     },
     projects: {
       title: '',
@@ -64,7 +63,7 @@ const charts = {
     },
     barDataNames: (state) => {
       let arr = []
-      let arrNames = []
+      const arrNames = []
       arr = JSON.parse(JSON.stringify(state.series))
       arr.forEach(item => {
         for (const prop in item) {
@@ -79,7 +78,7 @@ const charts = {
   },
   mutations: {
     FETCH_CHART_BY_DATE(state, payload) {
-      console.log(payload.data)
+      console.log(payload)
       state.departments = payload.data.users_chart
       state.projects = payload.data.projects_chart
       state.absent = payload.data.absent
@@ -96,7 +95,6 @@ const charts = {
   },
   actions: {
     async fetchChartByDate({ state, commit }, payload) {
-      console.log(payload)
       await Api.fetchChartByDate(setQuery(payload.type), payload.params)
         .then((res) => {
           commit('FETCH_CHART_BY_DATE', res)

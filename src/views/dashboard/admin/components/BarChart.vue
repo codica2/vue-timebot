@@ -29,7 +29,7 @@ export default {
       type: Array,
       default: () => []
     },
-    legend : {
+    legend: {
       type: Object,
       default: () => {}
     }
@@ -43,9 +43,6 @@ export default {
     ...mapGetters(['sidebar'])
   },
   watch: {
-    xAxisData() {
-      // this.initChart()
-    },
     series() {
       this.initChart()
     },
@@ -74,8 +71,6 @@ export default {
   },
   methods: {
     initChart() {
-      console.log(this.legend)
-      console.log(this.sidebar)
       this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
@@ -92,7 +87,6 @@ export default {
           containLabel: true
         },
         legend: {
-          padding: [0, 0, 125, 0],
           data: this.legend.data
         },
         xAxis: [{

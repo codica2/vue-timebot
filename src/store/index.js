@@ -6,7 +6,6 @@ import permission from './modules/permission'
 import tagsView from './modules/tagsView'
 import charts from './modules/charts'
 import user from './modules/user'
-import globalData from './modules/globalData'
 import tables from './modules/tables'
 import actionEntityTable from './modules/actionEntityTable'
 import getters from './getters'
@@ -21,7 +20,6 @@ const store = new Vuex.Store({
     tagsView,
     charts,
     user,
-    globalData,
     tables,
     actionEntityTable
   },

@@ -38,7 +38,7 @@ const app = {
     }
   },
   actions: {
-    toggleSideBar({ commit }) {
+    toggleSideBar({ state, dispatch, commit }) {
       commit('TOGGLE_SIDEBAR')
     },
     closeSideBar({ commit }, { withoutAnimation }) {

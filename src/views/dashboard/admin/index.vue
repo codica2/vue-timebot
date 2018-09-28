@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div(v-loading="!isAnswered" style="overflow: hidden;")
     strong(v-if="date") Statistics for {{date[0]}} - {{date[1]}}
     div
       div Hours to work: {{staticData('hours_to_work')}}
@@ -8,41 +8,49 @@
         div(v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
           div Name {{holiday[0]}}
           div Date {{holiday[1]}}
-      div(v-if="staticData('absent').length") Absent
-        div(v-for="(user, userIndex) in staticData('absent')" :key="userIndex")
-          div User {{user.user_name}}
-          div Date {{user.date}}
-          div Reason {{user.reason}}
-          div(v-if="user.comment") Comment {{user.comment}}
-    el-date-picker(
-        v-model="date",
-        :disabled="!isAnswered",
-        type="daterange",
-        range-separator="-",
-        value-format="yyyy-MM-dd",
-        start-placeholder="Start date",
-        :picker-options="pickerOptions",
-        @change="setDate"
-        end-placeholder="End date")
-    el-col(:xs="24" :sm="24" :lg="12", v-if="chartData('projects').length")
-      .chart-wrapper
-        PieChart(
-        :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('projects')}"
-        :legendData="true"
-        :payloadData="chartData('projects')")
-    el-col(:xs="24" :sm="24" :lg="12")
-      .chart-wrapper
-        PieChart(
-        :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('departments')}"
-        :payloadData="chartData('departments')"
-        )
-    el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series').length")
-      .chart-wrapper
-        BarChart(
-        :legend="{data: barDataNames}"
-        :xAxisData="staticData('xAxisData')"
-          :series="staticData('series')"
-        )
+      tree-table(v-if="staticData('absent').length" :data="staticData('absent')" :eval-func="func" :eval-args="args" border)
+        el-table-column(label="Date")
+          template(slot-scope="scope")
+            span {{ scope.row.date }}
+        el-table-column(label="Name")
+          template(slot-scope="scope")
+            span {{ scope.row.name }}
+        el-table-column(label="Reason")
+          template(slot-scope="scope")
+            span {{ scope.row.reason }}
+        el-table-column(label="Comment")
+          template(slot-scope="scope")
+            span {{ scope.row.comment }}
+    div
+      el-date-picker(
+          v-model="date",
+          :disabled="!isAnswered",
+          type="daterange",
+          range-separator="-",
+          value-format="yyyy-MM-dd",
+          start-placeholder="Start date",
+          :picker-options="pickerOptions",
+          @change="setDate"
+          end-placeholder="End date")
+      el-col(:xs="24" :sm="24" :lg="12", v-if="chartData('projects').length")
+        .chart-wrapper
+          PieChart(
+          :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('projects')}"
+          :legendData="true"
+          :payloadData="chartData('projects')")
+      el-col(:xs="24" :sm="24" :lg="12")
+        .chart-wrapper
+          PieChart(
+          :legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('departments')}"
+          :payloadData="chartData('departments')"
+          )
+      el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series')")
+        .chart-wrapper
+          BarChart(
+          :legend="{data: barDataNames}"
+          :xAxisData="staticData('xAxisData')"
+            :series="staticData('series')"
+          )
 </template>
 
 <script>
@@ -50,15 +58,20 @@ import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
 import { mixDate } from '@/mixins/index.js'
 import { mapGetters } from 'vuex'
+import treeToArray from '@/components/TreeTable/customEval'
+import treeTable from '@/components/TreeTable/index'
 export default {
   name: 'DashboardAdmin',
   components: {
     PieChart,
-    BarChart
+    BarChart,
+    treeTable
   },
   mixins: [mixDate],
   data: () => ({
-    type: 'dashboardChart'
+    type: 'dashboardChart',
+    func: treeToArray,
+    args: [null, null, 'timeLine']
   }),
   computed: {
     ...mapGetters([
