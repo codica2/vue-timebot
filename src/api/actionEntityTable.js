@@ -1,11 +1,12 @@
 import request from '@/utils/request'
 import qs from 'qs'
 
-export function fetchList(query) {
+export function fetchList(query, page) {
   return request({
     url: query,
     method: 'get',
-    params: ''
+    params: page,
+    paramsSerializer: params => qs.stringify(page, { arrayFormat: 'brackets' })
   })
 }
 export function fetchEntity(query, id) {

@@ -17,17 +17,6 @@
           start-placeholder="Start date",
           :picker-options="pickerOptions",
           end-placeholder="End date")
-      el-col(:xs="24" :sm="24" :lg="24")
-        <!--.chart-wrapper-->
-          <!--PieChart(-->
-          <!--:legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('developers')}"-->
-          <!--:legendData="true"-->
-          <!--:payloadData="chartData('developers')")-->
-        <!--.chart-wrapper-->
-          <!--PieChart(-->
-            <!--:legend="{orient: 'horizontal', bottom: '10', data: chartDataNames('departments')}"-->
-            <!--:payloadData="chartData('departments')"-->
-          <!--)-->
       filters
       projectsTable
       el-table(:data="tableData('tableData1').data" style="width: 100%")
@@ -61,7 +50,6 @@
 
 <script>
 import { mixDate } from '@/mixins/index.js'
-import PieChart from '../dashboard/admin/components/PieChart'
 import { mapGetters } from 'vuex'
 import treeToArray from '@/components/TreeTable/customEval'
 import treeTable from '@/components/TreeTable/index'
@@ -70,7 +58,6 @@ import filters from './filters'
 export default {
   name: 'Projects',
   components: {
-    PieChart,
     treeTable,
     projectsTable,
     filters
@@ -94,8 +81,6 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      'chartDataNames',
-      'chartData',
       'tableData'
     ]),
     ...mapGetters({

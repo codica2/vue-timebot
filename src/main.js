@@ -13,7 +13,15 @@ import './errorLog'
 import './permission'
 import './mock'
 import * as filters from './filters'
+const VueScrollTo = require('vue-scrollto')
+import HighchartsVue from 'highcharts-vue'
+import Highcharts from 'highcharts'
+import variablePie from 'highcharts/modules/variable-pie'
 
+Vue.use(HighchartsVue)
+variablePie(Highcharts)
+
+Vue.use(VueScrollTo)
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium',
   i18n: (key, value) => i18n.t(key, value)

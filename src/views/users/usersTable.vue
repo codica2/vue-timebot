@@ -6,7 +6,7 @@
         class="filter-item",
         style="margin-left: 10px;",
         type="primary",
-        icon="el-icon-edit") Add new project
+        icon="el-icon-edit") Add new user
       el-table(
       v-loading="listLoading"
       :key="tableKey"
@@ -22,19 +22,24 @@
             span {{ scope.row.id }}
         el-table-column(label="Name")
           template(slot-scope="scope")
-            span {{ scope.row.name }}
+            span {{ scope.row.attributes.name }}
+        el-table-column(label="Role")
+          template(slot-scope="scope")
+            span {{ scope.row.attributes.role }}
         el-table-column(label="Is speaking")
           template(slot-scope="scope")
-            span {{ scope.row.is_speaking }}
+            span(v-if="scope.row.attributes['is-speaking']") YES
+            span(v-else) NO
         el-table-column(label="Is Active")
           template(slot-scope="scope")
-            span {{ scope.row.is_active }}
+            span(v-if="scope.row.attributes['is-active']") YES
+            span(v-else) NO
         el-table-column(:label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="primary" size="mini" @click="handleView(scope.row)") View
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
             el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
-        pagination(:type="type" v-if="list(type).length")
+      pagination(:type="type" v-if="list(type).length")
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"
         :rules="rules"
@@ -42,34 +47,22 @@
         label-position="left"
         label-width="70px"
         style="width: 400px; margin-left:50px;")
-          el-form-item(label="User")
-            el-input(v-model="temp.relationships.user.data.id" clearable)
-          el-form-item(label="Project")
-            el-select(v-model="temp.relationships.project.data.id")
-              el-option(v-for="(project, projectIndex) in list('projects')"
-              :value="project.id"
-              :key="projectIndex",
-              :label="project.attributes.name")
-          el-form-item(:label="$t('table.date')" prop="date")
-            el-date-picker(v-model="temp.attributes.date" type="date" placeholder="Please pick a date")
-          el-form-item(label="Time" prop="time")
-            el-time-picker(
-            v-model="temp.attributes.time"
-            type="datetime" placeholder="Please pick a time")
-          el-form-item(label="Details" prop="timestamp")
-            el-input(v-model="temp.attributes.details" type="details" placeholder="Write smth")
+          el-form-item(label="Name" prop="name")
+            el-input(v-model="temp.attributes.name")
+          el-form-item(label="Is active")
+            el-checkbox(v-model="temp.attributes['is-active']")
         div(slot="footer" class="dialog-footer")
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-          el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="createEntityMod()") Create
-          el-button(v-else type="primary" :loading="dialogFormLoading" @click="updateEntity") {{ $t('table.confirm') }}
+          el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create") Create
+          el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-        div {{temp.name}} Name
-        div {{temp.uid}} Uid
-        div {{temp.updated_at}} Updated at
-        div {{temp.is_speaking}} IS SPEAKING
-        div {{temp.is_active}} IS ACTIVE
-        div {{temp.team_id}} TEAM
-        div {{temp.last_message}} Last message
+        div {{temp.attributes.name}} Name
+        div {{temp.attributes.uid}} Uid
+        div {{temp.attributes.updated_at}} Updated at
+        div {{temp.attributes.is_speaking}} IS SPEAKING
+        div {{temp.attributes.is_active}} IS ACTIVE
+        div {{temp.attributes.team_id}} TEAM
+        div {{temp.attributes.last_message}} Last message
 </template>
 
 <script>
@@ -86,13 +79,20 @@ export default {
     return {
       multipleSelection: [],
       tableKey: 0,
-      type: 'projects'
+      type: 'users'
     }
   },
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list'
-    })
+    }),
+    entity() {
+      return {
+        name: this.temp.attributes.name,
+        is_active: this.temp.attributes['is-active'],
+        uid: this.temp.attributes.uid || this.temp.attributes.name
+      }
+    }
   },
   created() {
     this.getList()
@@ -101,6 +101,19 @@ export default {
     this.$store.dispatch('actionEntityTable/clearStore')
   },
   methods: {
+    create() {
+      const entity = {
+        user: this.entity
+      }
+      this.createEntity(entity)
+    },
+    update() {
+      const entity = {
+        id: this.temp.id,
+        user: this.entity
+      }
+      this.updateEntity(entity)
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val
     }

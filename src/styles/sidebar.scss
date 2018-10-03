@@ -1,19 +1,18 @@
 #app {
-  // 主体区域
   .main-container {
     min-height: 100%;
-    transition: margin-left .28s;
+    transition: all .3s linear;
     margin-left: 180px;
     position: relative;
+    padding: 10px;
   }
-  // 侧边栏
   .sidebar-container {
-    transition: width 0.28s;
+    transition: all 0.3s linear;
     width: 180px !important;
     height: 100%;
-    position: fixed;
+    position: absolute;
     font-size: 0px;
-    top: 0;
+    top: 50px;
     bottom: 0;
     left: 0;
     z-index: 1001;
@@ -46,26 +45,31 @@
       border: none;
       height: 100%;
       width: 100% !important;
+      border-right: 1px solid #e7e7e8;
     }
   }
   .hideSidebar {
     .sidebar-container {
-      width: 36px !important;
+      width: 50px !important;
     }
     .main-container {
-      margin-left: 36px;
+      margin-left: 50px;
     }
     .submenu-title-noDropdown {
-      padding-left: 10px !important;
+      //padding-left: 10px !important;
+      padding: 0 20px !important;
       position: relative;
       .el-tooltip {
-        padding: 0 10px !important;
+        //padding: 0 10px !important;
+        padding: 0 !important;
+        position: relative!important;
       }
     }
     .el-submenu {
       overflow: hidden;
       &>.el-submenu__title {
-        padding-left: 10px !important;
+        //padding: 0 10px !important;
+        position: static!important;
         .el-submenu__icon-arrow {
           display: none;
         }
@@ -85,25 +89,33 @@
       }
     }
   }
+  .el-menu-item.is-active .el-submenu, .el-menu-item.is-active{
+    background: rgba(228, 62, 71, 0.07) !important;
+    border-right: 2px solid rgb(228, 62, 71);
+    .svg-icon{
+      color: rgb(228, 62, 71) !important;
+    }
+  }
+  .el-menu-item:focus, .el-submenu__title:hover, .el-menu-item:hover{
+    background-color: rgba(228, 62, 71, 0.07) !important;
+  }
   .sidebar-container .nest-menu .el-submenu>.el-submenu__title,
   .sidebar-container .el-submenu .el-menu-item {
     min-width: 180px !important;
-    background-color: $subMenuBg !important;
     &:hover {
-      background-color: $menuHover !important;
+      background-color: rgba(228, 62, 71, 0.07) !important;
     }
   }
   .el-menu--collapse .el-menu .el-submenu {
     min-width: 180px !important;
   }
 
-  //适配移动端
   .mobile {
     .main-container {
       margin-left: 0px;
     }
     .sidebar-container {
-      transition: transform .28s;
+      transition: transform .5s;
       width: 180px !important;
     }
     &.hideSidebar {

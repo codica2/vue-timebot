@@ -22,10 +22,10 @@
             span {{ scope.row.id }}
         el-table-column(label="Name")
           template(slot-scope="scope")
-            span {{ scope.row.name }}
+            span {{ scope.row.attributes.name }}
         el-table-column(label="Date")
           template(slot-scope="scope")
-            span {{ scope.row.date }}
+            span {{ scope.row.attributes.date }}
         el-table-column(:label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="primary" size="mini" @click="handleView(scope.row)") View
@@ -39,26 +39,17 @@
         label-position="left"
         label-width="70px"
         style="width: 400px; margin-left:50px;")
-          el-form-item(label="User")
-            el-input(v-model="temp.relationships.user.data.id" clearable)
-          el-form-item(label="Project")
-            el-select(v-model="temp.relationships.project.data.id")
-              el-option(v-for="(project, projectIndex) in list('projects')"
-              :value="project.id"
-              :key="projectIndex",
-              :label="project.attributes.name")
-          el-form-item(:label="$t('table.date')" prop="date")
-            el-date-picker(v-model="temp.attributes.date" type="date" placeholder="Please pick a date")
-          el-form-item(label="Time" prop="time")
-            el-time-picker(
-            v-model="temp.attributes.time"
-            type="datetime" placeholder="Please pick a time")
-          el-form-item(label="Details" prop="timestamp")
-            el-input(v-model="temp.attributes.details" type="details" placeholder="Write smth")
+          el-form-item(label="Name")
+            el-input(v-model="temp.attributes.name" clearable)
+          el-form-item(label="Date")
+            el-date-picker(
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            v-model="temp.attributes.date" type="date" placeholder="Please pick a date")
         div(slot="footer" class="dialog-footer")
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-          el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="createEntityMod()") Create
-          el-button(v-else type="primary" :loading="dialogFormLoading" @click="updateEntity") {{ $t('table.confirm') }}
+          el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create") Create
+          el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
         div {{temp.name}} Name
         div {{temp.updated_at}} Updated at
@@ -81,13 +72,19 @@ export default {
     return {
       multipleSelection: [],
       tableKey: 0,
-      type: 'projects'
+      type: 'holidays'
     }
   },
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list'
-    })
+    }),
+    entity() {
+      return {
+        name: this.temp.attributes.name,
+        date: this.temp.attributes.date
+      }
+    }
   },
   created() {
     this.getList()
@@ -96,6 +93,19 @@ export default {
     this.$store.dispatch('actionEntityTable/clearStore')
   },
   methods: {
+    create() {
+      const entity = {
+        holiday: this.entity
+      }
+      this.createEntity(entity)
+    },
+    update() {
+      const entity = {
+        id: this.temp.id,
+        holiday: this.entity
+      }
+      this.updateEntity(entity)
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val
     }

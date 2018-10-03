@@ -57,8 +57,8 @@
           el-input(placeholder="Please input" v-model="temp.attributes.alias" clearable)
       div(slot="footer" class="dialog-footer")
         el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-        el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="createEntity") {{ $t('table.confirm') }}
-        el-button(v-else type="primary" :loading="dialogFormLoading" @click="updateEntity") Update
+        el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
+        el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") Update
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
       div {{temp.id}} Id
       div {{temp.attributes.name}} Project
@@ -76,7 +76,7 @@ export default {
   components: {
     pagination
   },
-  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery, mixin.mixClean],
+  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery],
   data() {
     return {
       multipleSelection: [],
@@ -87,7 +87,14 @@ export default {
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list'
-    })
+    }),
+    entity() {
+      return {
+        name: this.temp.attributes.name,
+        alias: this.temp.attributes.alias,
+        team_id: 1
+      }
+    }
   },
   created() {
     this.getList()
@@ -96,6 +103,19 @@ export default {
     this.$store.dispatch('actionEntityTable/clearStore')
   },
   methods: {
+    create() {
+      const entity = {
+        project: this.entity
+      }
+      this.createEntity(entity)
+    },
+    update() {
+      const entity = {
+        id: this.temp.id,
+        project: this.entity
+      }
+      this.updateEntity(entity)
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val
     }

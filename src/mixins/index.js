@@ -123,7 +123,9 @@ export const mixDialog = {
         id: undefined,
         type: '',
         date: '',
-        attributes: {},
+        attributes: {
+          'is-active': false
+        },
         relationships: {
           team: {},
           user: {
@@ -163,7 +165,9 @@ export const mixDialog = {
         id: undefined,
         type: '',
         date: '',
-        attributes: {},
+        attributes: {
+          'is-active': false
+        },
         relationships: {
           team: {},
           user: {
@@ -244,12 +248,12 @@ export const mixQuery = {
         })
       })
     },
-    createEntity() {
+    createEntity(entity) {
       return new Promise((resolve, reject) => {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.dialogFormLoading = true
-            this.$store.dispatch('actionEntityTable/createEntity', { row: this.temp, type: this.type })
+            this.$store.dispatch('actionEntityTable/createEntity', { row: entity, type: this.type })
               .then((res) => {
                 this.dialogFormVisible = false
                 this.dialogFormLoading = false
@@ -269,12 +273,11 @@ export const mixQuery = {
         })
       })
     },
-    updateEntity() {
+    updateEntity(entity) {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           this.dialogFormLoading = true
-          const tempData = Object.assign({}, this.temp)
-          this.$store.dispatch('actionEntityTable/updateEntity', { row: tempData, type: this.type })
+          this.$store.dispatch('actionEntityTable/updateEntity', { row: entity, type: this.type })
             .then(() => {
               this.dialogFormVisible = false
               this.dialogFormLoading = false

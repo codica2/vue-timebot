@@ -1,12 +1,11 @@
-<template>
-  <div :class="className" :style="{height:height,width:width}"/>
+<template lang="pug">
+  highcharts(
+  style="height: height"
+  :options="{series: series, tooltip: tooltip, plotOptions: plotOptions, chart: chart, xAxis: { categories: xAxisData }}")
 </template>
 
 <script>
-import echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
-import { debounce } from '@/utils'
-import { mapGetters } from 'vuex'
+import variablesPie from 'highcharts/modules/variable-pie'
 export default {
   props: {
     className: {
@@ -36,70 +35,21 @@ export default {
   },
   data() {
     return {
-      chart: null
-    }
-  },
-  computed: {
-    ...mapGetters(['sidebar'])
-  },
-  watch: {
-    series() {
-      this.initChart()
-    },
-    legend() {
-      this.initChart()
-    }
-  },
-  mounted() {
-    this.initChart()
-    this.__resizeHandler = debounce(() => {
-      if (this.chart) {
-        this.chart.resize()
+      chart: {
+        type: 'bar',
+        marginLeft: 125,
+        marginBottom: 90
+      },
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+        shared: true
+      },
+      plotOptions: {
+        series: {
+          borderWidth: 0,
+          stacking: 'normal'
+        }
       }
-    }, 100)
-    window.addEventListener('resize', this.__resizeHandler)
-    window.addEventListener('scroll', this.__resizeHandler)
-  },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
-    }
-    window.removeEventListener('resize', this.__resizeHandler)
-    window.removeEventListener('scroll', this.__resizeHandler)
-    this.chart.dispose()
-    this.chart = null
-  },
-  methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
-      this.chart.setOption({
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        legend: {
-          data: this.legend.data
-        },
-        xAxis: [{
-          type: 'value'
-        }],
-        yAxis: [
-          {
-            type: 'category',
-            data: this.xAxisData
-          }
-        ],
-        series: this.series
-      })
     }
   }
 }

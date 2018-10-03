@@ -40,7 +40,7 @@
             el-button(type="primary" size="mini" @click="handleView(scope.row)") View
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
             el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
-        pagination(:type="type" v-if="list(type).length")
+      pagination(:type="type" v-if="list(type).length")
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"
         :rules="rules"
@@ -57,7 +57,10 @@
               :key="projectIndex",
               :label="project.attributes.name")
           el-form-item(:label="$t('table.date')" prop="date")
-            el-date-picker(v-model="temp.attributes.date" type="date" placeholder="Please pick a date")
+            el-date-picker(
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            v-model="temp.attributes.date" type="date" placeholder="Please pick a date")
           el-form-item(label="Time" prop="time")
             el-time-picker(
             v-model="temp.attributes.time"
@@ -67,7 +70,7 @@
         div(slot="footer" class="dialog-footer")
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="createEntityMod()") Create
-          el-button(v-else type="primary" :loading="dialogFormLoading" @click="updateEntity") {{ $t('table.confirm') }}
+          el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
         div {{temp.relationships.user.data.id}} User
         div {{temp.attributes.date}} Date
@@ -97,9 +100,19 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list',
-      pagination: 'actionEntityTable/Pagination'
-    })
+      list: 'actionEntityTable/list'
+    }),
+    entity() {
+      return {
+        date: this.temp.attributes.date,
+        time: this.temp.attributes.time,
+        minutes: this.temp.attributes.time,
+        details: this.temp.attributes.details,
+        trello_labels: this.temp.attributes.trello_labels,
+        user_id: this.temp.relationships.user.data.id,
+        project_id: this.temp.relationships.project.data.id
+      }
+    }
   },
   created() {
     this.getList()
@@ -111,22 +124,32 @@ export default {
     this.$store.dispatch('actionEntityTable/clearStore')
   },
   methods: {
+    update() {
+      const entity = {
+        id: this.temp.id,
+        time_entry: this.entity
+      }
+      this.updateEntity(entity)
+    },
+    createEntityMod() {
+      const entity = {
+        time_entry: this.entity
+      }
+      this.createEntity(entity)
+        .then(() => {
+          this.$store.dispatch('actionEntityTable/fetchAllEntities', { type: 'projects' })
+        })
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
     getProject(id) {
       const findProj = this.list('projects').find(pj => {
-        if (pj.id === `${id - 176}`) return pj
+        if (pj.id === id) return pj
       })
       if (findProj) {
         return findProj.attributes.name
       }
-    },
-    createEntityMod() {
-      this.createEntity()
-        .then(() => {
-          this.$store.dispatch('actionEntityTable/fetchAllEntities', { type: 'projects' })
-        })
     }
   }
 }

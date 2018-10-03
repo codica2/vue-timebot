@@ -5,7 +5,7 @@ const actionEntityTable = {
   state: {
     pagination: {
       page: 1,
-      limit: 20,
+      limit: 30,
       total: 10,
       sort: '+id'
     },
@@ -13,6 +13,15 @@ const actionEntityTable = {
       list: []
     },
     'time-entries': {
+      list: []
+    },
+    users: {
+      list: []
+    },
+    teams: {
+      list: []
+    },
+    holidays: {
       list: []
     }
   },
@@ -26,7 +35,7 @@ const actionEntityTable = {
     },
     fetchList({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
-        Api.fetchList(setQuery(payload))
+        Api.fetchList(setQuery(payload), { page: state.pagination.page, 'per_page': state.pagination.limit })
           .then((response) => {
             commit('FETCH_LIST', { data: response.data, type: payload })
             resolve()
@@ -101,7 +110,9 @@ const actionEntityTable = {
   mutations: {
     FETCH_LIST(state, payload) {
       state[payload.type].list = payload.data.data
-      state.pagination.total = payload.data.data.length
+      if (payload.data.meta) {
+        state.pagination.total = payload.data.meta['total-count']
+      }
     },
     CREATE_ENTITY(state, payload) {
       state[payload.type].list.unshift(payload.data)
@@ -116,13 +127,16 @@ const actionEntityTable = {
       state[payload.type].list.splice(payload.index, 1)
     },
     SET_PAGINATION(state, payload) {
-      console.log(payload)
-      state.pagination[payload.type] = payload.value
+      if (payload.size) {
+        state.pagination.limit = payload.limit
+      } else {
+        state.pagination.page = payload.page
+      }
     },
     CLEAR_STORE(state, payload) {
       state.pagination = {
         page: 1,
-        limit: 20,
+        limit: 30,
         total: 10,
         sort: '+id'
       }
