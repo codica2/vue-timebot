@@ -1,7 +1,7 @@
 <template lang="pug">
   highcharts(
   :style="{height: height, width: width}"
-  :options="{title: title, series: [{name: 'Hours', innerSize: innerSize, data: payloadData}], tooltip: tooltip, plotOptions: plotOptions, chart: chart}")
+  :options="{title: {text: title}, series: [{name: 'Hours', innerSize: innerSize, data: payloadData}], tooltip: tooltip, plotOptions: plotOptions, chart: chart}")
 </template>
 <script>
 export default {
@@ -31,8 +31,8 @@ export default {
       default: () => { return [] }
     },
     title: {
-      type: Object,
-      default: () => { return {} }
+      type: String,
+      default: () => { return '' }
     },
     plotOptions: {
       type: Object,
