@@ -301,7 +301,11 @@ export const mixQuery = {
     },
     remoteGetProjects(query) {
       if (typeof query !== 'string') {
-        query = this.getIncluded(this.temp.relationships.project.data.id) || ''
+        if (this.temp) {
+          query = this.getIncluded(this.temp.relationships.project.data.id) || ''
+        } else {
+          query = ''
+        }
       }
       this.loading = true
       this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'projects', query: query })
@@ -311,7 +315,11 @@ export const mixQuery = {
     },
     remoteGetUsers(query) {
       if (typeof query !== 'string') {
-        query = this.getIncluded(this.temp.relationships.user.data.id) || ''
+        if (this.temp) {
+          query = this.getIncluded(this.temp.relationships.user.data.id) || ''
+        } else {
+          query = ''
+        }
       }
       this.loading = true
       this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'users', query: query })
