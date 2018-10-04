@@ -216,6 +216,9 @@ export const mixClean = {
 }
 
 export const mixQuery = {
+  beforeDestroy() {
+    this.$store.dispatch('actionEntityTable/clearStore')
+  },
   methods: {
     getList() {
       return new Promise((resolve, reject) => {
@@ -295,6 +298,41 @@ export const mixQuery = {
             })
         }
       })
+    },
+    remoteGetProjects(query) {
+      if (typeof query !== 'string') {
+        query = this.getIncluded(this.temp.relationships.project.data.id) || ''
+      }
+      this.loading = true
+      this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'projects', query: query })
+        .then(() => {
+          this.loading = false
+        })
+    },
+    remoteGetUsers(query) {
+      if (typeof query !== 'string') {
+        query = this.getIncluded(this.temp.relationships.user.data.id) || ''
+      }
+      this.loading = true
+      this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'users', query: query })
+        .then(() => {
+          this.loading = false
+        })
+    }
+  }
+}
+
+export const mixIncludes = {
+  methods: {
+    getIncluded(id) {
+      if (this.included(this.type)) {
+        const findInclude = this.included(this.type).find(pj => {
+          if (pj.id === id) return pj
+        })
+        if (findInclude) {
+          return findInclude.attributes.name
+        }
+      }
     }
   }
 }

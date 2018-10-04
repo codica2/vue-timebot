@@ -16,6 +16,13 @@ export function fetchEntity(query, id) {
     params: ''
   })
 }
+export function fetchEntityByName(query, param) {
+  return request({
+    url: `${query}/search?by_name=${param}`,
+    method: 'get',
+    params: ''
+  })
+}
 export function createEntity(row, query) {
   return request({
     url: query,

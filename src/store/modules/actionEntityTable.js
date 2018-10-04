@@ -48,6 +48,15 @@ const actionEntityTable = {
           })
       })
     },
+    fetchEntityByName({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        Api.fetchEntityByName(setQuery(payload.type), payload.query)
+          .then((response) => {
+            commit('FETCH_ENTITY_BY_NAME', { data: response.data, type: payload.type })
+            resolve()
+          })
+      })
+    },
     fetchEntity({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
         Api.fetchEntity(payload.id, setQuery(payload.type))
@@ -61,6 +70,7 @@ const actionEntityTable = {
       return new Promise((resolve, reject) => {
         Api.createEntity(payload.row, setQuery(payload.type))
           .then((response) => {
+            console.log(response)
             commit('CREATE_ENTITY', { data: response.data.data, type: payload.type })
             resolve()
           })
@@ -108,13 +118,23 @@ const actionEntityTable = {
     FETCH_LIST(state, payload) {
       console.log(payload)
       state[payload.type].list = payload.data.data
-      state[payload.type].included = payload.data.included
+      if (payload.data.included) {
+        state[payload.type].included = payload.data.included
+      }
       if (payload.data.meta) {
         state.pagination.total = payload.data.meta['total-count']
       }
     },
     CREATE_ENTITY(state, payload) {
+      console.log(payload)
       state[payload.type].list.unshift(payload.data)
+    },
+    FETCH_ENTITY_BY_NAME(state, payload) {
+      payload.data.data.filter(q => {
+        q.id = `${q.id}`
+        return q
+      })
+      state[payload.type].list = payload.data.data
     },
     UPDATE_ENTITY(state, payload) {
       state[payload.type].list.splice(payload.index, 1, payload.data)
@@ -130,6 +150,26 @@ const actionEntityTable = {
       }
     },
     CLEAR_STORE(state, payload) {
+      state.projects = {
+        list: []
+      }
+      state['time-entries'] = {
+        list: [],
+        included: []
+      }
+      state.users = {
+        list: []
+      }
+      state.teams = {
+        list: []
+      }
+      state.holidays = {
+        list: []
+      }
+      state.absences = {
+        list: [],
+        included: []
+      }
       state.pagination = {
         page: 1,
         limit: 30,

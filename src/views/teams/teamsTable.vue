@@ -83,9 +83,6 @@ export default {
   created() {
     this.getList()
   },
-  beforeDestroy() {
-    this.$store.dispatch('actionEntityTable/clearStore')
-  },
   methods: {
     create() {
       const entity = {
