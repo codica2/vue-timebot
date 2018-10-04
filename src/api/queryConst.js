@@ -6,5 +6,6 @@ export const setQuery = (payload) => {
     case 'users': return '/api/v1/users'
     case 'teams': return '/api/v1/teams'
     case 'holidays': return '/api/v1/holidays'
+    case 'absences': return '/api/v1/absences'
   }
 }

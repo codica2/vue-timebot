@@ -13,7 +13,8 @@ const actionEntityTable = {
       list: []
     },
     'time-entries': {
-      list: []
+      list: [],
+      included: []
     },
     users: {
       list: []
@@ -23,10 +24,15 @@ const actionEntityTable = {
     },
     holidays: {
       list: []
+    },
+    absences: {
+      list: [],
+      included: []
     }
   },
   getters: {
     list: (state) => type => state[type].list,
+    included: (state) => type => state[type].included,
     pagination: (state) => state.pagination
   },
   actions: {
@@ -47,15 +53,6 @@ const actionEntityTable = {
         Api.fetchEntity(payload.id, setQuery(payload.type))
           .then((response) => {
             console.log(response)
-            resolve()
-          })
-      })
-    },
-    fetchAllEntities({ state, commit }, payload) {
-      return new Promise((resolve, reject) => {
-        Api.fetchAllEntities(setQuery(payload.type))
-          .then((res) => {
-            commit('FETCH_ALL_ENTITIES', { type: payload.type, data: res.data.data })
             resolve()
           })
       })
@@ -109,16 +106,15 @@ const actionEntityTable = {
   },
   mutations: {
     FETCH_LIST(state, payload) {
+      console.log(payload)
       state[payload.type].list = payload.data.data
+      state[payload.type].included = payload.data.included
       if (payload.data.meta) {
         state.pagination.total = payload.data.meta['total-count']
       }
     },
     CREATE_ENTITY(state, payload) {
       state[payload.type].list.unshift(payload.data)
-    },
-    FETCH_ALL_ENTITIES(state, payload) {
-      state[payload.type].list = payload.data
     },
     UPDATE_ENTITY(state, payload) {
       state[payload.type].list.splice(payload.index, 1, payload.data)

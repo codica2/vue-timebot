@@ -1,22 +1,22 @@
 <template lang="pug">
     div
       div
-        div
-          strong(v-if="date") Statistics for {{date[0]}} - {{date[1]}}
-        el-select(v-model="value" placeholder="Select")
-          el-option(
-            v-for="item in list"
-            :key="item.id"
-            :label="item.attributes.name"
-            :value="item.id")
-        el-date-picker(
-          v-model="date",
-          type="daterange",
-          range-separator="-",
-          value-format="dd-MM-yyyy",
-          start-placeholder="Start date",
-          :picker-options="pickerOptions",
-          end-placeholder="End date")
+        <!--div-->
+          <!--strong(v-if="date") Statistics for {{date[0]}} - {{date[1]}}-->
+        <!--el-select(v-model="value" placeholder="Select")-->
+          <!--el-option(-->
+            <!--v-for="item in list"-->
+            <!--:key="item.id"-->
+            <!--:label="item.attributes.name"-->
+            <!--:value="item.id")-->
+        <!--el-date-picker(-->
+          <!--v-model="date",-->
+          <!--type="daterange",-->
+          <!--range-separator="-",-->
+          <!--value-format="dd-MM-yyyy",-->
+          <!--start-placeholder="Start date",-->
+          <!--:picker-options="pickerOptions",-->
+          <!--end-placeholder="End date")-->
       filters
       projectsTable
       el-table(:data="tableData('tableData1').data" style="width: 100%")

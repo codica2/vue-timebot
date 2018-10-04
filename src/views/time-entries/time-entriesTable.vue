@@ -6,7 +6,7 @@
         class="filter-item",
         style="margin-left: 10px;",
         type="primary",
-        icon="el-icon-edit") Add new project
+        icon="el-icon-edit") Add new time entry
       el-table(
       v-loading="listLoading"
       :key="tableKey"
@@ -22,10 +22,10 @@
             span {{ scope.row.id }}
         el-table-column(label="User")
           template(slot-scope="scope")
-            span {{ scope.row.relationships.user.data.id }}
+            span {{ getIncluded(scope.row.relationships.user.data.id) }}
         el-table-column(label="Project")
           template(slot-scope="scope")
-            span {{ getProject(scope.row.relationships.project.data.id) }}
+            span {{ getIncluded(scope.row.relationships.project.data.id) }}
         el-table-column(label="Date")
           template(slot-scope="scope")
             span {{ scope.row.attributes.date }}
@@ -41,7 +41,7 @@
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
             el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
       pagination(:type="type" v-if="list(type).length")
-      el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
+      el-dialog(@open="preRemote" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"
         :rules="rules"
         :model="temp.attributes"
@@ -49,10 +49,23 @@
         label-width="70px"
         style="width: 400px; margin-left:50px;")
           el-form-item(label="User")
-            el-input(v-model="temp.relationships.user.data.id" clearable)
+            el-select(
+              v-model="temp.relationships.user.data.id",
+              filterable,
+              remote,
+              placeholder="Please enter a keyword"
+              :remote-method="remoteMethod"
+              :loading="loading"
+            )
+              el-option(
+                v-for="item in data"
+                :key="item.id"
+                :label="item.attributes.name"
+                :value="item.id"
+              )
           el-form-item(label="Project")
-            el-select(v-model="temp.relationships.project.data.id")
-              el-option(v-for="(project, projectIndex) in list('projects')"
+            el-select(v-model="temp.relationships.project.data.id" filterable)
+              el-option(v-for="(project, projectIndex) in included(type)"
               :value="project.id"
               :key="projectIndex",
               :label="project.attributes.name")
@@ -96,11 +109,14 @@ export default {
   data: () => ({
     multipleSelection: [],
     tableKey: 0,
-    type: 'time-entries'
+    type: 'time-entries',
+    data: [],
+    loading: false
   }),
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list'
+      list: 'actionEntityTable/list',
+      included: 'actionEntityTable/included'
     }),
     entity() {
       return {
@@ -116,9 +132,6 @@ export default {
   },
   created() {
     this.getList()
-      .then((res) => {
-        this.$store.dispatch('actionEntityTable/fetchAllEntities', { type: 'projects' })
-      })
   },
   beforeDestroy() {
     this.$store.dispatch('actionEntityTable/clearStore')
@@ -136,19 +149,40 @@ export default {
         time_entry: this.entity
       }
       this.createEntity(entity)
-        .then(() => {
-          this.$store.dispatch('actionEntityTable/fetchAllEntities', { type: 'projects' })
-        })
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
-    getProject(id) {
-      const findProj = this.list('projects').find(pj => {
+    remoteMethod(query) {
+      this.loading = true
+      this.data = this.included(this.type).filter(usr => {
+        if (usr.type === 'users') return usr
+      })
+      this.loading = false
+      // this.$http.get(`https://api.themoviedb.org/3/search/movie?api_key=bb6f51bef07465653c3e553d6ab161a8&query=${query}`)
+      //   .then(({ data }) => {
+      //     this.data = []
+      //     data.results.forEach((item) => this.data.push(item))
+      //   })
+      //   .catch((error) => {
+      //     this.data = []
+      //     throw error
+      //   })
+      //   .finally(() => {
+      //     this.loading = false
+      //   })
+    },
+    preRemote() {
+      this.data = this.included(this.type).filter(usr => {
+        if (usr.type === 'users') return usr
+      })
+    },
+    getIncluded(id) {
+      const findInclude = this.included(this.type).find(pj => {
         if (pj.id === id) return pj
       })
-      if (findProj) {
-        return findProj.attributes.name
+      if (findInclude) {
+        return findInclude.attributes.name
       }
     }
   }

@@ -29,13 +29,13 @@
             span {{ scope.row.id }}
         el-table-column(label="Name")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.name }}
+            span {{ getIncluded(scope.row.relationships.user.data.id) }}
         el-table-column(label="Date")
           template(slot-scope="scope")
             span {{ scope.row.attributes.date }}
         el-table-column(label="Reason")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.date }}
+            span {{ scope.row.attributes.reason }}
         el-table-column(label="Comment")
           template(slot-scope="scope")
             span {{ scope.row.attributes.comment }}
@@ -57,10 +57,17 @@
       label-position="left"
       label-width="70px"
       style="width: 400px; margin-left:50px;")
-        el-form-item(label="Name" prop="name")
-          el-input(placeholder="Please input" v-model="temp.attributes.name" clearable)
-        el-form-item(label="Alias" prop="alias")
-          el-input(placeholder="Please input" v-model="temp.attributes.alias" clearable)
+        el-form-item(label="User" prop="user")
+          el-input(placeholder="Please input" v-model="temp.attributes.user_id" clearable)
+        el-form-item(label="Date" prop="date")
+          el-date-picker(
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            v-model="temp.attributes.date" type="date" placeholder="Please pick a date")
+        el-form-item(label="Reason" prop="reason")
+          el-input(placeholder="Please input" v-model="temp.attributes.reason" clearable)
+        el-form-item(label="Comment" prop="comment")
+          el-input(placeholder="Please input" v-model="temp.attributes.comment" clearable)
       div(slot="footer" class="dialog-footer")
         el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
         el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="createEntity") {{ $t('table.confirm') }}
@@ -87,12 +94,13 @@ export default {
     return {
       multipleSelection: [],
       tableKey: 0,
-      type: 'projects'
+      type: 'absences'
     }
   },
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list'
+      list: 'actionEntityTable/list',
+      included: 'actionEntityTable/included'
     })
   },
   created() {
@@ -104,6 +112,14 @@ export default {
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    getIncluded(id) {
+      const findInclude = this.included(this.type).find(pj => {
+        if (pj.id === id) return pj
+      })
+      if (findInclude) {
+        return findInclude.attributes.name
+      }
     }
   }
 }

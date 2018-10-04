@@ -1,11 +1,10 @@
 <template lang="pug">
   highcharts(
-  style="height: height"
-  :options="{series: series, tooltip: tooltip, plotOptions: plotOptions, chart: chart, xAxis: { categories: xAxisData }}")
+  :style="{height: height}"
+  :options="{series: series,legend: legend, tooltip: tooltip, plotOptions: plotOptions, chart: chart, xAxis: { categories: xAxisData }}")
 </template>
 
 <script>
-import variablesPie from 'highcharts/modules/variable-pie'
 export default {
   props: {
     className: {
@@ -27,10 +26,6 @@ export default {
     xAxisData: {
       type: Array,
       default: () => []
-    },
-    legend: {
-      type: Object,
-      default: () => {}
     }
   },
   data() {
@@ -43,6 +38,14 @@ export default {
       tooltip: {
         pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
         shared: true
+      },
+      legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        padding: 3,
+        itemMarginTop: 5,
+        itemMarginBottom: 5
       },
       plotOptions: {
         series: {

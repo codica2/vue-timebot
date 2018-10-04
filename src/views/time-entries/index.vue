@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    filters
+    //filters
     time-entries-table
 </template>
 

@@ -24,7 +24,6 @@ label {
 }
 span, tspan, input, a, div, button{
   font-family: monospace;
-  word-break: break-word;
 }
 html {
   height: 100%;
@@ -40,7 +39,10 @@ html {
 *:after {
   box-sizing: inherit;
 }
-
+.chart-wrapper {
+  border: 1px solid #eaeaec;
+  border-radius: 4px;
+}
 .no-padding {
   padding: 0px !important;
 }
@@ -135,7 +137,6 @@ code {
   }
 }
 
-//main-container全局样式
 .app-container {
   padding: 20px;
 }
@@ -192,7 +193,6 @@ code {
   }
 }
 
-//refine vue-multiselect plugin
 .multiselect {
   line-height: 16px;
 }

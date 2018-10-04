@@ -16,13 +16,6 @@ export function fetchEntity(query, id) {
     params: ''
   })
 }
-export function fetchAllEntities(query) {
-  return request({
-    url: `${query}/all`,
-    method: 'get',
-    params: ''
-  })
-}
 export function createEntity(row, query) {
   return request({
     url: query,

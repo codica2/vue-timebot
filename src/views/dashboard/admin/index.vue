@@ -25,7 +25,7 @@
         PieChart(
         :innerSize="chartData('projects').innerSize"
         :chart="{ plotBackgroundColor: null, plotBorderWidth: 0, plotShadow: false, type: 'pie' }"
-        :plotOptions="{ pie: { dataLabels: { enabled: true, format: '<b>{point.name}</b>: {point.percentage:.1f} ', style: { color: 'red' }, connectorColor: 'silver' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
+        :plotOptions="{ pie: { dataLabels: { enabled: true, format: '<span><b>{point.name}</b>: {point.percentage:.1f}</span>', connectorColor: 'silver' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
         :payloadData="chartData('projects').data"
         )
     el-col(:xs="24" :sm="24" :lg="12")
@@ -37,7 +37,6 @@
     el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series')")
       .chart-wrapper
         BarChart(
-
         :xAxisData="staticData('xAxisData')"
         :series="staticData('series')"
         )
@@ -113,6 +112,8 @@ export default {
     flex-direction: row;
     .chart-wrapper{
       width: 33%;
+      border: 2px solid #eaeaec;
+      border-radius: 2px;
       @media screen and (max-width: 768px) {
         width: 100%;
       }
