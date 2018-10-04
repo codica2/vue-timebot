@@ -26,10 +26,6 @@
         el-table-column(label="Role")
           template(slot-scope="scope")
             span {{ scope.row.attributes.role }}
-        el-table-column(label="Is speaking")
-          template(slot-scope="scope")
-            span(v-if="scope.row.attributes['is-speaking']") YES
-            span(v-else) NO
         el-table-column(label="Is Active")
           template(slot-scope="scope")
             span(v-if="scope.row.attributes['is-active']") YES
@@ -49,6 +45,9 @@
         style="width: 400px; margin-left:50px;")
           el-form-item(label="Name" prop="name")
             el-input(v-model="temp.attributes.name")
+          el-form-item(label="Role")
+            el-select(v-model="temp.attributes.role" placeholder="Select")
+              el-option(v-for="item in roles" :key="item.value" :label="item.label" :value="item.value")
           el-form-item(label="Is active")
             el-checkbox(v-model="temp.attributes['is-active']")
         div(slot="footer" class="dialog-footer")
@@ -79,7 +78,33 @@ export default {
     return {
       multipleSelection: [],
       tableKey: 0,
-      type: 'users'
+      type: 'users',
+      roles: [
+        {
+          label: 'Front-end',
+          value: 'front_end'
+        },
+        {
+          label: 'PM',
+          value: 'pm'
+        },
+        {
+          label: 'QA',
+          value: 'QA'
+        },
+        {
+          label: 'OPS',
+          value: 'ops'
+        },
+        {
+          label: 'Marketing',
+          value: 'marketing'
+        },
+        {
+          label: 'Back-end',
+          value: 'back_end'
+        }
+      ]
     }
   },
   computed: {
