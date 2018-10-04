@@ -26,6 +26,26 @@ export default {
     ...mapGetters({
       pagination: 'actionEntityTable/pagination'
     })
+  },
+  methods: {
+    handleSizeChange(size) {
+      this.$store.dispatch('actionEntityTable/setPagination', { size: size })
+        .then(() => {
+          this.getList()
+            .then(() => {
+              this.$scrollTo('body', 1000)
+            })
+        })
+    },
+    handleCurrentChange(page) {
+      this.$store.dispatch('actionEntityTable/setPagination', { page: page })
+        .then(() => {
+          this.getList()
+            .then(() => {
+              this.$scrollTo('body', 1000)
+            })
+        })
+    }
   }
 }
 </script>

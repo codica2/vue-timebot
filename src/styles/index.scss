@@ -12,18 +12,26 @@ body {
   text-rendering: optimizeLegibility;
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 }
-
+@font-face {
+  font-family: Gilgon;
+  src: url(../../static/GILGON__.ttf);
+}
 label {
   font-weight: 700;
 }
-
+.highcharts-credits{
+  display: none;
+}
+span, tspan, input, a, div, button{
+  font-family: monospace;
+}
 html {
   height: 100%;
   box-sizing: border-box;
 }
 
 #app{
-  height: 100%;
+  //height: 100%;
 }
 
 *,
@@ -31,7 +39,10 @@ html {
 *:after {
   box-sizing: inherit;
 }
-
+.chart-wrapper {
+  border: 1px solid #eaeaec;
+  border-radius: 4px;
+}
 .no-padding {
   padding: 0px !important;
 }
@@ -126,7 +137,6 @@ code {
   }
 }
 
-//main-container全局样式
 .app-container {
   padding: 20px;
 }
@@ -183,7 +193,6 @@ code {
   }
 }
 
-//refine vue-multiselect plugin
 .multiselect {
   line-height: 16px;
 }

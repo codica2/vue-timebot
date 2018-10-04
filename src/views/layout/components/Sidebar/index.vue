@@ -5,9 +5,9 @@
       :default-active="$route.path"
       :collapse="isCollapse"
       mode="vertical"
-      background-color="#304156"
-      text-color="#bfcbd9"
-      active-text-color="#409EFF"
+      background-color="#ffffff"
+      text-color="#929292"
+      active-text-color="#e43e47"
     >
       <sidebar-item v-for="route in permission_routers" :key="route.name" :item="route" :base-path="route.path"/>
     </el-menu>
@@ -31,3 +31,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+
+</style>

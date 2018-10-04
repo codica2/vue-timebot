@@ -13,7 +13,7 @@
 
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img src="https://slack-files2.s3-us-west-2.amazonaws.com/avatars/2018-04-26/354518680614_02dfc4bac7ea1cffe636_88.png" class="user-avatar">
           <i class="el-icon-caret-bottom"/>
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -70,7 +70,11 @@ export default {
     line-height: 58px;
     height: 50px;
     float: left;
-    padding: 0 10px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    width: 180px;
+    border-right: 1px solid #e7e7e8;
   }
   .breadcrumb-container{
     float: left;

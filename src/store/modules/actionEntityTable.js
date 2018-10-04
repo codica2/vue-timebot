@@ -5,7 +5,7 @@ const actionEntityTable = {
   state: {
     pagination: {
       page: 1,
-      limit: 20,
+      limit: 30,
       total: 10,
       sort: '+id'
     },
@@ -13,11 +13,26 @@ const actionEntityTable = {
       list: []
     },
     'time-entries': {
+      list: [],
+      included: []
+    },
+    users: {
       list: []
+    },
+    teams: {
+      list: []
+    },
+    holidays: {
+      list: []
+    },
+    absences: {
+      list: [],
+      included: []
     }
   },
   getters: {
     list: (state) => type => state[type].list,
+    included: (state) => type => state[type].included,
     pagination: (state) => state.pagination
   },
   actions: {
@@ -26,7 +41,7 @@ const actionEntityTable = {
     },
     fetchList({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
-        Api.fetchList(setQuery(payload))
+        Api.fetchList(setQuery(payload), { page: state.pagination.page, 'per_page': state.pagination.limit })
           .then((response) => {
             commit('FETCH_LIST', { data: response.data, type: payload })
             resolve()
@@ -38,15 +53,6 @@ const actionEntityTable = {
         Api.fetchEntity(payload.id, setQuery(payload.type))
           .then((response) => {
             console.log(response)
-            resolve()
-          })
-      })
-    },
-    fetchAllEntities({ state, commit }, payload) {
-      return new Promise((resolve, reject) => {
-        Api.fetchAllEntities(setQuery(payload.type))
-          .then((res) => {
-            commit('FETCH_ALL_ENTITIES', { type: payload.type, data: res.data.data })
             resolve()
           })
       })
@@ -100,14 +106,15 @@ const actionEntityTable = {
   },
   mutations: {
     FETCH_LIST(state, payload) {
+      console.log(payload)
       state[payload.type].list = payload.data.data
-      state.pagination.total = payload.data.data.length
+      state[payload.type].included = payload.data.included
+      if (payload.data.meta) {
+        state.pagination.total = payload.data.meta['total-count']
+      }
     },
     CREATE_ENTITY(state, payload) {
       state[payload.type].list.unshift(payload.data)
-    },
-    FETCH_ALL_ENTITIES(state, payload) {
-      state[payload.type].list = payload.data
     },
     UPDATE_ENTITY(state, payload) {
       state[payload.type].list.splice(payload.index, 1, payload.data)
@@ -116,13 +123,16 @@ const actionEntityTable = {
       state[payload.type].list.splice(payload.index, 1)
     },
     SET_PAGINATION(state, payload) {
-      console.log(payload)
-      state.pagination[payload.type] = payload.value
+      if (payload.size) {
+        state.pagination.limit = payload.limit
+      } else {
+        state.pagination.page = payload.page
+      }
     },
     CLEAR_STORE(state, payload) {
       state.pagination = {
         page: 1,
-        limit: 20,
+        limit: 30,
         total: 10,
         sort: '+id'
       }
