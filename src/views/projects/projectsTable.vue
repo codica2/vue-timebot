@@ -110,9 +110,6 @@ export default {
         this.$store.dispatch('actionEntityTable/fetchList', 'teams')
       })
   },
-  beforeDestroy() {
-    this.$store.dispatch('actionEntityTable/clearStore')
-  },
   methods: {
     create() {
       const entity = {

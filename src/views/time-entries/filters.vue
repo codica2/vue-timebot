@@ -1,70 +1,70 @@
 <template lang="pug">
   div Filters
     div
-      el-select(v-model="searchParams.user" placeholder="Select")
-        el-option(v-for="item in users" :key="item.value" :label="item.label" :value="item.value")
+      el-select(
+      v-model="searchParams.users",
+      filterable,
+      remote,
+      @focus="remoteGetUsers"
+      multiple,
+      placeholder="Please enter a keyword"
+      :remote-method="remoteGetUsers"
+      :loading="loading"
+      )
+        el-option(
+        v-for="user in list('users')"
+        :key="user.id"
+        :label="user.name"
+        :value="user.id"
+        )
     div
-      el-select(v-model="searchParams.project" placeholder="Select")
-        el-option(v-for="item in projects" :key="item.value" :label="item.label" :value="item.value")
+      el-select(
+      v-model="searchParams.projects"
+      filterable
+      remote,
+      multiple,
+      @focus="remoteGetProjects"
+      placeholder="Please enter a keyword"
+      :remote-method="remoteGetProjects"
+      )
+        el-option(v-for="project in list('projects')"
+        :value="project.id"
+        :key="project.id",
+        :label="project.name")
     div(v-for="(textarea, textareaIndex) in searchParams.textareas" :key="textareaIndex")
       el-input(type="textarea" v-model="textarea.input")
-      div(@click="addSearchQuery" v-if="textareaIndex + 1 === searchParams.textareas.length").active OR
-      div(v-else) OR
     el-date-picker(v-model="searchParams.searchDate" type="daterange" range-separator="To" start-placeholder="Start date"
     end-placeholder="End date")
     div
-      el-button Filter
+      el-button(@click="filter") Filter
       el-button(type="primary") Clear Filters
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import * as mixin from '@/mixins/index'
 export default {
   name: 'Filters',
+  mixins: [mixin.mixQuery, mixin.mixIncludes],
   data: () => ({
+    loading: false,
     searchParams: {
       textareas: [
         { input: '' }
       ],
       searchDate: [],
-      user: '',
-      project: ''
-    },
-    users: [{
-      value: 'Option1',
-      label: 'Option1'
-    }, {
-      value: 'Option2',
-      label: 'Option2'
-    }, {
-      value: 'Option3',
-      label: 'Option3'
-    }, {
-      value: 'Option4',
-      label: 'Option4'
-    }, {
-      value: 'Option5',
-      label: 'Option5'
-    }],
-    projects: [{
-      value: 'Option1',
-      label: 'Option1'
-    }, {
-      value: 'Option2',
-      label: 'Option2'
-    }, {
-      value: 'Option3',
-      label: 'Option3'
-    }, {
-      value: 'Option4',
-      label: 'Option4'
-    }, {
-      value: 'Option5',
-      label: 'Option5'
-    }]
+      users: [],
+      projects: []
+    }
   }),
+  computed: {
+    ...mapGetters({
+      list: 'actionEntityTable/list'
+    })
+  },
   methods: {
-    addSearchQuery() {
-      this.searchParams.textareas.push({ input: '' })
+    filter() {
+        this.$store.dispatch('')
     }
   }
 }

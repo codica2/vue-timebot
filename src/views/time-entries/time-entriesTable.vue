@@ -8,14 +8,14 @@
         type="primary",
         icon="el-icon-edit") Add new time entry
       el-table(
-      v-loading="listLoading"
-      :key="tableKey"
-      :data="list(type)"
-      border
-      fit
-      @selection-change="handleSelectionChange"
-      highlight-current-row
-      style="width: 100%;")
+        v-loading="listLoading"
+        :key="tableKey"
+        :data="list(type)"
+        border
+        fit
+        @selection-change="handleSelectionChange"
+        highlight-current-row
+        style="width: 100%;")
         el-table-column(type="selection", width="55")
         el-table-column(:label="$t('table.id')" align="center" width="65")
           template(slot-scope="scope")
@@ -53,22 +53,30 @@
               v-model="temp.relationships.user.data.id",
               filterable,
               remote,
+              @focus="remoteGetUsers"
               placeholder="Please enter a keyword"
-              :remote-method="remoteMethod"
+              :remote-method="remoteGetUsers"
               :loading="loading"
             )
               el-option(
-                v-for="item in data"
-                :key="item.id"
-                :label="item.attributes.name"
-                :value="item.id"
+                v-for="user in list('users')"
+                :key="user.id"
+                :label="user.name"
+                :value="user.id"
               )
           el-form-item(label="Project")
-            el-select(v-model="temp.relationships.project.data.id" filterable)
-              el-option(v-for="(project, projectIndex) in included(type)"
+            el-select(
+              v-model="temp.relationships.project.data.id"
+              filterable
+              remote,
+              @focus="remoteGetProjects"
+              placeholder="Please enter a keyword"
+              :remote-method="remoteGetProjects"
+            )
+              el-option(v-for="project in list('projects')"
               :value="project.id"
-              :key="projectIndex",
-              :label="project.attributes.name")
+              :key="project.id",
+              :label="project.name")
           el-form-item(:label="$t('table.date')" prop="date")
             el-date-picker(
             format="yyyy-MM-dd"
@@ -99,18 +107,16 @@
 import { mapGetters } from 'vuex'
 import * as mixin from '@/mixins/index'
 import pagination from '@/components/Pagination/index'
-
 export default {
   name: 'TimeEntriesTable',
   components: {
     pagination
   },
-  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery],
+  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery, mixin.mixIncludes],
   data: () => ({
     multipleSelection: [],
     tableKey: 0,
     type: 'time-entries',
-    data: [],
     loading: false
   }),
   computed: {
@@ -133,9 +139,6 @@ export default {
   created() {
     this.getList()
   },
-  beforeDestroy() {
-    this.$store.dispatch('actionEntityTable/clearStore')
-  },
   methods: {
     update() {
       const entity = {
@@ -153,37 +156,9 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
-    remoteMethod(query) {
-      this.loading = true
-      this.data = this.included(this.type).filter(usr => {
-        if (usr.type === 'users') return usr
-      })
-      this.loading = false
-      // this.$http.get(`https://api.themoviedb.org/3/search/movie?api_key=bb6f51bef07465653c3e553d6ab161a8&query=${query}`)
-      //   .then(({ data }) => {
-      //     this.data = []
-      //     data.results.forEach((item) => this.data.push(item))
-      //   })
-      //   .catch((error) => {
-      //     this.data = []
-      //     throw error
-      //   })
-      //   .finally(() => {
-      //     this.loading = false
-      //   })
-    },
     preRemote() {
-      this.data = this.included(this.type).filter(usr => {
-        if (usr.type === 'users') return usr
-      })
-    },
-    getIncluded(id) {
-      const findInclude = this.included(this.type).find(pj => {
-        if (pj.id === id) return pj
-      })
-      if (findInclude) {
-        return findInclude.attributes.name
-      }
+      this.remoteGetProjects()
+      this.remoteGetUsers()
     }
   }
 }
