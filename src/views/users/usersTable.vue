@@ -30,6 +30,9 @@
           template(slot-scope="scope")
             span(v-if="scope.row.attributes['is-active']") YES
             span(v-else) NO
+        el-table-column(label="Team")
+          template(slot-scope="scope")
+            span {{setTeam(scope.row.relationships.team.data)}}
         el-table-column(:label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="primary" size="mini" @click="handleView(scope.row)") View
@@ -48,6 +51,11 @@
           el-form-item(label="Role")
             el-select(v-model="temp.attributes.role" placeholder="Select")
               el-option(v-for="item in roles" :key="item.value" :label="item.label" :value="item.value")
+          el-form-item(label="Team")
+            el-select(v-if="temp.relationships.team.data" v-model="temp.relationships.team.data.id" placeholder="Select")
+              el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team.id")
+            el-select(v-else v-model="temp.relationships.team.data" placeholder="Select")
+              el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team")
           el-form-item(label="Is active")
             el-checkbox(v-model="temp.attributes['is-active']")
         div(slot="footer" class="dialog-footer")
@@ -115,12 +123,16 @@ export default {
       return {
         name: this.temp.attributes.name,
         is_active: this.temp.attributes['is-active'],
-        uid: this.temp.attributes.uid || this.temp.attributes.name
+        uid: this.temp.attributes.uid || this.temp.attributes.name,
+        team_id: this.temp.relationships.team.data.id
       }
     }
   },
   created() {
     this.getList()
+      .then(() => {
+        this.$store.dispatch('actionEntityTable/fetchList', 'teams')
+      })
   },
   beforeDestroy() {
     this.$store.dispatch('actionEntityTable/clearStore')
@@ -141,6 +153,16 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    setTeam(team) {
+      if (team) {
+        const findTeam = this.list('teams').find(tm => {
+          if (tm.id === team.id) return tm
+        })
+        if (findTeam) {
+          return findTeam.attributes.name
+        }
+      }
     }
   }
 }

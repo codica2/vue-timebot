@@ -33,6 +33,9 @@
         el-table-column(label="Alias")
           template(slot-scope="scope")
             span {{ scope.row.attributes.alias }}
+        el-table-column(label="Team")
+          template(slot-scope="scope")
+            span {{setTeam(scope.row.relationships.team.data)}}
         el-table-column(:label="$t('table.actions')"
         align="center" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
@@ -55,6 +58,11 @@
           el-input(placeholder="Please input" v-model="temp.attributes.name" clearable)
         el-form-item(label="Alias" prop="alias")
           el-input(placeholder="Please input" v-model="temp.attributes.alias" clearable)
+        el-form-item(label="Team")
+          el-select(v-if="temp.relationships.team.data" v-model="temp.relationships.team.data.id" placeholder="Select")
+            el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team.id")
+          el-select(v-else v-model="temp.relationships.team.data" placeholder="Select")
+            el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team")
       div(slot="footer" class="dialog-footer")
         el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
         el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
@@ -92,12 +100,15 @@ export default {
       return {
         name: this.temp.attributes.name,
         alias: this.temp.attributes.alias,
-        team_id: 1
+        team_id: this.temp.relationships.team.data.id
       }
     }
   },
   created() {
     this.getList()
+      .then(() => {
+        this.$store.dispatch('actionEntityTable/fetchList', 'teams')
+      })
   },
   beforeDestroy() {
     this.$store.dispatch('actionEntityTable/clearStore')
@@ -118,6 +129,16 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    setTeam(team) {
+      if (team) {
+        const findTeam = this.list('teams').find(tm => {
+          if (tm.id === team.id) return tm
+        })
+        if (findTeam) {
+          return findTeam.attributes.name
+        }
+      }
     }
   }
 }

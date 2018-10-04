@@ -34,6 +34,7 @@ export function deleteEntity(row, query) {
 }
 
 export function updateEntity(row, query) {
+  console.log(row)
   return request({
     url: `${query}/${row.id}`,
     method: 'put',
