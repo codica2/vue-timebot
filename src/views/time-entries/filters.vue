@@ -34,9 +34,14 @@
         :label="project.name")
     div(class="time-entries-filters")(v-for="(textarea, textareaIndex) in searchParams.textareas" :key="textareaIndex")
       el-input(type="textarea" v-model="textarea.input")
-    el-date-picker(v-model="searchParams.searchDate" type="daterange" range-separator="To" start-placeholder="Start date"
-    end-placeholder="End date")
+    el-date-picker(
+    format="yyyy-MM-dd"
+    value-format="yyyy-MM-dd"
+    v-model="searchParams.date"
+    type="date"
+    placeholder="Please pick a date")
     div(style="margin: 20px 0 10px;")
+    div
       el-button(@click="filter") Filter
       el-button(type="primary") Clear Filters
 </template>
@@ -49,11 +54,12 @@ export default {
   mixins: [mixin.mixQuery, mixin.mixIncludes],
   data: () => ({
     loading: false,
+    type: 'time-entries',
     searchParams: {
       textareas: [
         { input: '' }
       ],
-      searchDate: [],
+      date: [],
       users: [],
       projects: []
     }
@@ -61,11 +67,19 @@ export default {
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list'
-    })
+    }),
+    entity() {
+      return {
+        date_from: this.searchParams.date[0],
+        date_to: this.searchParams.date[1],
+        by_projects: this.searchParams.projects,
+        by_users: this.searchParams.users
+      }
+    }
   },
   methods: {
     filter() {
-        this.$store.dispatch('')
+        this.$store.dispatch('actionEntityTable/fetchList', { type: this.type, params: this.entity })
     }
   }
 }

@@ -41,7 +41,7 @@ const actionEntityTable = {
     },
     fetchList({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
-        Api.fetchList(setQuery(payload), { page: state.pagination.page, 'per_page': state.pagination.limit })
+        Api.fetchList(setQuery(payload), { pagination: { page: state.pagination.page, 'per_page': state.pagination.limit }, params: state.filters })
           .then((response) => {
             commit('FETCH_LIST', { data: response.data, type: payload })
             resolve()
