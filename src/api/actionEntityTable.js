@@ -1,12 +1,20 @@
 import request from '@/utils/request'
 import qs from 'qs'
 
-export function fetchList(query, page) {
+export function fetchList(query, payload) {
   return request({
     url: query,
     method: 'get',
-    params: page,
-    paramsSerializer: params => qs.stringify(page, { arrayFormat: 'brackets' })
+    params: payload,
+    paramsSerializer: params => qs.stringify(payload, { arrayFormat: 'brackets' })
+  })
+}
+export function fetchListByFilter(query, params) {
+  return request({
+    url: query,
+    method: 'get',
+    params: params,
+    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'brackets' })
   })
 }
 export function fetchEntity(query, id) {

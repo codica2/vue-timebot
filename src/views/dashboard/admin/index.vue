@@ -7,10 +7,10 @@
       div(class="dashboard-subheader-statistics")
         div Hours to work: {{staticData('hours_to_work')}}
         div Hours worked: {{staticData('hours_worked')}}
-        div Holidays:
-          div(v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
-            div Name {{holiday[0]}}
-            div Date {{holiday[1]}}
+        div(v-if="staticData('holidays').length") Holidays:
+          span(v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
+            span {{ holiday[0] }}&nbsp;
+            span {{ holiday[1] }}
       div(class="dashboard-statistics-datepicker")
         el-date-picker(
             v-model="date",
@@ -91,6 +91,13 @@ export default {
       'staticData',
       'barDataNames'
     ])
+  },
+  mounted() {
+    this.isAnswered = false
+    this.$store.dispatch('fetchChartByDate', { type: this.type, params: { start_date: this.date[0], end_date: this.date[1] }})
+      .then(() => {
+        this.isAnswered = true
+      })
   },
   methods: {
     setDate() {

@@ -5,64 +5,60 @@
       div
         div(style="margin: 10px 0;")
           div(style="font-size: 14px;") Name
-          el-select(v-model="filter.name.trigger" placeholder="Select")(style="margin: 10px 0;")
-            el-option(v-for="item in filterBy" :key="item.value" :label="item.label" :value="item.value")
-          el-input(v-model="filter.name.input")
+          el-select(
+          v-model="searchParams.name"
+          filterable
+          remote,
+          @focus="remoteGetProjects"
+          clearable,
+          placeholder="Please enter a keyword"
+          :remote-method="remoteGetProjects"
+          )
+            el-option(
+            v-for="project in filterable('projects')"
+            :value="project.name"
+            :key="project.id",
+            :label="project.name")
       div
         div(style="margin: 10px 0;")
           div(style="font-size: 14px;") Alias
-          el-select(v-model="filter.alias.trigger" placeholder="Select")(style="margin: 10px 0;")
-            el-option(v-for="item in filterBy" :key="item.value" :label="item.label" :value="item.value")
-          el-input(v-model="filter.alias.input")
+            el-input(v-model="searchParams.alias")
     div(style="margin: 10px 0;")
       el-button() Filter
       el-button(@click="clearFilter") Clear Filter
 </template>
 
 <script>
+import * as mixin from '@/mixins/index'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Filters',
+  mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate],
   data: () => ({
-    filterBy: [
-      {
-        value: 'contains',
-        label: 'Contains'
-      },
-      {
-        value: 'equals',
-        label: 'Equals'
-      },
-      {
-        value: 'starts_with',
-        label: 'Starts with'
-      },
-      {
-        value: 'ends_with',
-        label: 'Ends with'
-      }
-    ],
-    filter: {
-      name: {
-        trigger: '',
-        input: ''
-      },
-      alias: {
-        trigger: '',
-        input: ''
-      }
+    type: 'projects',
+    searchParams: {
+      date: [],
+      name: '',
+      alias: ''
     }
   }),
+  computed: {
+    ...mapGetters({
+      filterable: 'actionEntityTable/filterable'
+    }),
+    entity() {
+      return {
+        by_name: this.searchParams.name,
+        by_alias: this.searchParams.alias
+      }
+    }
+  },
   methods: {
     clearFilter() {
-      this.filter = {
-        name: {
-          trigger: '',
-          input: ''
-        },
-        alias: {
-          trigger: '',
-          input: ''
-        }
+      this.searchParams = {
+        data: [],
+        name: '',
+        alias: ''
       }
     }
   }

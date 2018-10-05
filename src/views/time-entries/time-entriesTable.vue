@@ -59,7 +59,7 @@
               :loading="loading"
             )
               el-option(
-                v-for="user in list('users')"
+                v-for="user in filterable('users')"
                 :key="user.id"
                 :label="user.name"
                 :value="user.id"
@@ -73,7 +73,7 @@
               placeholder="Please enter a keyword"
               :remote-method="remoteGetProjects"
             )
-              el-option(v-for="project in list('projects')"
+              el-option(v-for="project in filterable('projects')"
               :value="project.id"
               :key="project.id",
               :label="project.name")
@@ -138,7 +138,8 @@ export default {
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list',
-      included: 'actionEntityTable/included'
+      included: 'actionEntityTable/included',
+      filterable: 'actionEntityTable/filterable'
     }),
     entity() {
       return {

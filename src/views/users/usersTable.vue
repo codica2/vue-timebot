@@ -138,7 +138,8 @@ export default {
         name: this.temp.attributes.name,
         is_active: this.temp.attributes['is-active'],
         uid: this.temp.attributes.uid || this.temp.attributes.name,
-        team_id: this.temp.relationships.team.data.id
+        team_id: this.temp.relationships.team.data.id,
+        role: this.temp.attributes.role
       }
     }
   },

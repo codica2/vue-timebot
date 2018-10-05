@@ -60,17 +60,13 @@ export const mixDate = {
       const start = new Date('2018-08-12')
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       this.$store.dispatch('setRangeDate', [this.formatDate(start), this.formatDate(end)])
-      this.isAnswered = false
-      this.$store.dispatch('fetchChartByDate', { type: this.type, params: { start_date: this.date[0], end_date: this.date[1] }})
-        .then(() => {
-          this.isAnswered = true
-        })
     }
   }
 }
 export const mixValidationRules = {
   data() {
     const checkName = (rule, value, callback) => {
+      console.log(value)
       if (!value) {
         callback(new Error())
       } else {
@@ -100,7 +96,7 @@ export const mixValidationRules = {
         id: [{ validator: checkName, required: true, message: 'User is required', trigger: 'change' }],
         project: [{ validator: checkProject, required: true, message: 'Project is required', trigger: 'change' }],
         name: [{ validator: checkName, required: true, message: 'Name of project is requires', trigger: 'change' }],
-        alias: [{ validator: checkName, required: true, message: 'Alias of project is requires', trigger: 'change' }]
+        team: [{ required: true, message: 'Team is requires', trigger: 'change' }]
       }
     }
   }
@@ -127,7 +123,9 @@ export const mixDialog = {
           'is-active': false
         },
         relationships: {
-          team: {},
+          team: {
+            data: {}
+          },
           user: {
             data: {}
           },
@@ -169,7 +167,9 @@ export const mixDialog = {
           'is-active': false
         },
         relationships: {
-          team: {},
+          team: {
+            data: {}
+          },
           user: {
             data: {}
           },
@@ -325,6 +325,17 @@ export const mixQuery = {
       this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'users', query: query })
         .then(() => {
           this.loading = false
+        })
+    },
+    filter() {
+      console.log(this.entity)
+      this.$store.dispatch('actionEntityTable/setLoader', true)
+      this.$store.dispatch('actionEntityTable/setFilter', this.entity)
+        .then(() => {
+          this.$store.dispatch('actionEntityTable/fetchList', this.type)
+            .finally(() => {
+              this.$store.dispatch('actionEntityTable/setLoader', false)
+            })
         })
     }
   }
