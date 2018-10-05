@@ -1,7 +1,9 @@
 <template lang="pug">
   div(v-loading="!isAnswered" style="overflow: hidden; margin: 0 10px;")
+    div(class="timebot-header") Dashboard
     div(style="max-width: 500px")
-      div(class="dashboard-header-statistics")(v-if="date") Statistics for {{date[0]}} - {{date[1]}}
+      div(class="dashboard-header-statistics")(v-if="date") Statistics for&nbsp;
+        span {{date[0]}} - {{date[1]}}
       div(class="dashboard-subheader-statistics")
         div Hours to work: {{staticData('hours_to_work')}}
         div Hours worked: {{staticData('hours_worked')}}
@@ -113,18 +115,22 @@ export default {
   .chart-container {
     display: flex;
     flex-direction: row;
+
     .chart-wrapper{
       width: 33%;
       border: 2px solid #eaeaec;
-      border-radius: 2px;
+      border-radius: 4px;
+
       @media screen and (max-width: 768px) {
         width: 100%;
       }
     }
+
     @media screen and (max-width: 768px) {
       flex-direction: column;
     }
   }
+
   .highcharts-grid.highcharts-yaxis-grid {
     display: none;
   }

@@ -1,6 +1,7 @@
 <template lang="pug">
-  div Filters
-    div
+  div(class="time-entries-filters-container")
+    div(class="filters-header") Filters
+    div(class="time-entries-filters")
       el-select(
       v-model="searchParams.users",
       filterable,
@@ -17,7 +18,7 @@
         :label="user.name"
         :value="user.id"
         )
-    div
+    div(class="time-entries-filters")
       el-select(
       v-model="searchParams.projects"
       filterable
@@ -31,11 +32,11 @@
         :value="project.id"
         :key="project.id",
         :label="project.name")
-    div(v-for="(textarea, textareaIndex) in searchParams.textareas" :key="textareaIndex")
+    div(class="time-entries-filters")(v-for="(textarea, textareaIndex) in searchParams.textareas" :key="textareaIndex")
       el-input(type="textarea" v-model="textarea.input")
     el-date-picker(v-model="searchParams.searchDate" type="daterange" range-separator="To" start-placeholder="Start date"
     end-placeholder="End date")
-    div
+    div(style="margin: 20px 0 10px;")
       el-button(@click="filter") Filter
       el-button(type="primary") Clear Filters
 </template>
@@ -69,7 +70,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

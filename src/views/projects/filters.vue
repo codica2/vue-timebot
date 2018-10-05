@@ -1,15 +1,20 @@
 <template lang="pug">
-  div(style="width: 25%")
-    strong Filters
-    div
-      div Name
-        el-select(v-model="filter.name.trigger" placeholder="Select")
-          el-option(v-for="item in filterBy" :key="item.value" :label="item.label" :value="item.value")
-        el-input(v-model="filter.name.input")
-      div Alias
-        el-select(v-model="filter.alias.trigger" placeholder="Select")
-          el-option(v-for="item in filterBy" :key="item.value" :label="item.label" :value="item.value")
-        el-input(v-model="filter.alias.input")
+  div
+    div(class="filters-header") Filters
+    div(class="projects-filters")
+      div
+        div(style="margin: 10px 0;")
+          div(style="font-size: 14px;") Name
+          el-select(v-model="filter.name.trigger" placeholder="Select")(style="margin: 10px 0;")
+            el-option(v-for="item in filterBy" :key="item.value" :label="item.label" :value="item.value")
+          el-input(v-model="filter.name.input")
+      div
+        div(style="margin: 10px 0;")
+          div(style="font-size: 14px;") Alias
+          el-select(v-model="filter.alias.trigger" placeholder="Select")(style="margin: 10px 0;")
+            el-option(v-for="item in filterBy" :key="item.value" :label="item.label" :value="item.value")
+          el-input(v-model="filter.alias.input")
+    div(style="margin: 10px 0;")
       el-button() Filter
       el-button(@click="clearFilter") Clear Filter
 </template>

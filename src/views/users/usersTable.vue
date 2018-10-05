@@ -4,7 +4,7 @@
       div
         el-button(@click="handleCreate",
         class="filter-item",
-        style="margin-left: 10px;",
+        style="margin: 10px 0 20px;",
         type="primary",
         icon="el-icon-edit") Add new user
       el-table(
@@ -44,8 +44,7 @@
         :rules="rules"
         :model="temp.attributes"
         label-position="left"
-        label-width="70px"
-        style="width: 400px; margin-left:50px;")
+        label-width="70px")
           el-form-item(label="Name" prop="name")
             el-input(v-model="temp.attributes.name")
           el-form-item(label="Role")
@@ -63,13 +62,28 @@
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create") Create
           el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-        div {{temp.attributes.name}} Name
-        div {{temp.attributes.uid}} Uid
-        div {{temp.attributes.updated_at}} Updated at
-        div {{temp.attributes.is_speaking}} IS SPEAKING
-        div {{temp.attributes.is_active}} IS ACTIVE
-        div {{temp.attributes.team_id}} TEAM
-        div {{temp.attributes.last_message}} Last message
+        div(class="view-flex")
+          div
+            strong Name
+            div {{temp.attributes.name}}
+          div
+            strong Uid
+            div {{temp.attributes.uid}}
+          div
+            strong Updated at
+            div {{temp.attributes.updated_at}}
+          div
+            strong IS SPEAKING
+            div {{temp.attributes.is_speaking}}
+          div
+            strong IS ACTIVE
+            div {{temp.attributes.is_active}}
+          div
+            strong TEAM
+            div {{temp.attributes.team_id}}
+          div
+            strong Last message
+            div {{temp.attributes.last_message}}
 </template>
 
 <script>

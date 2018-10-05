@@ -1,5 +1,6 @@
 <template lang="pug">
-    div Admins
+    div
+      div(class="timebot-header") Admins
 </template>
 
 <script>

@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    div(class="timebot-header") Holidays
     holidaysTable
 </template>
 

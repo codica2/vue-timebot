@@ -10,7 +10,7 @@
         div
           el-button(@click="handleCreate",
           class="filter-item",
-          style="margin-left: 10px;",
+          style="margin: 10px 0 20px;",
           type="primary",
           icon="el-icon-edit") Add new project
       el-table(

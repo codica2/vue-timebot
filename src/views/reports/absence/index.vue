@@ -1,5 +1,6 @@
 <template lang="pug">
-    div Absence
+    div
+      div(class="timebot-header") Absence
 </template>
 
 <script>

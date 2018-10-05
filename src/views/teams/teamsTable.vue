@@ -4,7 +4,7 @@
       div
         el-button(@click="handleCreate",
         class="filter-item",
-        style="margin-left: 10px;",
+        style="margin: 10px 0 20px;",
         type="primary",
         icon="el-icon-edit") Add new team
       el-table(
@@ -37,8 +37,7 @@
         :rules="rules"
         :model="temp.attributes"
         label-position="left"
-        label-width="70px"
-        style="width: 400px; margin-left:50px;")
+        label-width="70px")
           el-form-item(label="Name")
             el-input(v-model="temp.attributes.name" clearable)
           el-form-item(label="Description")
@@ -48,8 +47,13 @@
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create()") Create
           el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-        div {{temp.attributes.name}} Name
-        div {{temp.attributes.description}} Description
+        div(class="view-flex")
+          div
+            strong Name
+            div {{temp.attributes.name}}
+          div
+            strong Description
+            div {{temp.attributes.description}}
 </template>
 
 <script>

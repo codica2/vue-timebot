@@ -57,10 +57,11 @@ export default {
 .hamburger.is-active {
   transform: rotate(0deg);
 }
+
 .title{
-  font-family: 'Gilgon';
-  font-size: 15px;
-  margin: 0 0 0 15px;
   color: #e43e47;
+  font-family: 'Gilgon';
+  font-size: 22px;
+  margin: 0 0 0 20px;
 }
 </style>
