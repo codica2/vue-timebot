@@ -1,15 +1,15 @@
 <template lang="pug">
-  div(v-loading="!isAnswered" style="overflow: hidden;")
+  div(v-loading="!isAnswered" style="overflow: hidden; margin: 0 10px;")
     div(style="max-width: 500px")
-      strong(v-if="date") Statistics for {{date[0]}} - {{date[1]}}
-      div
+      div(class="dashboard-header-statistics")(v-if="date") Statistics for {{date[0]}} - {{date[1]}}
+      div(class="dashboard-subheader-statistics")
         div Hours to work: {{staticData('hours_to_work')}}
         div Hours worked: {{staticData('hours_worked')}}
         div Holidays:
           div(v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
             div Name {{holiday[0]}}
             div Date {{holiday[1]}}
-      div
+      div(class="dashboard-statistics-datepicker")
         el-date-picker(
             v-model="date",
             :disabled="!isAnswered",
@@ -20,23 +20,24 @@
             :picker-options="pickerOptions",
             @change="setDate"
             end-placeholder="End date")
-    el-col(:xs="24" :sm="24" :lg="12")
-      .chart-wrapper
-        PieChart(
-        :title="chartData('projects').title"
-        :innerSize="chartData('projects').innerSize"
-        :chart="{ plotBackgroundColor: null, plotBorderWidth: 0, plotShadow: false, type: 'pie' }"
-        :plotOptions="{ pie: { dataLabels: { enabled: true, format: '<span><b>{point.name}</b>: {point.percentage:.1f}</span>', connectorColor: 'silver' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
-        :payloadData="chartData('projects').data"
-        )
-    el-col(:xs="24" :sm="24" :lg="12")
-      .chart-wrapper
-        PieChart(
-        :title="chartData('departments').title"
-        :chart="{ type: 'variablepie' }"
-        :payloadData="chartData('departments').data"
-        )
-    el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series')")
+    div(class="dashboard-graphics")
+      el-col(:xs="24" :sm="24" :lg="12")(class="dashboard-graphics-margin")
+        .chart-wrapper
+          PieChart(
+          :title="chartData('projects').title"
+          :innerSize="chartData('projects').innerSize"
+          :chart="{ plotBackgroundColor: null, plotBorderWidth: 0, plotShadow: false, type: 'pie' }"
+          :plotOptions="{ pie: { dataLabels: { enabled: true, format: '<span><b>{point.name}</b>: {point.percentage:.1f}</span>', connectorColor: 'silver' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
+          :payloadData="chartData('projects').data"
+          )
+      el-col(:xs="24" :sm="24" :lg="12")
+        .chart-wrapper
+          PieChart(
+          :title="chartData('departments').title"
+          :chart="{ type: 'variablepie' }"
+          :payloadData="chartData('departments').data"
+          )
+    el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series')")(class="dashboard-bt-graphics-margin")
       .chart-wrapper
         BarChart(
         :xAxisData="staticData('xAxisData')"
