@@ -37,7 +37,7 @@
             span {{ scope.row.attributes.details }}
         el-table-column(:label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
-            el-button(type="primary" size="mini" @click="handleView(scope.row)") View
+            el-button(type="info" size="mini" @click="handleView(scope.row)") View
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
             el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
       pagination(:type="type" v-if="list(type).length")

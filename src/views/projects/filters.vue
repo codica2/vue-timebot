@@ -25,7 +25,7 @@
             el-input(v-model="searchParams.alias")
     div(style="margin: 10px 0;")
       el-button() Filter
-      el-button(@click="clearFilter") Clear Filter
+      el-button(@click="clearFilter" type="info") Clear Filter
 </template>
 
 <script>

@@ -18,7 +18,7 @@
         placeholder="Please pick a date")
       div
         el-button(@click="filter") Filter
-        el-button(@click="clearFilter" type="primary") Clear Filters
+        el-button(@click="clearFilter" type="info") Clear Filters
 </template>
 
 <script>

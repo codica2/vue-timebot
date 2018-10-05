@@ -116,7 +116,14 @@
   background-color: #4fc3f7;
   border-color: #4fc3f7;
 }
-
+.el-button--info {
+  background-color: #1476cb;
+  border-color: #1476cb;
+  &:hover{
+    background-color: #0a79a4;
+    border-color: #0a79a4;
+  }
+}
 .el-button--primary:focus,
 .el-button--primary:hover {
   background: #409EFF;

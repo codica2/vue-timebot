@@ -39,7 +39,7 @@
         el-table-column(:label="$t('table.actions')"
         align="center" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
-            el-button(type="primary" size="mini" @click="handleView(scope.row)") View
+            el-button(type="info" size="mini" @click="handleView(scope.row)") View
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
             el-button(
             v-if="scope.row.status !== 'deleted'"
