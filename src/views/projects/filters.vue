@@ -19,12 +19,10 @@
             :value="project.name"
             :key="project.id",
             :label="project.name")
-          el-input(v-model="filter.name.input")
       div
         div(style="margin: 10px 0;")
           div(style="font-size: 14px;") Alias
             el-input(v-model="searchParams.alias")
-          el-input(v-model="filter.alias.input")
     div(style="margin: 10px 0;")
       el-button() Filter
       el-button(@click="clearFilter") Clear Filter

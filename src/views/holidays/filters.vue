@@ -1,22 +1,24 @@
 <template lang="pug">
   div Filters
-    div
+    div(class="filters-header") Filters
+    div(class="projects-filters")
       el-input(
         v-model="searchParams.holiday",
         placeholder="Please enter a keyword",
         clearable
       )
-    el-date-picker(
-    format="yyyy-MM-dd"
-    type="daterange",
-    range-separator="-",
-    value-format="yyyy-MM-dd"
-    v-model="searchParams.date"
-    :picker-options="pickerOptions",
-    placeholder="Please pick a date")
-    div
-      el-button(@click="filter") Filter
-      el-button(@click="clearFilter" type="primary") Clear Filters
+      div(style="margin: 10px 0;")
+        el-date-picker(
+        format="yyyy-MM-dd"
+        type="daterange",
+        range-separator="-",
+        value-format="yyyy-MM-dd"
+        v-model="searchParams.date"
+        :picker-options="pickerOptions",
+        placeholder="Please pick a date")
+      div
+        el-button(@click="filter") Filter
+        el-button(@click="clearFilter" type="primary") Clear Filters
 </template>
 
 <script>

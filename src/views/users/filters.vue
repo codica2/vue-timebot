@@ -1,26 +1,28 @@
 <template lang="pug">
-  div Filters
-    div
-      el-select(
-        v-model="searchParams.user",
-        filterable,
-        remote,
-        @focus="remoteGetUsers"
-        clearable,
-        placeholder="Please enter a keyword"
-        :remote-method="remoteGetUsers"
-      )
-        el-option(
-          v-for="user in filterable('users')"
-          :key="user.id"
-          :label="user.name"
-          :value="user.name"
+  div(class="time-entries-filters-container")
+    div(class="filters-header") Filters
+      div(class="time-entries-filters")
+        el-select(
+          v-model="searchParams.user",
+          filterable,
+          remote,
+          @focus="remoteGetUsers"
+          clearable,
+          placeholder="Please enter a keyword"
+          :remote-method="remoteGetUsers"
         )
-    div
-      el-checkbox(v-model="searchParams.status") Is Active
-    div
-      el-button(@click="filter") Filter
-      el-button(@click="clearFilter" type="primary") Clear Filters
+          el-option(
+            v-for="user in filterable('users')"
+            :key="user.id"
+            :label="user.name"
+            :value="user.name"
+          )
+      div
+        el-checkbox(v-model="searchParams.status") Is Active
+      div(style="margin: 20px 0 10px;")
+        div
+          el-button(@click="filter") Filter
+          el-button(@click="clearFilter" type="primary") Clear Filters
 </template>
 
 <script>

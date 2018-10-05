@@ -7,10 +7,10 @@
       div(class="dashboard-subheader-statistics")
         div Hours to work: {{staticData('hours_to_work')}}
         div Hours worked: {{staticData('hours_worked')}}
-        div Holidays:
-          div(v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
-            div Name {{holiday[0]}}
-            div Date {{holiday[1]}}
+        div(v-if="staticData('holidays').length") Holidays:
+          span(v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
+            span {{ holiday[0] }}&nbsp;
+            span {{ holiday[1] }}
       div(class="dashboard-statistics-datepicker")
         el-date-picker(
             v-model="date",

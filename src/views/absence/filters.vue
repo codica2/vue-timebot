@@ -1,6 +1,7 @@
 <template lang="pug">
   div Filters
-    div
+    div(class="filters-header") Filters
+    div(class="projects-filters")
       el-select(
         v-model="searchParams.user",
         filterable,
@@ -16,34 +17,35 @@
           :label="user.name"
           :value="user.id"
         )
-    div
-      el-select(
-      v-model="searchParams.reason"
-      placeholder="Please select"
-      )
-        el-option(
-        value=""
-        label="Any")
-        el-option(
-        value="vacation"
-        label="Vacation")
-        el-option(
-        value="illness"
-        label="Illness")
-        el-option(
-        value="other"
-        label="Other")
-    el-date-picker(
-      format="yyyy-MM-dd"
-      type="daterange",
-      range-separator="-",
-      value-format="yyyy-MM-dd"
-      v-model="searchParams.date"
-      :picker-options="pickerOptions",
-      placeholder="Please pick a date")
-    div
-      el-button(@click="filter") Filter
-      el-button(@click="clearFilter" type="primary") Clear Filters
+      div(style="margin: 10px 0;")
+        el-select(
+        v-model="searchParams.reason"
+        placeholder="Please select"
+        )
+          el-option(
+          value=""
+          label="Any")
+          el-option(
+          value="vacation"
+          label="Vacation")
+          el-option(
+          value="illness"
+          label="Illness")
+          el-option(
+          value="other"
+          label="Other")
+      div(style="margin: 10px 0;")
+        el-date-picker(
+          format="yyyy-MM-dd"
+          type="daterange",
+          range-separator="-",
+          value-format="yyyy-MM-dd"
+          v-model="searchParams.date"
+          :picker-options="pickerOptions",
+          placeholder="Please pick a date")
+      div
+        el-button(@click="filter") Filter
+        el-button(@click="clearFilter" type="primary") Clear Filters
 </template>
 
 <script>

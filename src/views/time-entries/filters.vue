@@ -40,9 +40,9 @@
       type="date"
       placeholder="Please pick a date")
     div(style="margin: 20px 0 10px;")
-    div
-      el-button(@click="filter") Filter
-      el-button(@click="clearFilter" type="primary") Clear Filters
+      div
+        el-button(@click="filter") Filter
+        el-button(@click="clearFilter" type="primary") Clear Filters
 </template>
 
 <script>
