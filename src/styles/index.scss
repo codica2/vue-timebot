@@ -22,7 +22,9 @@ html {
   height: 100%;
   box-sizing: border-box;
 }
-
+.el-loading-spinner{
+  position: fixed;
+}
 .highcharts-credits {
   display: none;
 }
