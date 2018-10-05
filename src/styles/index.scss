@@ -212,3 +212,31 @@ code {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+.dashboard-header-statistics {
+  font-family: $title-ff-semi-bold;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.dashboard-subheader-statistics {
+  font-family: $title-ff-regular;
+  font-size: 14px;
+}
+
+.dashboard-statistics-datepicker {
+  margin: 20px 0;
+}
+
+.dashboard-graphics {
+  @include center-between();
+}
+
+.dashboard-graphics-margin {
+  margin: 0 20px 0 0;
+}
+
+.dashboard-bt-graphics-margin {
+  margin: 20px 0
+}

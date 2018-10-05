@@ -4,7 +4,7 @@
     transition: all .3s linear;
     margin-left: 180px;
     position: relative;
-    padding: 10px;
+    padding: 20px;
     background: #f5f7fb;
   }
   .sidebar-container {
@@ -29,7 +29,7 @@
       }
     }
     .el-scrollbar__bar.is-vertical{
-      right: 0px;
+      right: 0;
     }
     .is-horizontal {
       display: none;
