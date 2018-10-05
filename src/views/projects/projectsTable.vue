@@ -56,8 +56,6 @@
       style="width: 400px; margin-left:50px;")
         el-form-item(label="Name" prop="name")
           el-input(placeholder="Please input" v-model="temp.attributes.name" clearable)
-        el-form-item(label="Alias" prop="alias")
-          el-input(placeholder="Please input" v-model="temp.attributes.alias" clearable)
         el-form-item(label="Team")
           el-select(v-if="temp.relationships.team.data" v-model="temp.relationships.team.data.id" placeholder="Select")
             el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team.id")

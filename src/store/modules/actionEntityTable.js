@@ -3,6 +3,7 @@ import { setQuery } from '@/api/queryConst'
 const actionEntityTable = {
   namespaced: true,
   state: {
+    loader: false,
     pagination: {
       page: 1,
       limit: 30,
@@ -12,44 +13,43 @@ const actionEntityTable = {
     filters: {
     },
     projects: {
-      list: []
+      list: [],
+      filterable: []
     },
     'time-entries': {
       list: [],
-      included: []
+      included: [],
+      filterable: []
     },
     users: {
-      list: []
+      list: [],
+      filterable: []
     },
     teams: {
-      list: []
+      list: [],
+      filterable: []
     },
     holidays: {
-      list: []
+      list: [],
+      filterable: []
     },
     absences: {
       list: [],
-      included: []
+      included: [],
+      filterable: []
     }
   },
   getters: {
     list: (state) => type => state[type].list,
+    filterable: (state) => type => state[type].filterable,
     included: (state) => type => state[type].included,
-    pagination: (state) => state.pagination
+    pagination: (state) => state.pagination,
+    loader: (state) => state.loader
   },
   actions: {
-    clearStore({ state, commit }) {
-      commit('CLEAR_STORE')
-    },
-    setFilter({ state, commit }, payload) {
-      return new Promise((resolve, reject) => {
-        commit('SET_FILTER', { data: payload })
-        resolve()
-      })
-    },
     fetchList({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
-        Api.fetchList(setQuery(payload), { pagination: { page: state.pagination.page, 'per_page': state.pagination.limit }, params: state.filters })
+        Api.fetchList(setQuery(payload), { page: state.pagination.page, 'per_page': state.pagination.limit, ...state.filters })
           .then((response) => {
             commit('FETCH_LIST', { data: response.data, type: payload })
             resolve()
@@ -115,11 +115,23 @@ const actionEntityTable = {
           .catch(err => console.log(err))
       })
     },
+    clearStore({ state, commit }) {
+      commit('CLEAR_STORE')
+    },
+    setFilter({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        commit('SET_FILTER', { data: payload })
+        resolve()
+      })
+    },
     setPagination({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
         commit('SET_PAGINATION', payload)
         resolve()
       })
+    },
+    setLoader({ state, commit }, payload) {
+      commit('SET_LOADER', payload)
     }
   },
   mutations: {
@@ -134,7 +146,7 @@ const actionEntityTable = {
       }
     },
     SET_FILTER(state, payload) {
-      state.filters = payload
+      state.filters = payload.data
     },
     CREATE_ENTITY(state, payload) {
       console.log(payload)
@@ -145,7 +157,7 @@ const actionEntityTable = {
         q.id = `${q.id}`
         return q
       })
-      state[payload.type].list = payload.data.data
+      state[payload.type].filterable = payload.data.data
     },
     UPDATE_ENTITY(state, payload) {
       state[payload.type].list.splice(payload.index, 1, payload.data)
@@ -162,24 +174,32 @@ const actionEntityTable = {
     },
     CLEAR_STORE(state, payload) {
       state.projects = {
-        list: []
+        list: [],
+        filterable: []
       }
       state['time-entries'] = {
         list: [],
-        included: []
+        included: [],
+        filterable: []
       }
       state.users = {
-        list: []
+        list: [],
+        filterable: []
       }
       state.teams = {
-        list: []
+        list: [],
+        filterable: []
       }
       state.holidays = {
-        list: []
+        list: [],
+        filterable: []
       }
       state.absences = {
         list: [],
-        included: []
+        included: [],
+        filterable: []
+      }
+      state.filters = {
       }
       state.pagination = {
         page: 1,
@@ -187,6 +207,9 @@ const actionEntityTable = {
         total: 10,
         sort: '+id'
       }
+    },
+    SET_LOADER(state, payload) {
+      state.loader = payload
     }
   }
 }

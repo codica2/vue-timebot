@@ -92,6 +92,13 @@ export default {
       'barDataNames'
     ])
   },
+  mounted() {
+    this.isAnswered = false
+    this.$store.dispatch('fetchChartByDate', { type: this.type, params: { start_date: this.date[0], end_date: this.date[1] }})
+      .then(() => {
+        this.isAnswered = true
+      })
+  },
   methods: {
     setDate() {
       this.isAnswered = false

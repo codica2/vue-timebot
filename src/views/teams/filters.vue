@@ -1,13 +1,12 @@
 <template lang="pug">
-  div(class="time-entries-filters-container")
-    div(class="filters-header") Filters
-    div(class="time-entries-filters")
+  div Filters
+    div
       el-select(
-        v-model="searchParams.users",
+        v-model="searchParams.user",
         filterable,
         remote,
         @focus="remoteGetUsers"
-        multiple,
+        clearable,
         placeholder="Please enter a keyword"
         :remote-method="remoteGetUsers"
       )
@@ -17,29 +16,21 @@
           :label="user.name"
           :value="user.id"
         )
-    div(class="time-entries-filters")
+    div
       el-select(
-        v-model="searchParams.projects"
+        v-model="searchParams.project"
         filterable
         remote,
-        multiple,
         @focus="remoteGetProjects"
+        clearable,
         placeholder="Please enter a keyword"
         :remote-method="remoteGetProjects"
       )
-        el-option(v-for="project in filterable('projects')"
+        el-option(
+          v-for="project in filterable('projects')"
           :value="project.id"
           :key="project.id",
           :label="project.name")
-    div.time-entries-filters
-      el-input(type="textarea" v-model="searchParams.ticket")
-    el-date-picker(
-      format="yyyy-MM-dd"
-      value-format="yyyy-MM-dd"
-      v-model="searchParams.date"
-      type="date"
-      placeholder="Please pick a date")
-    div(style="margin: 20px 0 10px;")
     div
       el-button(@click="filter") Filter
       el-button(@click="clearFilter" type="primary") Clear Filters
@@ -52,12 +43,13 @@ export default {
   name: 'Filters',
   mixins: [mixin.mixQuery, mixin.mixIncludes],
   data: () => ({
-    type: 'time-entries',
+    type: 'teams',
     searchParams: {
-      ticket: '',
-      date: [],
-      users: [],
-      projects: []
+      textareas: [
+        { input: '' }
+      ],
+      user: '',
+      project: ''
     }
   }),
   computed: {
@@ -66,23 +58,23 @@ export default {
     }),
     entity() {
       return {
-        date_from: this.searchParams.date[0],
-        date_to: this.searchParams.date[1],
-        by_projects: this.searchParams.projects,
-        by_users: this.searchParams.users,
-        with_ticket: this.searchParams.ticket
+        by_project: this.searchParams.project,
+        by_user: this.searchParams.user
       }
     }
   },
   methods: {
     clearFilter() {
       this.searchParams = {
-        ticket: '',
         date: [],
-        users: [],
-        projects: []
+        user: '',
+        project: ''
       }
     }
   }
 }
 </script>
+
+<style scoped>
+
+</style>

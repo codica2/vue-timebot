@@ -1,18 +1,27 @@
 <template lang="pug">
-    div
+    div(v-loading="loader")
       div(class="timebot-header") Users
+      filters
       usersTable
 </template>
 
 <script>
 import usersTable from './usersTable'
+import filters from './filters'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Users',
   components: {
-    usersTable
+    usersTable,
+    filters
   },
   data: () => ({
-  })
+  }),
+  computed: {
+    ...mapGetters({
+      loader: 'actionEntityTable/loader'
+    })
+  }
 }
 </script>
 
