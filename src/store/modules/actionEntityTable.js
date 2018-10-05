@@ -9,6 +9,8 @@ const actionEntityTable = {
       total: 10,
       sort: '+id'
     },
+    filters: {
+    },
     projects: {
       list: []
     },
@@ -38,6 +40,12 @@ const actionEntityTable = {
   actions: {
     clearStore({ state, commit }) {
       commit('CLEAR_STORE')
+    },
+    setFilter({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        commit('SET_FILTER', { data: payload })
+        resolve()
+      })
     },
     fetchList({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
@@ -124,6 +132,9 @@ const actionEntityTable = {
       if (payload.data.meta) {
         state.pagination.total = payload.data.meta['total-count']
       }
+    },
+    SET_FILTER(state, payload) {
+      state.filters = payload
     },
     CREATE_ENTITY(state, payload) {
       console.log(payload)

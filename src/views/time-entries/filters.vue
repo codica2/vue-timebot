@@ -79,7 +79,10 @@ export default {
   },
   methods: {
     filter() {
-        this.$store.dispatch('actionEntityTable/fetchList', { type: this.type, params: this.entity })
+      this.$store.dispatch('actionEntityTable/setFilter', this.entity)
+        .then(() => {
+          this.$store.dispatch('actionEntityTable/fetchList', this.type)
+        })
     }
   }
 }
