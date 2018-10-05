@@ -1,5 +1,6 @@
 <template lang="pug">
-    div Users
+    div
+      div(class="timebot-header") Users
       usersTable
 </template>
 

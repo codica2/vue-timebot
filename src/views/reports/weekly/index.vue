@@ -1,5 +1,6 @@
 <template lang="pug">
-    div Weekly
+    div
+      div(class="timebot-header") Weekly
 </template>
 <script>
 export default {

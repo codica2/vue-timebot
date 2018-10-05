@@ -11,29 +11,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
-}
-
-@font-face {
-  font-family: Gilgon;
-  src: url(../../static/GILGON__.ttf);
+  font-family: $main-ff-regular;
 }
 
 label {
   font-weight: 700;
-}
-
-.highcharts-credits{
-  display: none;
-}
-
-span,
-tspan,
-input,
-a,
-div,
-button{
-  font-family: monospace;
 }
 
 html {
@@ -41,7 +23,11 @@ html {
   box-sizing: border-box;
 }
 
-#app{
+.highcharts-credits {
+  display: none;
+}
+
+#app {
   //height: 100%;
 }
 
@@ -55,8 +41,9 @@ html {
   border: 1px solid #eaeaec;
   border-radius: 4px;
 }
+
 .no-padding {
-  padding: 0px !important;
+  padding: 0 !important;
 }
 
 .padding-content {
@@ -76,9 +63,9 @@ a:hover {
   text-decoration: none;
 }
 
-div:focus{
+div:focus {
   outline: none;
- }
+}
 
 .fr {
   float: right;
@@ -136,14 +123,14 @@ code {
   }
 }
 
-.warn-content{
-  background: rgba(66,185,131,.1);
+.warn-content {
+  background: rgba(66, 185, 131, .1);
   border-radius: 2px;
   padding: 16px;
   padding: 1rem;
   line-height: 1.6rem;
   word-spacing: .05rem;
-  a{
+  a {
     color: #42b983;
     font-weight: 600;
   }
@@ -198,6 +185,7 @@ code {
 
 .filter-container {
   padding-bottom: 10px;
+
   .filter-item {
     display: inline-block;
     vertical-align: middle;
@@ -214,10 +202,14 @@ code {
 }
 
 .dashboard-header-statistics {
-  font-family: $title-ff-semi-bold;
-  font-size: 24px;
-  font-weight: bold;
-  margin: 10px 0;
+  font-family: $title-ff-medium;
+  font-size: 20px;
+  margin: 10px 0 0;
+
+  span {
+    font-size: 16px;
+    text-decoration: underline;
+  }
 }
 
 .dashboard-subheader-statistics {
@@ -239,4 +231,115 @@ code {
 
 .dashboard-bt-graphics-margin {
   margin: 20px 0
+}
+
+.timebot-header {
+  color: #232323;
+  font-family: $title-ff-medium;
+  font-size: 24px;
+  line-height: normal;
+}
+
+.filters-header {
+  color: #232323;
+  font-family: $title-ff-medium;
+  font-size: 18px;
+  line-height: normal;
+  margin: 10px 0 0 0;
+}
+
+.el-dialog {
+  max-width: 380px !important;
+
+  .el-dialog__header {
+    .el-dialog__title {
+      font-family: $title-ff-medium;
+    }
+  }
+}
+
+.el-message-box__title {
+  span {
+    font-family: $title-ff-medium;
+  }
+}
+
+.el-form-item__label {
+  float: none;
+}
+
+.el-form-item__content {
+  margin-left: 0 !important;
+}
+
+.el-dialog__body {
+  padding: 10px 20px;
+
+  form {
+    margin-left: 0 !important;
+    width: auto !important;
+  }
+}
+
+.el-form-item__content {
+  .el-select {
+    display: block;
+  }
+}
+
+.el-select {
+  display: block;
+}
+
+.el-form-item {
+  margin-bottom: 10px;
+}
+
+.el-dialog__footer {
+  padding: 0 20px 20px;
+  text-align: left;
+}
+
+.projects-filters {
+  @include flexbox();
+  @include justify-content(space-between);
+  width: 25%;
+
+  @media (max-width: 767px) {
+    display: block;
+    width: 100%;
+  }
+}
+
+.time-entries-filters-container {
+  width: 25%;
+
+  .time-entries-filters {
+    margin: 10px 0;
+    .el-textarea {
+      display: inline-block;
+      width: 100%;
+      vertical-align: bottom;
+      font-size: 14px;
+    }
+  }
+  .el-range-editor--medium.el-input__inner {
+    width: 100%;
+  }
+
+}
+
+.highcharts-root {
+  border-radius: 4px !important;
+}
+
+.highcharts-title {
+  font-family: $title-ff-medium;
+  font-size: 20px !important;
+}
+
+.view-flex {
+  div {
+    margin-bottom: 10px;
+  }
 }

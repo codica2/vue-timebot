@@ -4,7 +4,7 @@
       div
         el-button(@click="handleCreate",
         class="filter-item",
-        style="margin-left: 10px;",
+        style="margin: 10px 0 20px;",
         type="primary",
         icon="el-icon-edit") Add new time entry
       el-table(
@@ -93,16 +93,32 @@
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="createEntityMod()") Create
           el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-        div {{temp.relationships.user.data.id}} User
-        div {{temp.attributes.date}} Date
-        div {{temp.attributes.details}} Details
-        div {{temp.id}} Id
-        div {{temp.attributes.time}} Minutes
-        div {{temp.relationships.project.data.id}} Project
-        div {{temp.attributes.details}} Ticket
-        div {{temp.attributes['trello-labels']}} Trello labels
+        div(class="view-flex")
+          div
+            strong User
+            div {{temp.relationships.user.data.id}}
+          div
+            strong Date
+            div {{temp.attributes.date}}
+          div
+            strong Details
+            div {{temp.attributes.details}}
+          div
+            strong Id
+            div {{temp.id}}
+          div
+            strong Minutes
+            div {{temp.attributes.time}}
+          div
+            strong Project
+            div {{temp.relationships.project.data.id}}
+          div
+            strong Ticket
+            div {{temp.attributes.details}}
+          div
+            strong Trello labels
+            div {{temp.attributes['trello-labels']}}
 </template>
-
 <script>
 import { mapGetters } from 'vuex'
 import * as mixin from '@/mixins/index'

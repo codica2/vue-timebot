@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    div(class="timebot-header") Time entries
     filters
     time-entries-table
 </template>
@@ -17,6 +18,3 @@ export default {
   })
 }
 </script>
-
-<style lang="scss">
-</style>

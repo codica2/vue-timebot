@@ -1,5 +1,6 @@
 <template lang="pug">
-  div Estimations
+  div
+    div(class="timebot-header") Estimations
 </template>
 
 <script>

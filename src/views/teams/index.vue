@@ -1,5 +1,6 @@
 <template lang="pug">
-    div Teams
+    div
+      div(class="timebot-header") Teams
       teamsTable
 </template>
 

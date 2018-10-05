@@ -10,7 +10,7 @@
         div
           el-button(@click="handleCreate",
           class="filter-item",
-          style="margin-left: 10px;",
+          style="margin: 10px 0 20px;",
           type="primary",
           icon="el-icon-edit") Add new project
       el-table(
@@ -68,11 +68,17 @@
         el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
         el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") Update
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-      div {{temp.id}} Id
-      div {{temp.attributes.name}} Project
-      div {{temp.attributes.alias}} Alias
-      div(slot="footer" class="dialog-footer")
-        el-button(@click="dialogViewVisible = false") Close
+      div(class="view-flex")
+        div
+          strong Id
+          div {{temp.id}}
+        div
+          strong Project
+          div {{temp.attributes.name}}
+        div
+          strong Alias
+          div {{temp.attributes.alias}}
+        div(slot="footer" class="dialog-footer")
 </template>
 
 <script>

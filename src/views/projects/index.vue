@@ -1,6 +1,6 @@
 <template lang="pug">
     div
-      div
+      div(class="timebot-header") Projects
         <!--div-->
           <!--strong(v-if="date") Statistics for {{date[0]}} - {{date[1]}}-->
         <!--el-select(v-model="value" placeholder="Select")-->
