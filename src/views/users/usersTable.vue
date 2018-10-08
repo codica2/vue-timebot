@@ -73,9 +73,6 @@
             strong Updated at
             div {{temp.attributes.updated_at}}
           div
-            strong IS SPEAKING
-            div {{temp.attributes.is_speaking}}
-          div
             strong IS ACTIVE
             div {{temp.attributes.is_active}}
           div

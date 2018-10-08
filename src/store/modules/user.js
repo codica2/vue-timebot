@@ -1,5 +1,6 @@
 import { loginByUsername, logout, getUserInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { setQuery } from '@/api/queryConst'
 
 const user = {
   state: {
@@ -39,46 +40,47 @@ const user = {
       state.avatar = avatar
     },
     SET_ROLES: (state, roles) => {
-      state.roles = roles
+      state.roles = ['admin']
     }
   },
 
   actions: {
     LoginByUsername({ commit }, userInfo) {
-      const username = userInfo.username.trim()
+      const email = userInfo.payload.email.trim()
       return new Promise((resolve, reject) => {
-        loginByUsername(username, userInfo.password).then(response => {
+        loginByUsername(setQuery(userInfo.type), email, userInfo.payload.password).then(response => {
           const data = response.data
           commit('SET_TOKEN', data.token)
-          setToken(response.data.token)
+          setToken(data.token, data.exp)
           resolve()
         }).catch(error => {
           reject(error)
         })
       })
     },
-
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getUserInfo(state.token).then(response => {
-          if (!response.data) {
-            reject('error')
-          }
-          const data = response.data
-
-          if (data.roles && data.roles.length > 0) {
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          commit('SET_INTRODUCTION', data.introduction)
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+        commit('SET_ROLES')
+        resolve({ data: { roles: ['admin'] }})
+        // getUserInfo(state.token).then(response => {
+        //   if (!response.data) {
+        //     reject('error')
+        //   }
+        //   const data = response.data
+        //
+        //   if (data.roles && data.roles.length > 0) {
+        //     commit('SET_ROLES', data.roles)
+        //   } else {
+        //     reject('getInfo: roles must be a non-null array !')
+        //   }
+        //
+        //   commit('SET_NAME', data.name)
+        //   commit('SET_AVATAR', data.avatar)
+        //   commit('SET_INTRODUCTION', data.introduction)
+        //   resolve(response)
+        // }).catch(error => {
+        //   reject(error)
+        // })
       })
     },
     LogOut({ commit, state }) {

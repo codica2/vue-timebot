@@ -63,6 +63,7 @@ export const mixDate = {
     }
   }
 }
+
 export const mixValidationRules = {
   data() {
     const checkName = (rule, value, callback) => {
