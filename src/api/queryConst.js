@@ -9,5 +9,6 @@ export const setQuery = (payload) => {
     case 'absences': return '/api/v1/absences'
     case 'estimationReports': return '/api/v1/reports/estimation_reports'
     case 'timeReports': return '/api/v1/reports/time_reports'
+    case 'login': return '/api/v1/auth/sessions'
   }
 }
