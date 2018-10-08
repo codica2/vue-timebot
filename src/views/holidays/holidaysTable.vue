@@ -6,7 +6,7 @@
         class="filter-item",
         style="margin: 10px 0 20px;",
         type="primary",
-        icon="el-icon-edit") Add new team
+        icon="el-icon-edit") Add new holiday
       el-table(
       v-loading="listLoading"
       :key="tableKey"

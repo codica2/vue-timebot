@@ -12,7 +12,7 @@
           class="filter-item",
           style="margin: 10px 0 20px;",
           type="primary",
-          icon="el-icon-edit") Add new project
+          icon="el-icon-edit") Add new absence
       el-table(
       ref="multipleTable"
       @selection-change="handleSelectionChange"
@@ -67,11 +67,12 @@
             placeholder="Please enter a keyword"
             :remote-method="remoteGetUsers"
             :loading="loading"
+            clearable
           )
             el-option(
-              v-for="user in list('absences')"
+              v-for="user in filterable('users')"
               :key="user.id"
-              :label="user.attributes.name"
+              :label="user.name"
               :value="user.id"
             )
         el-form-item(label="Date" prop="date")
@@ -119,6 +120,7 @@ export default {
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list',
+      filterable: 'actionEntityTable/filterable',
       included: 'actionEntityTable/included'
     }),
     entity() {

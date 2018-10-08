@@ -94,11 +94,14 @@ const charts = {
     }
   },
   actions: {
-    async fetchChartByDate({ state, commit }, payload) {
-      await Api.fetchChartByDate(setQuery(payload.type), payload.params)
-        .then((res) => {
-          commit('FETCH_CHART_BY_DATE', res)
-        })
+    fetchChartByDate({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        Api.fetchChartByDate(setQuery(payload.type), payload.params)
+          .then((res) => {
+            commit('FETCH_CHART_BY_DATE', res)
+            resolve()
+          })
+      })
     },
     setRangeDate({ state, commit }, payload) {
       commit('SET_RANGE_DATE', payload)

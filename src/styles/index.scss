@@ -22,9 +22,6 @@ html {
   height: 100%;
   box-sizing: border-box;
 }
-.el-loading-spinner{
-  position: fixed;
-}
 .highcharts-credits {
   display: none;
 }
@@ -345,4 +342,9 @@ code {
   div {
     margin-bottom: 10px;
   }
+}
+.el-table--border th, .el-table__fixed-right-patch{
+  font-size: 14px;
+  background: #ebeef5;
+  font-family: "Poppins-Medium", sans-serif;
 }

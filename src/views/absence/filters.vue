@@ -2,39 +2,42 @@
   div Filters
     div(class="filters-header") Filters
     div(class="projects-filters")
-      el-select(
-        v-model="searchParams.user",
-        filterable,
-        remote,
-        clearable,
-        @focus="remoteGetUsers"
-        placeholder="Please enter a keyword"
-        :remote-method="remoteGetUsers"
-      )
-        el-option(
-          v-for="user in filterable('users')"
-          :key="user.id"
-          :label="user.name"
-          :value="user.id"
-        )
-      div(style="margin: 10px 0;")
+      div(style="font-size: 14px;") User name
         el-select(
-        v-model="searchParams.reason"
-        placeholder="Please select"
+          v-model="searchParams.user",
+          filterable,
+          remote,
+          clearable,
+          @focus="remoteGetUsers"
+          placeholder="Please enter a keyword"
+          :remote-method="remoteGetUsers"
         )
           el-option(
-          value=""
-          label="Any")
-          el-option(
-          value="vacation"
-          label="Vacation")
-          el-option(
-          value="illness"
-          label="Illness")
-          el-option(
-          value="other"
-          label="Other")
+            v-for="user in filterable('users')"
+            :key="user.id"
+            :label="user.name"
+            :value="user.id"
+          )
       div(style="margin: 10px 0;")
+        div(style="font-size: 14px;") Reason
+          el-select(
+          v-model="searchParams.reason"
+          placeholder="Please select"
+          )
+            el-option(
+            value=""
+            label="Any")
+            el-option(
+            value="vacation"
+            label="Vacation")
+            el-option(
+            value="illness"
+            label="Illness")
+            el-option(
+            value="other"
+            label="Other")
+      div(style="margin: 10px 0;")
+        div(style="font-size: 14px;") Date
         el-date-picker(
           format="yyyy-MM-dd"
           type="daterange",

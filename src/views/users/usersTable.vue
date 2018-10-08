@@ -107,6 +107,10 @@ export default {
           value: 'front_end'
         },
         {
+          label: 'Design',
+          value: 'design'
+        },
+        {
           label: 'PM',
           value: 'pm'
         },

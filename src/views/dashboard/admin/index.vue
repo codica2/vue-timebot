@@ -6,7 +6,7 @@
         span {{date[0]}} - {{date[1]}}
       div(class="dashboard-subheader-statistics")
         div Hours to work: {{staticData('hours_to_work')}}
-        div Hours worked: {{staticData('hours_worked')}}
+        div Hours worked: {{Math.round(staticData('hours_worked'))}}
         div(v-if="staticData('holidays').length") Holidays:
           span(v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
             span {{ holiday[0] }}&nbsp;
@@ -45,6 +45,7 @@
         :xAxisData="staticData('xAxisData')"
         :series="staticData('series')"
         )
+    div(v-if="staticData('absent').length" class="dashboard-header-statistics") Absence
     tree-table(v-if="staticData('absent').length" :data="staticData('absent')" :eval-func="func" :eval-args="args" border)
       el-table-column(label="Date")
         template(slot-scope="scope")

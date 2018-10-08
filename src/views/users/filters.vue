@@ -2,23 +2,26 @@
   div(class="time-entries-filters-container")
     div(class="filters-header") Filters
       div(class="time-entries-filters")
-        el-select(
-          v-model="searchParams.user",
-          filterable,
-          remote,
-          @focus="remoteGetUsers"
-          clearable,
-          placeholder="Please enter a keyword"
-          :remote-method="remoteGetUsers"
-        )
-          el-option(
-            v-for="user in filterable('users')"
-            :key="user.id"
-            :label="user.name"
-            :value="user.name"
+        div(style="font-size: 14px;") User name
+          el-select(
+            v-model="searchParams.user",
+            filterable,
+            remote,
+            @focus="remoteGetUsers"
+            clearable,
+            placeholder="Please enter a user"
+            :remote-method="remoteGetUsers"
           )
+            el-option(
+              v-for="user in filterable('users')"
+              :key="user.id"
+              :label="user.name"
+              :value="user.name"
+            )
       div
-        el-checkbox(v-model="searchParams.status") Is Active
+        small Status
+        div
+          el-checkbox(v-model="searchParams.status") Is Active
       div(style="margin: 20px 0 10px;")
         div
           el-button(@click="filter") Filter

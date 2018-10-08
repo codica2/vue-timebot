@@ -66,7 +66,6 @@ export const mixDate = {
 export const mixValidationRules = {
   data() {
     const checkName = (rule, value, callback) => {
-      console.log(value)
       if (!value) {
         callback(new Error())
       } else {
@@ -226,8 +225,8 @@ export const mixQuery = {
         this.$store.dispatch('actionEntityTable/fetchList', this.type)
           .then(() => {
             this.listLoading = false
+            resolve()
           })
-        resolve()
       })
     },
     removeEntity(row, status) {

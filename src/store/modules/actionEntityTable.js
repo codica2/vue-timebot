@@ -37,6 +37,9 @@ const actionEntityTable = {
       list: [],
       included: [],
       filterable: []
+    },
+    estimationReports: {
+      list: []
     }
   },
   getters: {
@@ -49,6 +52,7 @@ const actionEntityTable = {
   actions: {
     fetchList({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
+        console.log(state.filters)
         Api.fetchList(setQuery(payload), { page: state.pagination.page, 'per_page': state.pagination.limit, ...state.filters })
           .then((response) => {
             commit('FETCH_LIST', { data: response.data, type: payload })
@@ -79,7 +83,7 @@ const actionEntityTable = {
         Api.createEntity(payload.row, setQuery(payload.type))
           .then((response) => {
             console.log(response)
-            commit('CREATE_ENTITY', { data: response.data.data, type: payload.type })
+            commit('CREATE_ENTITY', { data: response.data, type: payload.type })
             resolve()
           })
           .catch(() => {
@@ -94,7 +98,7 @@ const actionEntityTable = {
             for (const v of state[payload.type].list) {
               if (v.id === payload.row.id) {
                 const index = state[payload.type].list.indexOf(v)
-                commit('UPDATE_ENTITY', { index, data: res.data.data, type: payload.type })
+                commit('UPDATE_ENTITY', { index, data: res.data, type: payload.type })
                 break
               }
             }
@@ -142,15 +146,17 @@ const actionEntityTable = {
         state[payload.type].included = payload.data.included
       }
       if (payload.data.meta) {
-        state.pagination.total = payload.data.meta['total-count']
+        state.pagination.total = payload.data.meta['total-count'] || payload.data.meta['total_count']
       }
     },
     SET_FILTER(state, payload) {
       state.filters = payload.data
     },
     CREATE_ENTITY(state, payload) {
-      console.log(payload)
-      state[payload.type].list.unshift(payload.data)
+      state[payload.type].list.unshift(payload.data.data)
+      if (payload.data.included) {
+        state[payload.type].included = [...state[payload.type].included, ...payload.data.included]
+      }
     },
     FETCH_ENTITY_BY_NAME(state, payload) {
       payload.data.data.filter(q => {
@@ -160,7 +166,10 @@ const actionEntityTable = {
       state[payload.type].filterable = payload.data.data
     },
     UPDATE_ENTITY(state, payload) {
-      state[payload.type].list.splice(payload.index, 1, payload.data)
+      state[payload.type].list.splice(payload.index, 1, payload.data.data)
+      if (payload.data.included) {
+        state[payload.type].included = [...state[payload.type].included, ...payload.data.included]
+      }
     },
     DELETE_ENTITY(state, payload) {
       state[payload.type].list.splice(payload.index, 1)
