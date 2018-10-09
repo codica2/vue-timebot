@@ -86,11 +86,9 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      'chartDataNames',
       'chartData',
       'tickets',
-      'staticData',
-      'barDataNames'
+      'staticData'
     ])
   },
   mounted() {

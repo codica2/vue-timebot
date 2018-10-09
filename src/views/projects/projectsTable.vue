@@ -16,7 +16,7 @@
       el-table(
         ref="multipleTable"
         @selection-change="handleSelectionChange"
-        v-loading="listLoading"
+        v-loading="loader"
         :key="tableKey"
         :data="list(type)"
         border
@@ -98,7 +98,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list'
+      list: 'actionEntityTable/list',
+      loader: 'actionEntityTable/loader'
     }),
     entity() {
       return {

@@ -51,34 +51,10 @@ const charts = {
     },
     staticData: (state) => path => state[path],
     rangeDate: (state) => state.rangeDate,
-    tickets: (state) => state.tickets,
-    chartDataNames: (state) => path => {
-      let arr = []
-      arr = JSON.parse(JSON.stringify(state[path].data))
-      arr.filter(pt => {
-        delete pt.value
-        return pt
-      })
-      return arr
-    },
-    barDataNames: (state) => {
-      let arr = []
-      const arrNames = []
-      arr = JSON.parse(JSON.stringify(state.series))
-      arr.forEach(item => {
-        for (const prop in item) {
-          if (item.hasOwnProperty(prop) && prop !== 'name') {
-            Reflect.deleteProperty(item, prop)
-          }
-        }
-        arrNames.push(item.name)
-      })
-      return arrNames
-    }
+    tickets: (state) => state.tickets
   },
   mutations: {
     FETCH_CHART_BY_DATE(state, payload) {
-      console.log(payload)
       state.departments = payload.data.users_chart
       state.projects = payload.data.projects_chart
       state.absent = payload.data.absent

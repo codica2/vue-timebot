@@ -9,14 +9,6 @@ export function fetchList(query, payload) {
     paramsSerializer: params => qs.stringify(payload, { arrayFormat: 'brackets' })
   })
 }
-export function fetchListByFilter(query, params) {
-  return request({
-    url: query,
-    method: 'get',
-    params: params,
-    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'brackets' })
-  })
-}
 export function fetchEntity(query, id) {
   return request({
     url: `${query}/${id}`,

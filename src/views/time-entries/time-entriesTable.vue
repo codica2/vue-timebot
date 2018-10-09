@@ -8,7 +8,7 @@
         type="primary",
         icon="el-icon-edit") Add new time entry
       el-table(
-        v-loading="listLoading"
+        v-loading="loader"
         :key="tableKey"
         :data="list(type)"
         border
@@ -94,22 +94,22 @@
             el-input(v-model="temp.attributes.details" type="details" placeholder="Write smth")
         div(slot="footer" class="dialog-footer")
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-          el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="createEntityMod()") Create
+          el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create()") Create
           el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
         div(class="view-flex")
           div
+            strong Id
+            div {{temp.id}}
+          div
             strong User
-            div {{temp.relationships.user.data.id}}
+            div {{getIncluded(temp.relationships.user.data.id)}}
           div
             strong Date
             div {{temp.attributes.date}}
           div
             strong Details
             div {{temp.attributes.details}}
-          div
-            strong Id
-            div {{temp.id}}
           div
             strong Minutes
             div {{temp.attributes.time}}
@@ -143,7 +143,8 @@ export default {
     ...mapGetters({
       list: 'actionEntityTable/list',
       included: 'actionEntityTable/included',
-      filterable: 'actionEntityTable/filterable'
+      filterable: 'actionEntityTable/filterable',
+      loader: 'actionEntityTable/loader'
     }),
     entity() {
       return {
@@ -168,7 +169,7 @@ export default {
       }
       this.updateEntity(entity)
     },
-    createEntityMod() {
+    create() {
       const entity = {
         time_entry: this.entity
       }

@@ -17,10 +17,6 @@
 </template>
 
 <script>
-/**
-  Auth: Lei.j1ang
-  Created: 2018/1/19-13:59
-*/
 import treeToArray from './eval'
 export default {
   name: 'TreeTable',
@@ -42,7 +38,6 @@ export default {
     }
   },
   computed: {
-    // 格式化数据源
     formatData: function() {
       let tmp
       if (!Array.isArray(this.data)) {
@@ -61,12 +56,10 @@ export default {
       row.row._show = show
       return show ? 'animation:treeTableShow 1s;-webkit-animation:treeTableShow 1s;' : 'display:none;'
     },
-    // 切换下级是否展开
     toggleExpanded: function(trIndex) {
       const record = trIndex
       record._expanded = !record._expanded
     },
-    // 图标显示
     iconShow(index, record) {
       return (index === 0 && record.children && record.children.length > 0)
     }

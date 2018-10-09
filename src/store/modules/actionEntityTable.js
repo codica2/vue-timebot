@@ -170,13 +170,13 @@ const actionEntityTable = {
       state[payload.type].list.splice(payload.index, 1)
     },
     SET_PAGINATION(state, payload) {
-      if (payload.size) {
+      if (payload.limit) {
         state.pagination.limit = payload.limit
       } else {
         state.pagination.page = payload.page
       }
     },
-    CLEAR_STORE(state, payload) {
+    CLEAR_STORE(state) {
       state.projects = {
         list: [],
         filterable: []

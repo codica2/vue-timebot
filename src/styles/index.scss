@@ -348,3 +348,10 @@ code {
   background: #ebeef5;
   font-family: "Poppins-Medium", sans-serif;
 }
+.highcharts-label{
+  tspan{
+    font-weight: 400 !important;
+    font-family: "Calibre-Regular", sans-serif;
+    font-size: 14px;
+  }
+}

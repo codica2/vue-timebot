@@ -109,7 +109,6 @@ export const mixDialog = {
       dialogFormVisible: false,
       dialogViewVisible: false,
       dialogFormLoading: false,
-      listLoading: true,
       textMap: {
         update: 'Edit',
         create: 'Create',
@@ -223,10 +222,10 @@ export const mixQuery = {
   methods: {
     getList() {
       return new Promise((resolve, reject) => {
-        this.listLoading = true
+        this.$store.dispatch('actionEntityTable/setLoader', true)
         this.$store.dispatch('actionEntityTable/fetchList', this.type)
           .then(() => {
-            this.listLoading = false
+            this.$store.dispatch('actionEntityTable/setLoader', false)
             resolve()
           })
       })
@@ -329,7 +328,6 @@ export const mixQuery = {
         })
     },
     filter() {
-      console.log(this.entity)
       this.$store.dispatch('actionEntityTable/setLoader', true)
       this.$store.dispatch('actionEntityTable/setFilter', this.entity)
         .then(() => {

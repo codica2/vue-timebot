@@ -28,14 +28,13 @@ export default {
     })
   },
   methods: {
-    handleSizeChange(size) {
-      this.$store.dispatch('actionEntityTable/setPagination', { size: size })
+    handleSizeChange(limit) {
+      this.$store.dispatch('actionEntityTable/setPagination', { limit: limit })
         .then(() => {
           this.$store.dispatch('actionEntityTable/setLoader', true)
           this.getList()
             .then(() => {
               this.$store.dispatch('actionEntityTable/setLoader', false)
-              this.$scrollTo('body', 1000)
             })
         })
     },
