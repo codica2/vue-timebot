@@ -1,9 +1,8 @@
 <template lang="pug">
-  div(v-loading="load")
+  div(v-loading="loader")
     div(class="timebot-header") Estimations
     el-date-picker(
       v-model="date",
-      :disabled="load",
       type="daterange",
       range-separator="-",
       value-format="yyyy-MM-dd",
@@ -51,12 +50,12 @@ export default {
   },
   mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate],
   data: () => ({
-    type: 'estimationReports',
-    load: false
+    type: 'estimationReports'
   }),
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list'
+      list: 'actionEntityTable/list',
+      loader: 'actionEntityTable/loader'
     })
   },
   mounted() {
@@ -67,12 +66,12 @@ export default {
       if (date === null) {
         this.date = [new Date(), new Date()]
       }
-      this.load = true
+      this.$store.dispatch('actionEntityTable/setLoader', true)
       this.$store.dispatch('actionEntityTable/setFilter', { date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
           this.getList()
             .then(() => {
-              this.load = false
+              this.$store.dispatch('actionEntityTable/setLoader', false)
             })
         })
     }

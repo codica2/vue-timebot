@@ -52,7 +52,6 @@ const actionEntityTable = {
   actions: {
     fetchList({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
-        console.log(state.filters)
         Api.fetchList(setQuery(payload), { page: state.pagination.page, 'per_page': state.pagination.limit, ...state.filters })
           .then((response) => {
             commit('FETCH_LIST', { data: response.data, type: payload })
@@ -73,7 +72,6 @@ const actionEntityTable = {
       return new Promise((resolve, reject) => {
         Api.fetchEntity(payload.id, setQuery(payload.type))
           .then((response) => {
-            console.log(response)
             resolve()
           })
       })
@@ -82,7 +80,6 @@ const actionEntityTable = {
       return new Promise((resolve, reject) => {
         Api.createEntity(payload.row, setQuery(payload.type))
           .then((response) => {
-            console.log(response)
             commit('CREATE_ENTITY', { data: response.data, type: payload.type })
             resolve()
           })
@@ -110,13 +107,12 @@ const actionEntityTable = {
       return new Promise((resolve, reject) => {
         Api.deleteEntity(payload.row, setQuery(payload.type))
           .then((res) => {
-            const entityIndex = state[payload.type].list.findIndex((l, lInd) => {
+            const entityIndex = state[payload.type].list.findIndex((l) => {
               if (l.id === payload.row.id) return l
             })
             commit('DELETE_ENTITY', { index: entityIndex, type: payload.type })
             resolve()
           })
-          .catch(err => console.log(err))
       })
     },
     clearStore({ state, commit }) {
@@ -140,7 +136,6 @@ const actionEntityTable = {
   },
   mutations: {
     FETCH_LIST(state, payload) {
-      console.log(payload)
       state[payload.type].list = payload.data.data
       if (payload.data.included) {
         state[payload.type].included = payload.data.included

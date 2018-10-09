@@ -2,7 +2,7 @@
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
     <navbar/>
-    <sidebar class="sidebar-container"/>
+    <sidebar :class="{ fixed: fixed }" class="sidebar-container"/>
     <div class="main-container">
       <tags-view/>
       <app-main/>
@@ -23,6 +23,11 @@ export default {
     TagsView
   },
   mixins: [ResizeMixin],
+  data() {
+    return {
+      fixed: false
+    }
+  },
   computed: {
     sidebar() {
       return this.$store.state.app.sidebar
@@ -39,9 +44,18 @@ export default {
       }
     }
   },
+  created() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
   methods: {
     handleClickOutside() {
       this.$store.dispatch('closeSideBar', { withoutAnimation: false })
+    },
+    handleScroll() {
+      window.pageYOffset >= 50 ? this.fixed = true : this.fixed = false
     }
   }
 }
@@ -67,5 +81,9 @@ export default {
     height: 100%;
     position: absolute;
     z-index: 999;
+  }
+  #app .sidebar-container.fixed {
+    position: fixed;
+    top: 0;
   }
 </style>

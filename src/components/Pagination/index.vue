@@ -31,8 +31,10 @@ export default {
     handleSizeChange(size) {
       this.$store.dispatch('actionEntityTable/setPagination', { size: size })
         .then(() => {
+          this.$store.dispatch('actionEntityTable/setLoader', true)
           this.getList()
             .then(() => {
+              this.$store.dispatch('actionEntityTable/setLoader', false)
               this.$scrollTo('body', 1000)
             })
         })
@@ -40,8 +42,10 @@ export default {
     handleCurrentChange(page) {
       this.$store.dispatch('actionEntityTable/setPagination', { page: page })
         .then(() => {
+          this.$store.dispatch('actionEntityTable/setLoader', true)
           this.getList()
             .then(() => {
+              this.$store.dispatch('actionEntityTable/setLoader', false)
               this.$scrollTo('body', 1000)
             })
         })

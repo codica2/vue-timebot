@@ -79,13 +79,17 @@
               :label="project.name")
           el-form-item(:label="$t('table.date')" prop="date")
             el-date-picker(
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            v-model="temp.attributes.date" type="date" placeholder="Please pick a date")
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              v-model="temp.attributes.date"
+              type="date"
+              placeholder="Please pick a date"
+            )
           el-form-item(label="Time" prop="time")
-            el-time-picker(
+            el-time-select(
+            :picker-options="{ start: '00:00', step: '00:15', end: '18:30' }"
             v-model="temp.attributes.time"
-            type="datetime" placeholder="Please pick a time")
+            placeholder="Please pick a time")
           el-form-item(label="Details" prop="timestamp")
             el-input(v-model="temp.attributes.details" type="details" placeholder="Write smth")
         div(slot="footer" class="dialog-footer")

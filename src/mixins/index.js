@@ -138,6 +138,7 @@ export const mixDialog = {
   },
   methods: {
     handleUpdate(row) {
+      console.log(row)
       this.temp = Object.assign({}, row)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
