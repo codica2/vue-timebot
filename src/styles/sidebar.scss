@@ -1,3 +1,4 @@
+@import './variables';
 #app {
   .main-container {
     min-height: 100%;
@@ -13,7 +14,7 @@
     height: 100%;
     position: absolute;
     font-size: 0px;
-    top: 50px;
+    top: $heightTopBar;
     bottom: 0;
     left: 0;
     z-index: 1001;

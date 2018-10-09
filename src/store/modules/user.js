@@ -1,4 +1,4 @@
-import { loginByUsername, logout } from '@/api/login'
+import { loginByUsername } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { setQuery } from '@/api/queryConst'
 
@@ -85,14 +85,10 @@ const user = {
     },
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
+        commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
+        removeToken()
+        resolve()
       })
     },
     FedLogOut({ commit }) {

@@ -12,13 +12,6 @@ export function loginByUsername(query, email, password) {
   })
 }
 
-export function logout() {
-  return request({
-    url: '/login/logout',
-    method: 'post'
-  })
-}
-
 export function getUserInfo(query, token) {
   return request({
     url: query,

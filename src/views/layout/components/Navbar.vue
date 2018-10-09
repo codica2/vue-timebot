@@ -30,14 +30,12 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    ErrorLog,
     Screenfull
   },
   computed: {
@@ -62,8 +60,9 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+@import 'src/styles/variables';
 .navbar {
-  height: 50px;
+  height: $heightTopBar;
   line-height: 50px;
   border-radius: 0px !important;
   .hamburger-container {

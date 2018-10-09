@@ -29,11 +29,12 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error)
     Message({
-      message: error.response.data.message || error.message,
+      message: error.response ? error.response.data.message : error.message,
       type: 'error',
       duration: 5 * 1000
     })
-    if (store.getters.roles.length && error.response.status === 401) {
+    console.dir(error)
+    if (store.getters.roles.length && error.response && error.response.status === 401) {
       setTimeout(() => { store.dispatch('LogOut').then(() => { location.reload() }) }, 3000)
     }
     return Promise.reject(error)

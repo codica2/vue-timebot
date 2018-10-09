@@ -40,6 +40,9 @@ const actionEntityTable = {
     },
     estimationReports: {
       list: []
+    },
+    timeReports: {
+      list: []
     }
   },
   getters: {
@@ -210,6 +213,12 @@ const actionEntityTable = {
         limit: 30,
         total: 10,
         sort: '+id'
+      }
+      state.estimationReports = {
+        list: []
+      }
+      state.timeReports = {
+        list: []
       }
     },
     SET_LOADER(state, payload) {

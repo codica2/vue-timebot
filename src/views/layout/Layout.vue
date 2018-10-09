@@ -55,7 +55,8 @@ export default {
       this.$store.dispatch('closeSideBar', { withoutAnimation: false })
     },
     handleScroll() {
-      window.pageYOffset >= 50 ? this.fixed = true : this.fixed = false
+      const heightTopBar = window.getComputedStyle(document.querySelector('.navbar'))['height']
+      window.pageYOffset >= heightTopBar.substring(0, heightTopBar.length - 2) ? this.fixed = true : this.fixed = false
     }
   }
 }
