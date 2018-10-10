@@ -261,7 +261,7 @@ export const mixQuery = {
                 this.dialogFormLoading = false
                 this.$notify({
                   title: 'Success',
-                  message: 'Entity was created',
+                  message: `${this.setMessageName(this.type)} was created`,
                   type: 'success',
                   duration: 2000
                 })
@@ -285,7 +285,7 @@ export const mixQuery = {
               this.dialogFormLoading = false
               this.$notify({
                 title: 'Success',
-                message: 'Entity was updated',
+                message: `${this.setMessageName(this.type)} was updated`,
                 type: 'success',
                 duration: 2000
               })
@@ -297,6 +297,17 @@ export const mixQuery = {
             })
         }
       })
+    },
+    setMessageName(type) {
+      switch (type) {
+        case 'projects': return 'Project'
+        case 'time-entries': return 'Time entry'
+        case 'users': return 'User'
+        case 'teams': return 'Team'
+        case 'holidays': return 'Holiday'
+        case 'absences': return 'Absence'
+        case 'admins': return 'Admin'
+      }
     },
     remoteGetProjects(query) {
       if (typeof query !== 'string') {

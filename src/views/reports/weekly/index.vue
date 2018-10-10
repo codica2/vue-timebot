@@ -14,23 +14,29 @@
       div(v-if="list('timeReports').length" v-for="team in list('timeReports')" :key="team.id")
         div {{team.name}}
         tree-table( :data="team.projects" :eval-func="func" :eval-args="args" border)
-          el-table-column(label="Date")
-            template(slot-scope="scope")
-              span {{ scope.row.date }}
           el-table-column(label="Name")
             template(slot-scope="scope")
               span {{ scope.row.name }}
-          el-table-column(label="Reason")
+          el-table-column(label="Collaborators")
             template(slot-scope="scope")
-              span {{ scope.row.reason }}
-          el-table-column(label="Comment")
+              span {{ scope.row.collaborators }}
+          el-table-column(label="Details")
             template(slot-scope="scope")
-              span {{ scope.row.comment }}
+              span {{ scope.row.details }}
+          el-table-column(label="Total time")
+            template(slot-scope="scope")
+              span {{ scope.row.total_time }}
+          el-table-column(label="Trello labels")
+            template(slot-scope="scope")
+              span {{ scope.row.trello_labels }}
+          el-table-column(label="Time")
+            template(slot-scope="scope")
+              span {{ scope.row.time }}
 </template>
 <script>
 import * as mixin from '@/mixins/index'
 import { mapGetters } from 'vuex'
-import treeToArray from '@/components/TreeTable/customEval'
+import treeToArray from '@/components/TreeTable/timeEntries'
 import treeTable from '@/components/TreeTable/index'
 export default {
   name: 'Weekly',
@@ -46,7 +52,7 @@ export default {
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list',
-      loader: 'actionEntityTable/loader',
+      loader: 'actionEntityTable/loader'
     })
   },
   mounted() {

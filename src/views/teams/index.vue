@@ -1,6 +1,6 @@
 <template lang="pug">
-  div
-    div.timebot-header(v-loading="loader") Teams
+  div(v-loading="loader")
+    div.timebot-header Teams
     teamsTable
 </template>
 

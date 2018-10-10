@@ -43,6 +43,9 @@ const actionEntityTable = {
     },
     timeReports: {
       list: []
+    },
+    admins: {
+      list: []
     }
   },
   getters: {

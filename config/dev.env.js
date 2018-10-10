@@ -1,5 +1,5 @@
 module.exports = {
   NODE_ENV: '"development"',
   ENV_CONFIG: '"dev"',
-  BASE_API: '"http://localhost:3000"'
+  BASE_API: '"https://2ef8880f.ngrok.io"'
 }

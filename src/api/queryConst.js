@@ -10,5 +10,6 @@ export const setQuery = (payload) => {
     case 'estimationReports': return '/api/v1/reports/estimation_reports'
     case 'timeReports': return '/api/v1/reports/time_reports'
     case 'login': return '/api/v1/auth/sessions'
+    case 'admins': return '/api/v1/admins'
   }
 }
