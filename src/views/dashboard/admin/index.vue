@@ -1,16 +1,7 @@
 <template lang="pug">
-  div(v-loading="!isAnswered" style="overflow: hidden; margin: 0 10px;")
-    div(class="timebot-header") Dashboard
-    div(style="max-width: 500px")
-      div(class="dashboard-header-statistics")(v-if="date") Statistics for&nbsp;
-        span {{date[0]}} - {{date[1]}}
-      div(class="dashboard-subheader-statistics")
-        div Hours to work: {{staticData('hours_to_work')}}
-        div Hours worked: {{Math.round(staticData('hours_worked'))}}
-        div(v-if="staticData('holidays').length") Holidays:
-          span(v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
-            span {{ holiday[0] }}&nbsp;
-            span {{ holiday[1] }}
+  div(v-loading="!isAnswered" style="overflow: hidden;")
+    div(class="datepicker-header-container")
+      div(class="timebot-header") Dashboard
       div(class="dashboard-statistics-datepicker")
         el-date-picker(
             v-model="date",
@@ -18,12 +9,48 @@
             type="daterange",
             range-separator="-",
             value-format="yyyy-MM-dd",
-            start-placeholder="Start date",
             :picker-options="pickerOptions",
             @change="setDate"
-            end-placeholder="End date")
+            start-placeholder="Start date",
+            end-placeholder="End date",
+            placeholder="Please pick a date",
+            prefix-icon="date-calendar")
+    div
+      div(class="dashboard-flex-container")
+        div(class="dashboard-flex-block")
+          div(class="dashboard-header-statistics")(v-if="date")
+            div(class="dashboard-header-image")
+              <img src="src/icons/svg/analysis.svg">
+            div(class="dashboard-stat-padding")
+              div Statistics for
+              span {{date[0]}} - {{date[1]}}
+        div(class="dashboard-flex-block")
+          div(class="dashboard-header-statistics")
+            div(class="dashboard-header-image")
+              <img src="src/icons/svg/deadline.svg">
+            div(class="dashboard-stat-padding")
+              div Hours to work:
+              span {{staticData('hours_to_work')}}
+        div(class="dashboard-flex-block")
+          div(class="dashboard-header-statistics")
+            div(class="dashboard-header-image")
+              <img src="src/icons/svg/task.svg">
+            div(class="dashboard-stat-padding")
+              div Hours worked:
+              span {{Math.round(staticData('hours_worked'))}}
+      div(class="dashboard-flex--holiday-container")
+        div(class="dashboard-flex-block mw-32")
+          div(class="dashboard-header-statistics")(v-if="staticData('holidays').length")
+            div(class="dashboard-header-image")
+              <img src="src/icons/svg/holiday.svg">
+            div(class="dashboard-stat-padding")
+              div Holidays:
+              span(class="mr-2" v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
+                span {{ holiday[0] }}&nbsp;
+                span {{ holiday[1] }}
     div(class="dashboard-graphics")
       el-col(:xs="24" :sm="24" :lg="12")(class="dashboard-graphics-margin")
+        div(class="highcharts-header") Projects
         .chart-wrapper
           PieChart(
           :title="chartData('projects').title"
@@ -33,6 +60,7 @@
           :payloadData="chartData('projects').data"
           )
       el-col(:xs="24" :sm="24" :lg="12")
+        div(class="highcharts-header") Users
         .chart-wrapper
           PieChart(
           :title="chartData('departments').title"
@@ -40,6 +68,7 @@
           :payloadData="chartData('departments').data"
           )
     el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series')")(class="dashboard-bt-graphics-margin")
+      div(class="highcharts-header") Projects
       .chart-wrapper
         BarChart(
         :xAxisData="staticData('xAxisData')"

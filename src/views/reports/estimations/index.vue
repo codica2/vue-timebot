@@ -1,15 +1,20 @@
 <template lang="pug">
   div(v-loading="loader")
     div(class="timebot-header") Estimations
-    el-date-picker(
-      v-model="date",
-      type="daterange",
-      range-separator="-",
-      value-format="yyyy-MM-dd",
-      start-placeholder="Start date",
-      :picker-options="pickerOptions",
-      @change="setDate"
-      end-placeholder="End date")
+    div(class="time-entries-filters-container")
+      div(class="time-entries-filters")
+        div(class="filters-label") Date
+          el-date-picker(
+            v-model="date",
+            type="daterange",
+            range-separator="-",
+            value-format="yyyy-MM-dd",
+            :picker-options="pickerOptions",
+            @change="setDate"
+            start-placeholder="Start date",
+            end-placeholder="End date",
+            placeholder="Please pick a date",
+            prefix-icon="date-calendar")
     el-table(:data="list('estimationReports')")
       el-table-column(
       prop="project",

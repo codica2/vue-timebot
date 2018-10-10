@@ -1,12 +1,13 @@
 .el-breadcrumb__inner,
 .el-breadcrumb__inner a {
-  font-family: $title-ff-medium;
+  font-family: $main-ff-medium;
+  font-size: 16px;
   font-weight: 400 !important;
 }
 
 .el-breadcrumb__inner a:hover,
 .el-breadcrumb__inner.is-link:hover {
-  color: rgb(228, 62, 71);
+  color: #305ac7;
 }
 
 .el-upload {
@@ -34,8 +35,7 @@
 
 .fixed-width {
   .el-button--mini {
-    padding: 7px 10px;
-    width: 60px;
+    padding: 9px 10px 5px;
   }
 }
 
@@ -98,6 +98,6 @@
 
 .el-dropdown-menu__item:focus,
 .el-dropdown-menu__item:not(.is-disabled):hover {
-  background-color: #ecf5ff;
-  color: #de1f26;
+  background-color: #fff;
+  color: #305ac7;
 }

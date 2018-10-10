@@ -7,12 +7,10 @@
             <!--span.el-dropdown-link Batch Actions-->
             <!--el-dropdown-menu(slot="dropdown")-->
               <!--el-dropdown-item(:disabled="multipleSelection.length <= 0") Delete selected-->
-        div
+        div(class="position-create-new-category")
           el-button(@click="handleCreate",
-          class="filter-item",
-          style="margin: 10px 0 20px;",
-          type="primary",
-          icon="el-icon-edit") Add new project
+          class="filter-item create-new-category",
+          type="primary") Add new project
       el-table(
         ref="multipleTable"
         @selection-change="handleSelectionChange"

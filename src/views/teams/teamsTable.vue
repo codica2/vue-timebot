@@ -1,12 +1,10 @@
 <template lang="pug">
   div
     div
-      div
+      div(class="position-create-new-category-right")
         el-button(@click="handleCreate",
-        class="filter-item",
-        style="margin: 10px 0 20px;",
-        type="primary",
-        icon="el-icon-edit") Add new team
+        class="filter-item create-new-category",
+        type="primary") Add new team
       el-table(
       v-loading="loader"
       :key="tableKey"

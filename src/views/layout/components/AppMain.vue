@@ -29,7 +29,7 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
-  margin: 10px 0;
+  margin: 0;
 }
 </style>
 

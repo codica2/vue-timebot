@@ -59,9 +59,10 @@ export default {
 }
 
 .title{
-  color: #e43e47;
+  color: #305ac7;
   font-family: 'Gilgon';
-  font-size: 22px;
+  font-size: 20px;
+  letter-spacing: .5px;
   margin: 0 0 0 20px;
 }
 </style>

@@ -1,12 +1,10 @@
 <template lang="pug">
   div
     div
-      div
+      div(class="position-create-new-category")
         el-button(@click="handleCreate",
-        class="filter-item",
-        style="margin: 10px 0 20px;",
-        type="primary",
-        icon="el-icon-edit") Add new holiday
+        class="filter-item create-new-category",
+        type="primary") Add new holiday
       el-table(
       v-loading="loader"
       :key="tableKey"
@@ -56,16 +54,7 @@
             strong Name
             div {{temp.name}}
           div
-            strong Updated at
-            div {{temp.updated_at}}
-          div
-            strong IS SPEAKING
-            div {{temp.is_speaking}}
-          div
-            strong Created at
-            div {{temp.created_at}}
-          div
-            strong  DATE
+            strong DATE
             div {{temp.date}}
 </template>
 

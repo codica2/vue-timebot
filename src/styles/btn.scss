@@ -97,14 +97,37 @@
 }
 
 .el-button--danger {
-  background-color: #e43e47;
-  border-color: #e43e47;
+  background-color: #ed675a;
+  border-color: #ed675a;
+
+  &:hover,
+  &:focus {
+    background: #de1f26;
+    border-color: #de1f26;
+  }
 }
 
-.el-button--danger:focus,
-.el-button--danger:hover {
-  background: #de1f26;
-  border-color: #de1f26;
+.el-button--primary {
+  background-color: #3498db;
+  border-color: #3498db;
+
+  &:hover,
+  &:focus {
+    background: #409EFF;
+    border-color: #409EFF;
+  }
+}
+
+.el-button--info {
+  background-color: #61bca9;
+  border-color: #61bca9;
+
+  &:hover,
+  &:focus {
+    background-color: #61bca9;
+    border-color: #61bca9;
+    opacity: 0.8;
+  }
 }
 
 .tags-view-container .tags-view-wrapper .tags-view-item.active[data-v-57b800e8] {
@@ -112,25 +135,48 @@
   border-color: #f56c6c;
 }
 
-.el-button--primary {
-  background-color: #4fc3f7;
-  border-color: #4fc3f7;
-}
-.el-button--info {
-  background-color: #1476cb;
-  border-color: #1476cb;
-  &:hover{
-    background-color: #0a79a4;
-    border-color: #0a79a4;
-  }
-}
-.el-button--primary:focus,
-.el-button--primary:hover {
-  background: #409EFF;
-  border-color: #409EFF;
-}
 .el-submenu__title *,
 .el-menu-item * {
-  font-family: $title-ff-medium;
-  font-size: 14px;
+  font-family: $main-ff-medium;
+  font-size: 19px;
+}
+
+.el-button-filter {
+  background: #305ac7;
+  border-color: #305ac7;
+  border-radius: 3px;
+  color: #fff;
+  font-family: $main-ff-medium;
+  font-size: 18px;
+  padding: 12px 20px 8px;
+
+  &:hover,
+  &:focus {
+    background: #305ac7;
+    border-color: #305ac7;
+    color: #fff;
+    opacity: .9;
+  }
+}
+
+.el-button-clear-filter {
+  background-color: transparent;
+  border: solid 1px #dddddd;
+  border-radius: 3px;
+  color: #383845;
+  font-family: $main-ff-medium;
+  font-size: 18px;
+  padding: 12px 20px 8px;
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    border: solid 1px #dddddd;
+    color: #383845;
+  }
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #305ac7;
+  border-color: #305ac7;
 }
