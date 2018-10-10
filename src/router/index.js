@@ -79,10 +79,10 @@ export const asyncRouterMap = [
         meta: { title: 'Estimations', icon: 'time', noCache: true }
       },
       {
-        path: 'weekly',
-        component: () => import('@/views/reports/weekly/index'),
-        name: 'Weekly',
-        meta: { title: 'Weekly', icon: 'calendar', noCache: true }
+        path: 'time-reports',
+        component: () => import('@/views/reports/timeReports/index'),
+        name: 'timeReports',
+        meta: { title: 'Time reports', icon: 'calendar', noCache: true }
       }
       // {
       //   path: 'absence',

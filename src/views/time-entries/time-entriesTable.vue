@@ -121,6 +121,10 @@
           div
             strong Trello labels
             div {{temp.attributes['trello-labels']}}
+    download-excel.btn.btn-default (:data="json_data" :fields = "json_fields" type="csv" name="filename.csv")
+      |Download Excel (you can customize this with html code!)
+
+  </download-excel>
 </template>
 <script>
 import { mapGetters } from 'vuex'

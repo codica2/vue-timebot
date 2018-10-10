@@ -223,6 +223,9 @@ const actionEntityTable = {
       state.timeReports = {
         list: []
       }
+      state.admins = {
+        list: []
+      }
     },
     SET_LOADER(state, payload) {
       state.loader = payload

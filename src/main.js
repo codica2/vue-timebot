@@ -14,9 +14,11 @@ const VueScrollTo = require('vue-scrollto')
 import HighchartsVue from 'highcharts-vue'
 import Highcharts from 'highcharts'
 import variablePie from 'highcharts/modules/variable-pie'
+import JsonExcel from 'vue-json-excel'
 
 Vue.use(HighchartsVue)
 variablePie(Highcharts)
+Vue.component('downloadExcel', JsonExcel)
 
 Vue.use(VueScrollTo)
 Vue.use(Element, {
