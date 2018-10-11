@@ -1,18 +1,7 @@
 <template lang="pug">
-    div(v-loading="loader")
-      div(class="timebot-header") Weekly
+  div(v-loading="loader")
+    div(class="timebot-header") Weekly
     div(class="time-entries-filters-container")
-      div(class="time-entries-filters")
-        div(class="filters-label") Date
-          el-date-picker(
-          v-model="date",
-          type="daterange",
-          range-separator="-",
-          value-format="yyyy-MM-dd",
-          start-placeholder="Start date",
-          :picker-options="pickerOptions",
-          @change="setDate"
-          end-placeholder="End date")
       div(class="time-entries-filters")
         div(style="font-size: 14px;") Projects name
           el-select(
@@ -28,28 +17,40 @@
             :value="project.id"
             :key="project.id",
             :label="project.name")
-      tree-table(:data="treeData" :eval-func="func" :eval-args="args" border)
-        el-table-column(label="Project")
-          template(slot-scope="scope")
-            span {{ scope.row.name }}
-        el-table-column(label="Collaborators")
-          template(slot-scope="scope")
-            div.collaborators-container
-              span(v-for="(collaborator, collaboratorIndex) in scope.row.collaborators" :key="collaborator.id") {{ collaborator.name }}&nbsp;
-        el-table-column(label="Details")
-          template(slot-scope="scope")
-            span {{ scope.row.details }}
-        el-table-column(label="Trello labels")
-          template(slot-scope="scope")
-            span(v-for="trelloLabels in scope.row['trello-labels']") {{ trelloLabels }}&nbsp;
-        el-table-column(label="Time")
-          template(slot-scope="scope")
-            span {{ scope.row.time }}
-        el-table-column(label="Total time")
-          template(slot-scope="scope")
-            span {{ scope.row.total_time }}
-      download-excel(v-show="groupedData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
-        el-button() csv
+      div(class="time-entries-filters")
+        div(class="filters-label") Date
+          el-date-picker(
+          v-model="date",
+          type="daterange",
+          range-separator="-",
+          value-format="yyyy-MM-dd",
+          start-placeholder="Start date",
+          :picker-options="pickerOptions",
+          @change="setDate"
+          end-placeholder="End date"
+          prefix-icon="date-calendar")
+    tree-table(:data="treeData" :eval-func="func" :eval-args="args" border)
+      el-table-column(label="Project")
+        template(slot-scope="scope")
+          span {{ scope.row.name }}
+      el-table-column(label="Collaborators")
+        template(slot-scope="scope")
+          div.collaborators-container
+            span(v-for="(collaborator, collaboratorIndex) in scope.row.collaborators" :key="collaborator.id") {{ collaborator.name }}&nbsp;
+      el-table-column(label="Details")
+        template(slot-scope="scope")
+          span {{ scope.row.details }}
+      el-table-column(label="Trello labels")
+        template(slot-scope="scope")
+          span(v-for="trelloLabels in scope.row['trello-labels']") {{ trelloLabels }}&nbsp;
+      el-table-column(label="Time")
+        template(slot-scope="scope")
+          span {{ scope.row.time }}
+      el-table-column(label="Total time")
+        template(slot-scope="scope")
+          span {{ scope.row.total_time }}
+    download-excel(v-show="groupedData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
+      el-button() csv
 </template>
 <script>
 import * as mixin from '@/mixins/index'
