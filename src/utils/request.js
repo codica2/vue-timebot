@@ -10,7 +10,7 @@ const service = axios.create({
     'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
   },
-  timeout: 5000
+  timeout: 20000
 })
 service.interceptors.request.use(
   config => {
@@ -33,7 +33,6 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
-    console.dir(error)
     if (store.getters.roles.length && error.response && error.response.status === 401) {
       setTimeout(() => { store.dispatch('LogOut').then(() => { location.reload() }) }, 3000)
     }

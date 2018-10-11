@@ -136,7 +136,15 @@ export default {
     multipleSelection: [],
     tableKey: 0,
     type: 'time-entries',
-    loading: false
+    loading: false,
+    jsonFields: {
+      'user': {
+        field: 'attributes.date',
+        callback: (value) => {
+          return `${value}`
+        }
+      }
+    }
   }),
   computed: {
     ...mapGetters({
