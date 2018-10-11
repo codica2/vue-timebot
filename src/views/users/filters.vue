@@ -1,31 +1,30 @@
 <template lang="pug">
   div(class="time-entries-filters-container")
-    div(class="filters-header") Filters
-      div(class="time-entries-filters")
-        div(style="font-size: 14px;") User name
-          el-select(
-            v-model="searchParams.user",
-            filterable,
-            remote,
-            @focus="remoteGetUsers"
-            clearable,
-            placeholder="Please enter a user"
-            :remote-method="remoteGetUsers"
+    div(class="time-entries-filters")
+      div(class="filters-label") User name
+        el-select(
+          v-model="searchParams.user",
+          filterable,
+          remote,
+          @focus="remoteGetUsers"
+          clearable,
+          placeholder="Please enter a user"
+          :remote-method="remoteGetUsers"
+        )
+          el-option(
+            v-for="user in filterable('users')"
+            :key="user.id"
+            :label="user.name"
+            :value="user.name"
           )
-            el-option(
-              v-for="user in filterable('users')"
-              :key="user.id"
-              :label="user.name"
-              :value="user.name"
-            )
+    div
+      div(class="filters-label") Status
+      div(class="time-entries-checkbox")
+        el-checkbox(v-model="searchParams.status") Is Active
+    div(style="margin: 19px 0 0")
       div
-        small Status
-        div
-          el-checkbox(v-model="searchParams.status") Is Active
-      div(style="margin: 20px 0 10px;")
-        div
-          el-button(@click="filter") Filter
-          el-button(@click="clearFilter" type="info") Clear Filters
+        el-button.el-button-filter(@click="filter") Filter
+        el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
 </template>
 
 <script>

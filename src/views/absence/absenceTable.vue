@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     div
-      div(style="display: flex")
+      div(class="position-create-new-category")
         <!--div-->
         <!--el-dropdown(type="primary")-->
         <!--span.el-dropdown-link Batch Actions-->
@@ -9,10 +9,8 @@
         <!--el-dropdown-item(:disabled="multipleSelection.length <= 0") Delete selected-->
         div
           el-button(@click="handleCreate",
-          class="filter-item",
-          style="margin: 10px 0 20px;",
-          type="primary",
-          icon="el-icon-edit") Add new absence
+          class="filter-item create-new-category",
+          type="primary") Add new absence
       el-table(
       ref="multipleTable"
       @selection-change="handleSelectionChange"

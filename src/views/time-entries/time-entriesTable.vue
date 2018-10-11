@@ -1,12 +1,10 @@
 <template lang="pug">
   div
     div
-      div
+      div(class="position-create-new-category")
         el-button(@click="handleCreate",
-        class="filter-item",
-        style="margin: 10px 0 20px;",
-        type="primary",
-        icon="el-icon-edit") Add new time entry
+        class="filter-item create-new-category",
+        type="primary") Add new time entry
       el-table(
         v-loading="loader"
         :key="tableKey"
@@ -17,7 +15,7 @@
         highlight-current-row
         style="width: 100%;")
         el-table-column(type="selection", width="55")
-        el-table-column(:label="$t('table.id')" align="center" width="65")
+        el-table-column(:label="$t('table.id')" width="65")
           template(slot-scope="scope")
             span {{ scope.row.id }}
         el-table-column(label="User")
@@ -35,11 +33,12 @@
         el-table-column(label="Details")
           template(slot-scope="scope")
             span {{ scope.row.attributes.details }}
-        el-table-column(:label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width")
+        el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
-            el-button(type="info" size="mini" @click="handleView(scope.row)") View
-            el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
-            el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
+            div(style="text-align: center;")
+              el-button(type="info" size="mini" @click="handleView(scope.row)") View
+              el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
+              el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
       pagination(:type="type" v-if="list(type).length")
       el-dialog(@open="preRemote" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"

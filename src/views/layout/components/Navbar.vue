@@ -13,10 +13,10 @@
 
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img src="https://slack-files2.s3-us-west-2.amazonaws.com/avatars/2018-04-26/354518680614_02dfc4bac7ea1cffe636_88.png" class="user-avatar">
+          <img src="src/icons/svg/lg_blue.svg" class="user-avatar">
           <img src="src/icons/svg/down-arrow.svg" style="margin: 0 0 15px 5px;">
         </div>
-        <el-dropdown-menu slot="dropdown">
+        <el-dropdown-menu slot="dropdown" style="margin: 0; padding: 0;">
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>

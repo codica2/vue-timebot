@@ -1,31 +1,27 @@
 <template lang="pug">
-  div
-    div(class="filters-header") Filters
-    div(class="projects-filters")
-      div
-        div(style="margin: 10px 0;")
-          div(style="font-size: 14px;") Name
-          el-select(
-          v-model="searchParams.name"
-          filterable
-          remote,
-          @focus="remoteGetProjects"
-          clearable,
-          placeholder="Please enter a keyword"
-          :remote-method="remoteGetProjects"
-          )
-            el-option(
-            v-for="project in filterable('projects')"
-            :value="project.name"
-            :key="project.id",
-            :label="project.name")
-      div
-        div(style="margin: 10px 0;")
-          div(style="font-size: 14px;") Alias
-            el-input(v-model="searchParams.alias")
-    div(style="margin: 10px 0;")
-      el-button() Filter
-      el-button(@click="clearFilter" type="info") Clear Filter
+  div(class="time-entries-filters-container")
+    div(class="time-entries-filters")
+      div(class="filters-label") Name
+        el-select(
+        v-model="searchParams.name"
+        filterable
+        remote,
+        @focus="remoteGetProjects"
+        clearable,
+        placeholder="Please enter a keyword"
+        :remote-method="remoteGetProjects"
+        )
+          el-option(
+          v-for="project in filterable('projects')"
+          :value="project.name"
+          :key="project.id",
+          :label="project.name")
+    div(class="time-entries-filters")
+      div(class="filters-label") Alias
+        el-input(v-model="searchParams.alias")
+    div(style="margin: 19px 0 0")
+      el-button.el-button-filter(@click="filter") Filter
+      el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
 </template>
 
 <script>

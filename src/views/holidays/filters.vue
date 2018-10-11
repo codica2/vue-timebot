@@ -1,27 +1,29 @@
 <template lang="pug">
-  div Filters
-    div(class="filters-header") Filters
-    div(class="projects-filters")
-      div(style="font-size: 14px;") Holiday name
+  div(class="time-entries-filters-container")
+    div(class="time-entries-filters")
+      div(class="filters-label") Holiday name
         el-input(
           v-model="searchParams.holiday",
           placeholder="Please enter a holiday",
           clearable
         )
-      div(style="margin: 10px 0;")
-        div(style="font-size: 14px;") Date
-        el-date-picker(
-          format="yyyy-MM-dd"
-          type="daterange",
-          range-separator="-",
-          value-format="yyyy-MM-dd"
-          v-model="searchParams.date"
-          :picker-options="pickerOptions",
-          placeholder="Please pick a date"
-        )
+    div(class="time-entries-filters")
+      div(class="filters-label") Date
+      el-date-picker(
+        format="yyyy-MM-dd"
+        type="daterange",
+        range-separator="-",
+        value-format="yyyy-MM-dd"
+        v-model="searchParams.date"
+        :picker-options="pickerOptions",
+        start-placeholder="Start date",
+        end-placeholder="End date",
+        placeholder="Please pick a date",
+        prefix-icon="date-calendar")
+    div(style="margin: 19px 0 0")
       div
-        el-button(@click="filter") Filter
-        el-button(@click="clearFilter" type="info") Clear Filters
+        el-button.el-button-filter(@click="filter") Filter
+        el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
 </template>
 
 <script>
