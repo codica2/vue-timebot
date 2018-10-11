@@ -472,6 +472,13 @@ code {
     font-size: 14px;
   }
 }
+.highcharts-legend{
+  tspan{
+    font-family: $main-ff-regular;
+    font-size: 14px;
+    font-weight: 100;
+  }
+}
 
 .el-submenu__title i {
   top: 40%;

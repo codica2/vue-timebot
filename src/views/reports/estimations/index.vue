@@ -41,6 +41,8 @@
       el-table-column(
       prop="status",
       label="Status")
+    download-excel(v-show="jsonData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
+      el-button() csv
     pagination(:type="type" v-if="list(type).length")
 </template>
 
@@ -55,7 +57,18 @@ export default {
   },
   mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate],
   data: () => ({
-    type: 'estimationReports'
+    type: 'estimationReports',
+    json_fields: {
+      'Project': 'project',
+      'Details': 'details',
+      'Collaborators': 'collaborators',
+      'Created at': 'created_at',
+      'Trello labels': 'trello_labels',
+      'Estimate': 'estimate',
+      'Total time': 'total_time',
+      'Status': 'status'
+    },
+    jsonData: []
   }),
   computed: {
     ...mapGetters({
@@ -77,8 +90,20 @@ export default {
           this.getList()
             .then(() => {
               this.$store.dispatch('actionEntityTable/setLoader', false)
+              this.getJsonStructure()
             })
         })
+    },
+    getJsonStructure() {
+      const jsonData = JSON.parse(JSON.stringify([...this.list('estimationReports')]))
+      jsonData.forEach(jd => {
+        let q = ''
+        jd.collaborators.forEach(cl => {
+          q += cl.name + ' '
+        })
+        jd.collaborators = q
+      })
+      this.jsonData = jsonData
     }
   }
 }
