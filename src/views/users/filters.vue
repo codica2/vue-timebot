@@ -23,7 +23,7 @@
         el-checkbox(v-model="searchParams.status") Is Active
     div(style="margin: 19px 0 0")
       div
-        el-button.el-button-filter(@click="filter") Filter
+        el-button.el-button-filter(@click="filterUsers") Filter
         el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
 </template>
 
@@ -52,6 +52,12 @@ export default {
     }
   },
   methods: {
+    filterUsers() {
+      this.filter()
+        .then(() => {
+          this.$store.dispatch('actionEntityTable/fetchList', 'teams')
+        })
+    },
     clearFilter() {
       this.searchParams = {
         user: '',

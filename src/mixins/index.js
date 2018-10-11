@@ -338,14 +338,17 @@ export const mixQuery = {
         })
     },
     filter() {
-      this.$store.dispatch('actionEntityTable/setLoader', true)
-      this.$store.dispatch('actionEntityTable/setFilter', this.entity)
-        .then(() => {
-          this.$store.dispatch('actionEntityTable/fetchList', this.type)
-            .finally(() => {
-              this.$store.dispatch('actionEntityTable/setLoader', false)
-            })
-        })
+      return new Promise((resolve, reject) => {
+        this.$store.dispatch('actionEntityTable/setLoader', true)
+        this.$store.dispatch('actionEntityTable/setFilter', this.entity)
+          .then(() => {
+            this.$store.dispatch('actionEntityTable/fetchList', this.type)
+              .finally(() => {
+                this.$store.dispatch('actionEntityTable/setLoader', false)
+                resolve()
+              })
+          })
+      })
     }
   }
 }
