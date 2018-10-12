@@ -21,7 +21,7 @@
       fit
       highlight-current-row
       style="width: 100%;")
-        el-table-column(type="selection", width="55")
+        el-table-column(type="selection" align="center" width="55")
         el-table-column(:label="$t('table.id')" align="center" width="65")
           template(slot-scope="scope")
             span {{ scope.row.id }}
@@ -37,8 +37,7 @@
         el-table-column(label="Comment")
           template(slot-scope="scope")
             span {{ scope.row.attributes.comment }}
-        el-table-column(:label="$t('table.actions')"
-        align="center" width="230" class-name="small-padding fixed-width")
+        el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
@@ -90,11 +89,16 @@
         el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
         el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") Update
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-      div {{temp.id}} Id
-      div {{temp.attributes.name}} Project
-      div {{temp.attributes.alias}} Alias
-      div(slot="footer" class="dialog-footer")
-        el-button(@click="dialogViewVisible = false") Close
+      div(class="view-flex")
+        div
+          strong Id
+          p {{temp.id}}
+        div
+          strong Project
+          p {{temp.attributes.name}}
+        div
+          strong Alias
+          p {{temp.attributes.alias}}
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.28s;
+  transition: opacity .28s;
 }
 
 .fade-enter,
@@ -12,10 +12,12 @@
 .fade-transform-enter-active {
   transition: all .5s;
 }
+
 .fade-transform-enter {
   opacity: 0;
   transform: translateX(-30px);
 }
+
 .fade-transform-leave-to {
   opacity: 0;
   transform: translateX(30px);
@@ -39,4 +41,3 @@
 .breadcrumb-leave-active {
   position: absolute;
 }
-

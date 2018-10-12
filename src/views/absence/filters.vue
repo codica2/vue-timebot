@@ -17,6 +17,7 @@
             :label="user.name"
             :value="user.id"
           )
+
     div(class="time-entries-filters")
       div(class="filters-label") Reason
         el-select(
@@ -92,7 +93,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

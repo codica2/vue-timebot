@@ -14,8 +14,8 @@
         @selection-change="handleSelectionChange"
         highlight-current-row
         style="width: 100%;")
-        el-table-column(type="selection", width="55")
-        el-table-column(:label="$t('table.id')" width="65")
+        el-table-column(type="selection" align="center" width="55")
+        el-table-column(:label="$t('table.id')" align="center" width="65")
           template(slot-scope="scope")
             span {{ scope.row.id }}
         el-table-column(label="User")
@@ -99,28 +99,28 @@
         div(class="view-flex")
           div
             strong Id
-            div {{temp.id}}
+            p {{temp.id}}
           div
             strong User
-            div {{getIncluded(temp.relationships.user.data.id)}}
+            p {{getIncluded(temp.relationships.user.data.id)}}
           div
             strong Date
-            div {{temp.attributes.date}}
+            p {{temp.attributes.date}}
           div
             strong Details
-            div {{temp.attributes.details}}
+            p {{temp.attributes.details}}
           div
             strong Minutes
-            div {{temp.attributes.time}}
+            p {{temp.attributes.time}}
           div
             strong Project
-            div {{temp.relationships.project.data.id}}
+            p {{temp.relationships.project.data.id}}
           div
             strong Ticket
-            div {{temp.attributes.details}}
+            p {{temp.attributes.details}}
           div
             strong Trello labels
-            div {{temp.attributes['trello-labels']}}
+            p {{temp.attributes['trello-labels']}}
 </template>
 <script>
 import { mapGetters } from 'vuex'

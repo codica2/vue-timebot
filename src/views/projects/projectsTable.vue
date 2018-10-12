@@ -21,7 +21,7 @@
         fit
         highlight-current-row
         style="width: 100%;")
-        el-table-column(type="selection", width="55")
+        el-table-column(type="selection" align="center" width="55")
         el-table-column(:label="$t('table.id')" align="center" width="65")
           template(slot-scope="scope")
             span {{ scope.row.id }}
@@ -34,8 +34,7 @@
         el-table-column(label="Team")
           template(slot-scope="scope")
             span {{setTeam(scope.row.relationships.team.data)}}
-        el-table-column(:label="$t('table.actions')"
-        align="center" width="230" class-name="small-padding fixed-width")
+        el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
@@ -67,14 +66,13 @@
       div(class="view-flex")
         div
           strong Id
-          div {{temp.id}}
+          p {{temp.id}}
         div
-          strong Project
-          div {{temp.attributes.name}}
+          strong Name
+          p {{temp.attributes.name}}
         div
           strong Alias
-          div {{temp.attributes.alias}}
-        div(slot="footer" class="dialog-footer")
+          p {{temp.attributes.alias}}
 </template>
 
 <script>

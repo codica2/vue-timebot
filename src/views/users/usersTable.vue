@@ -14,7 +14,7 @@
       @selection-change="handleSelectionChange"
       highlight-current-row
       style="width: 100%;")
-        el-table-column(type="selection", width="55")
+        el-table-column(type="selection" align="center" width="55")
         el-table-column(:label="$t('table.id')" align="center" width="65")
           template(slot-scope="scope")
             span {{ scope.row.id }}
@@ -31,7 +31,7 @@
         el-table-column(label="Team")
           template(slot-scope="scope")
             span {{setTeam(scope.row.relationships.team.data)}}
-        el-table-column(:label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width")
+        el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
@@ -62,23 +62,20 @@
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
         div(class="view-flex")
           div
+            strong Id
+            p {{temp.id}}
+          div
             strong Name
-            div {{temp.attributes.name}}
+            p {{temp.attributes.name}}
           div
             strong Uid
-            div {{temp.attributes.uid}}
+            p {{temp.attributes.uid}}
           div
-            strong Updated at
-            div {{temp.attributes.updated_at}}
+            strong Is active
+            p {{temp.attributes.is_active}}
           div
-            strong IS ACTIVE
-            div {{temp.attributes.is_active}}
-          div
-            strong TEAM
-            div {{temp.attributes.team_id}}
-          div
-            strong Last message
-            div {{temp.attributes.last_message}}
+            strong Team
+            p {{temp.attributes.team_id}}
 </template>
 
 <script>
