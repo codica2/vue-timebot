@@ -56,8 +56,8 @@ export default {
     },
     handleScroll() {
       const heightTopBar = window.getComputedStyle(document.querySelector('.navbar'))['height']
-      let height = heightTopBar.substring(0, heightTopBar.length - 2)
-      window.pageYOffset >= `${+height + 10}`  ? this.fixed = true : this.fixed = false
+      const height = heightTopBar.substring(0, heightTopBar.length - 2)
+      window.pageYOffset >= `${+height + 10}` ? this.fixed = true : this.fixed = false
     }
   }
 }
@@ -70,14 +70,14 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
-    &.mobile.openSidebar{
+    &.mobile.openSidebar {
       position: fixed;
       top: 0;
     }
   }
   .drawer-bg {
     background: #000;
-    opacity: 0.3;
+    opacity: .3;
     width: 100%;
     top: 0;
     height: 100%;

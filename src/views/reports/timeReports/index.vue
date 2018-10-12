@@ -214,7 +214,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .collaborators-container{
+  .collaborators-container {
     display: flex;
     flex-direction: column;
   }

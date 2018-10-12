@@ -30,8 +30,8 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.wscn-http404-container{
-  transform: translate(-50%,-50%);
+.wscn-http404-container {
+  transform: translate(-50%, -50%);
   position: absolute;
   top: 40%;
   left: 50%;
@@ -87,6 +87,7 @@ export default {
         animation-delay: 1s;
         animation-iteration-count: infinite;
       }
+
       @keyframes cloudLeft {
         0% {
           top: 17px;
@@ -109,6 +110,7 @@ export default {
           opacity: 0;
         }
       }
+
       @keyframes cloudMid {
         0% {
           top: 10px;
@@ -131,6 +133,7 @@ export default {
           opacity: 0;
         }
       }
+
       @keyframes cloudRight {
         0% {
           top: 100px;
@@ -169,7 +172,7 @@ export default {
       opacity: 0;
       margin-bottom: 20px;
       animation-name: slideUp;
-      animation-duration: 0.5s;
+      animation-duration: .5s;
       animation-fill-mode: forwards;
     }
     &__headline {
@@ -180,8 +183,8 @@ export default {
       opacity: 0;
       margin-bottom: 10px;
       animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-delay: 0.1s;
+      animation-duration: .5s;
+      animation-delay: .1s;
       animation-fill-mode: forwards;
     }
     &__info {
@@ -191,8 +194,8 @@ export default {
       opacity: 0;
       margin-bottom: 30px;
       animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-delay: 0.2s;
+      animation-duration: .5s;
+      animation-delay: .2s;
       animation-fill-mode: forwards;
     }
     &__return-home {
@@ -203,16 +206,17 @@ export default {
       background: #1482f0;
       border-radius: 100px;
       text-align: center;
-      color: #ffffff;
+      color: #fff;
       opacity: 0;
       font-size: 14px;
       line-height: 36px;
       cursor: pointer;
       animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-delay: 0.3s;
+      animation-duration: .5s;
+      animation-delay: .3s;
       animation-fill-mode: forwards;
     }
+
     @keyframes slideUp {
       0% {
         transform: translateY(60px);

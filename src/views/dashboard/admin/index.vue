@@ -156,8 +156,7 @@ export default {
   .chart-container {
     display: flex;
     flex-direction: row;
-
-    .chart-wrapper{
+    .chart-wrapper {
       width: 33%;
       border: 2px solid #eaeaec;
       border-radius: 4px;
@@ -171,7 +170,6 @@ export default {
       flex-direction: column;
     }
   }
-
   .highcharts-grid.highcharts-yaxis-grid {
     display: none;
   }

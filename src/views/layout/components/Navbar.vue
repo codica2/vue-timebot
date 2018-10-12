@@ -64,7 +64,7 @@ export default {
 .navbar {
   height: $heightTopBar;
   line-height: 50px;
-  border-radius: 0px !important;
+  border-radius: 0 !important;
   .hamburger-container {
     line-height: 58px;
     height: 50px;
@@ -75,7 +75,7 @@ export default {
     width: 180px;
     border-right: 1px solid #e7e7e8;
   }
-  .breadcrumb-container{
+  .breadcrumb-container {
     float: left;
   }
   .errLog-container {
@@ -85,8 +85,8 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    &:focus{
-     outline: none;
+    &:focus {
+      outline: none;
     }
     .right-menu-item {
       display: inline-block;
@@ -95,7 +95,7 @@ export default {
     .screenfull {
       height: 20px;
     }
-    .international{
+    .international {
       vertical-align: top;
     }
     .theme-switch {
