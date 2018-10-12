@@ -13,14 +13,14 @@
       fit
       highlight-current-row
       style="width: 100%;")
-        el-table-column(type="selection", width="55")
+        el-table-column(type="selection" align="center" width="55")
         el-table-column(:label="$t('table.id')" align="center" width="65")
           template(slot-scope="scope")
             span {{ scope.row.id }}
         el-table-column(label="Email/Login")
           template(slot-scope="scope")
             span {{ scope.row.attributes.email }}
-        el-table-column(:label="$t('table.actions')" align="center" width="230" class-name="small-padding fixed-width")
+        el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
@@ -42,9 +42,11 @@
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
         div(class="view-flex")
           div
-            strong Email
-            div {{temp.attributes.email}}
+            strong Id
+            p {{temp.id}}
           div
+            strong Email
+            p {{temp.attributes.email}}
 </template>
 
 <script>

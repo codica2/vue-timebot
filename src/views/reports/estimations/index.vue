@@ -15,6 +15,10 @@
             end-placeholder="End date",
             placeholder="Please pick a date",
             prefix-icon="date-calendar")
+      div(class="time-entries-filters")
+        div(class="filters-label-csv")
+          download-excel(v-show="jsonData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
+            el-button() Download CSV
     el-table(:data="list('estimationReports')")
       el-table-column(
       prop="project",
@@ -41,8 +45,6 @@
       el-table-column(
       prop="status",
       label="Status")
-    download-excel(v-show="jsonData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
-      el-button() csv
     pagination(:type="type" v-if="list(type).length")
 </template>
 

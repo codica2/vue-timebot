@@ -3,7 +3,7 @@
     div(class="timebot-header") Weekly
     div(class="time-entries-filters-container")
       div(class="time-entries-filters")
-        div(style="font-size: 14px;") Projects name
+        div(class="filters-label") Projects name
           el-select(
             v-model="searchParams.projects"
             filterable
