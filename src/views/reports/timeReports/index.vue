@@ -29,6 +29,10 @@
           @change="getTimeReports"
           end-placeholder="End date"
           prefix-icon="date-calendar")
+      div(class="time-entries-filters")
+        div(class="filters-label-csv")
+          download-excel(v-show="groupedData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
+            el-button() Download CSV
     tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
       el-table-column(label="Date")
         template(slot-scope="scope")
@@ -49,8 +53,6 @@
       el-table-column(label="Total time")
         template(slot-scope="scope")
           span {{ scope.row.total_time }}
-    download-excel(v-show="groupedData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
-      el-button() csv
 </template>
 <script>
 import * as mixin from '@/mixins/index'
