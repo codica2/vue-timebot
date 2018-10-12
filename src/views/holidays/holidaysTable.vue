@@ -51,14 +51,11 @@
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
         div(class="view-flex")
           div
-            strong Id
-            p {{temp.id}}
-          div
             strong Name
-            p {{temp.name}}
+            p {{temp.attributes.name}}
           div
             strong DATE
-            p {{temp.date}}
+            p {{temp.attributes.date}}
 </template>
 
 <script>

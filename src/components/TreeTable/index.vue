@@ -5,11 +5,11 @@
         <!-- Todo -->
         <!-- eslint-disable-next-line vue/no-confusing-v-for-v-if -->
         <span v-for="space in scope.row._level" v-if="index === 0" :key="space" class="ms-tree-space"/>
-        <span v-if="iconShow(index,scope.row)" class="tree-ctrl" @click="toggleExpanded(scope.$index)">
-          <i v-if="!scope.row._expanded" class="el-icon-plus"/>
-          <i v-else class="el-icon-minus"/>
-        </span>
         {{ scope.row[column.value] }}
+        <span v-if="iconShow(index,scope.row)" class="tree-ctrl" @click="toggleExpanded(scope.$index)">
+          <i v-if="!scope.row._expanded" class="el-icon-arrow-down"/>
+          <i v-else class="el-icon-arrow-up"/>
+        </span>
       </template>
     </el-table-column>
     <slot/>
@@ -61,7 +61,7 @@ export default {
       record._expanded = !record._expanded
     },
     iconShow(index, record) {
-      return (index === 0 && record.children && record.children.length > 0)
+      return ((index === 0 && record.children && record.children.length > 0) || (index === 0 && record['time_entries'] && record['time_entries'].length > 0))
     }
   }
 }
@@ -104,7 +104,7 @@ export default {
   .tree-ctrl{
     position: relative;
     cursor: pointer;
-    color: $color-blue;
-    margin-left: -$space-width;
+    color: #000;
+    float: right;
   }
 </style>

@@ -75,19 +75,7 @@
         :series="staticData('series')"
         )
     div(v-if="staticData('absent').length" class="dashboard-header-statistics") Absence
-    tree-table(v-if="staticData('absent').length" :data="staticData('absent')" :eval-func="func" :eval-args="args" border)
-      el-table-column(label="Date")
-        template(slot-scope="scope")
-          span {{ scope.row.date }}
-      el-table-column(label="Name")
-        template(slot-scope="scope")
-          span {{ scope.row.name }}
-      el-table-column(label="Reason")
-        template(slot-scope="scope")
-          span {{ scope.row.reason }}
-      el-table-column(label="Comment")
-        template(slot-scope="scope")
-          span {{ scope.row.comment }}
+    tree-table(v-if="staticData('absent').length" :columns="columns" :data="staticData('absent')" :eval-func="func" :eval-args="args" border)
 </template>
 
 <script>
@@ -111,7 +99,25 @@ export default {
   data: () => ({
     type: 'dashboardChart',
     func: treeToArray,
-    args: [null, null, 'timeLine']
+    args: [null, null, 'timeLine'],
+    columns: [
+      {
+        text: 'Date',
+        value: 'date'
+      },
+      {
+        text: 'Name',
+        value: 'name'
+      },
+      {
+        text: 'Reason',
+        value: 'reason'
+      },
+      {
+        text: 'Comment',
+        value: 'comment'
+      }
+    ]
   }),
   computed: {
     ...mapGetters([

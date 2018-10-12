@@ -10,7 +10,7 @@ const service = axios.create({
     'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
   },
-  timeout: 20000
+  timeout: 25000
 })
 service.interceptors.request.use(
   config => {

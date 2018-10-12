@@ -91,14 +91,20 @@
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
       div(class="view-flex")
         div
-          strong Id
-          p {{temp.id}}
+          strong ID
+          div {{temp.id}}
         div
-          strong Project
-          p {{temp.attributes.name}}
+          strong NAME
+          div {{getIncluded(temp.relationships.user.data.id)}}
         div
-          strong Alias
-          p {{temp.attributes.alias}}
+          strong DATE
+          div {{temp.attributes.date}}
+        div
+          strong REASON
+          div {{temp.attributes.reason}}
+        div
+          strong COMMENT
+          div {{temp.attributes.comment}}
 </template>
 
 <script>

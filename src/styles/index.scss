@@ -29,6 +29,20 @@ html {
   box-sizing: inherit;
 }
 
+.chart-wrapper {
+  border: 1px solid #eaeaec;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.padding-content {
+  padding: 4px 0;
+}
+
 a:focus,
 a:active {
   outline: none;
@@ -493,10 +507,11 @@ tbody {
 }
 
 .el-submenu__title i {
+  z-index: 1;
+  position: static;
+  margin: -7px 0 0 35px !important;
   color: #32325d !important;
-  top: 40%;
 }
-
 .screenfull-svg[data-v-29234bee] {
   display: none !important;
 }
@@ -656,4 +671,29 @@ tbody {
 .el-date-table td.available:hover,
 .el-date-table td.today span {
   color: #305ac7;
+}
+
+.el-date-table td.available:hover {
+  color: #305ac7;
+}
+
+.el-date-table td.end-date span, .el-date-table td.start-date span {
+  background-color: #305ac7;
+}
+
+.el-picker-panel__shortcut:hover {
+  color:#305ac7;
+}
+.el-loading-mask{
+  z-index: 1;
+}
+tr.el-table__row{
+  .el-submenu__icon-arrow.el-icon-arrow-down{
+    display: inline-block;
+  }
+}
+.cell{
+  .el-submenu__icon-arrow.el-icon-arrow-down{
+    display: none;
+  }
 }
