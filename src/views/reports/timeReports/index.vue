@@ -26,13 +26,13 @@
           value-format="yyyy-MM-dd",
           start-placeholder="Start date",
           :picker-options="pickerOptions",
-          @change="setDate"
+          @change="getTimeReports"
           end-placeholder="End date"
           prefix-icon="date-calendar")
-    tree-table(:data="treeData" :eval-func="func" :eval-args="args" border)
-      el-table-column(label="Project")
+    tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
+      el-table-column(label="Date")
         template(slot-scope="scope")
-          span {{ scope.row.name }}
+          span {{ scope.row.date }}
       el-table-column(label="Collaborators")
         template(slot-scope="scope")
           div.collaborators-container
@@ -70,6 +70,12 @@ export default {
     searchParams: {
       projects: ''
     },
+    columns: [
+      {
+        text: 'Project',
+        value: 'name'
+      }
+    ],
     groupedData: [],
     treeData: [],
     json_fields: {
@@ -92,7 +98,7 @@ export default {
     })
   },
   mounted() {
-    this.setDate()
+    this.getTimeReports()
   },
   methods: {
     getIncluded(id) {
@@ -105,38 +111,26 @@ export default {
         }
       }
     },
-    setDate(date) {
-      if (date === null) {
+    getTimeReports() {
+      if (this.date === null) {
         this.date = [new Date(), new Date()]
       }
-      this.$store.dispatch('actionEntityTable/setLoader', true)
-      this.$store.dispatch('actionEntityTable/setFilter', { date_from: this.date[0], date_to: this.date[1] })
-        .then(() => {
-          this.$store.dispatch('actionEntityTable/setPagination', { limit: 100 })
-            .then(() => {
-              if (this.searchParams.projects) {
-                this.getList()
-                  .then(() => {
-                    this.$store.dispatch('actionEntityTable/setLoader', false)
-                    this.createTreeData()
-                  })
-              } else {
-                this.$store.dispatch('actionEntityTable/setLoader', false)
-              }
-            })
-        })
-    },
-    getTimeReports() {
-      this.$store.dispatch('actionEntityTable/setFilter', { by_projects: [this.searchParams.projects] })
+      this.$store.dispatch('actionEntityTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
           this.$store.dispatch('actionEntityTable/setPagination', { limit: 100 })
             .then(() => {
               this.$store.dispatch('actionEntityTable/setLoader', true)
-              this.$store.dispatch('actionEntityTable/fetchList', 'time-entries')
-                .finally(() => {
-                  this.$store.dispatch('actionEntityTable/setLoader', false)
-                  this.createTreeData()
-                })
+              if (this.searchParams.projects) {
+                this.$store.dispatch('actionEntityTable/fetchList', 'time-entries')
+                  .then(() => {
+                    this.createTreeData()
+                  })
+                  .finally(() => {
+                    this.$store.dispatch('actionEntityTable/setLoader', false)
+                  })
+              } else {
+                this.$store.dispatch('actionEntityTable/setLoader', false)
+              }
             })
         })
     },

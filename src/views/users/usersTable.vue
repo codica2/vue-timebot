@@ -62,20 +62,22 @@
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
         div(class="view-flex")
           div
-            strong Id
-            p {{temp.id}}
-          div
             strong Name
-            p {{temp.attributes.name}}
+            div {{temp.attributes.name}}
           div
             strong Uid
             p {{temp.attributes.uid}}
           div
-            strong Is active
-            p {{temp.attributes.is_active}}
+            strong Created at
+            p {{temp.attributes['created-at']}}
           div
-            strong Team
-            p {{temp.attributes.team_id}}
+            strong IS ACTIVE
+            p
+              span(v-if="temp.attributes['is-active']") Active
+              span(v-else) Inactive
+          div
+            strong TEAM
+            p {{setTeam(temp.relationships.team.data)}}
 </template>
 
 <script>
