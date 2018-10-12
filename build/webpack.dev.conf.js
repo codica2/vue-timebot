@@ -61,7 +61,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       path: config.dev.assetsPublicPath + config.dev.assetsSubDirectory
     }),
     new StylelintPlugin({
-      files: ['src/**/*.vue']
+      files: ['src/**/*.vue', 'src/styles/**/.scss']
     }),
     new FriendlyErrorsPlugin()
   ]
