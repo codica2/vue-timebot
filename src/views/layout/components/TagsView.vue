@@ -159,20 +159,16 @@ export default {
       font-size: 12px;
       margin-left: 5px;
       margin-top: 7px;
-
       &:first-of-type {
         margin-left: 15px;
       }
-
       &:last-of-type {
         margin-right: 15px;
       }
-
       &.active {
         background-color: #305ac7;
         color: #fff;
         border-color: #305ac7;
-
         &::before {
           content: '';
           background: #fff;
@@ -184,9 +180,26 @@ export default {
           margin-right: 2px;
         }
       }
+      .el-icon-close {
+        width: 16px;
+        height: 16px;
+        vertical-align: 2px;
+        border-radius: 50%;
+        text-align: center;
+        transition: all .3s cubic-bezier(.645, .045, .355, 1);
+        transform-origin: 100% 50%;
+        &::before {
+          transform: scale(.6);
+          display: inline-block;
+          vertical-align: -3px;
+        }
+        &:hover {
+          background-color: #b4bccc;
+          color: #fff;
+        }
+      }
     }
   }
-
   .contextmenu {
     margin: 0;
     background: #fff;
@@ -205,32 +218,6 @@ export default {
       cursor: pointer;
       &:hover {
         background: #eee;
-      }
-    }
-  }
-}
-</style>
-
-<style rel="stylesheet/scss" lang="scss">
-//reset element css of el-icon-close
-.tags-view-wrapper {
-  .tags-view-item {
-    .el-icon-close {
-      width: 16px;
-      height: 16px;
-      vertical-align: 2px;
-      border-radius: 50%;
-      text-align: center;
-      transition: all .3s cubic-bezier(.645, .045, .355, 1);
-      transform-origin: 100% 50%;
-      &:before {
-        transform: scale(.6);
-        display: inline-block;
-        vertical-align: -3px;
-      }
-      &:hover {
-        background-color: #b4bccc;
-        color: #fff;
       }
     }
   }

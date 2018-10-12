@@ -53,14 +53,12 @@ export default {
   transition: .38s;
   transform-origin: 50% 50%;
 }
-
 .hamburger.is-active {
   transform: rotate(0deg);
 }
-
-.title{
+.title {
   color: #305ac7;
-  font-family: 'Gilgon';
+  font-family: 'Gilgon', sans-serif;
   font-size: 20px;
   letter-spacing: .5px;
   margin: 0 0 0 20px;

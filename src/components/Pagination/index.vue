@@ -1,12 +1,12 @@
 <template lang="pug">
   div.pagination-container
     el-pagination(v-show="pagination.total > 0"
-    :current-page="pagination.page"
-    :page-sizes="[10,20,30,50]"
-    :page-size="pagination.limit"
-    :total="pagination.total"
-    background layout="total, sizes, prev, pager, next"
-    @size-change="handleSizeChange" @current-change="handleCurrentChange")
+      :current-page="pagination.page"
+      :page-sizes="[10,20,30,50]"
+      :page-size="pagination.limit"
+      :total="pagination.total"
+      background layout="total, sizes, prev, pager, next"
+      @size-change="handleSizeChange" @current-change="handleCurrentChange")
 </template>
 
 <script>
@@ -54,5 +54,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

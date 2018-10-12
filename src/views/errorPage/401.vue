@@ -49,7 +49,7 @@ export default {
     .pan-back-btn {
       background: #008489;
       color: #fff;
-      border: none!important;
+      border: none !important;
     }
     .pan-gif {
       margin: 0 auto;

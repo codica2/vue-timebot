@@ -68,17 +68,17 @@ export default {
 </script>
 <style rel="stylesheet/css">
   @keyframes treeTableShow {
-    from {opacity: 0;}
-    to {opacity: 1;}
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
+
   @-webkit-keyframes treeTableShow {
-    from {opacity: 0;}
-    to {opacity: 1;}
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 </style>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  $color-blue: #2196F3;
   $space-width: 18px;
   .ms-tree-space {
     position: relative;
@@ -90,18 +90,17 @@ export default {
     width: $space-width;
     height: 14px;
     &::before {
-      content: ""
+      content: "";
     }
   }
-  .processContainer{
+  .processContainer {
     width: 100%;
     height: 100%;
   }
   table td {
     line-height: 26px;
   }
-
-  .tree-ctrl{
+  .tree-ctrl {
     position: relative;
     cursor: pointer;
     color: #000;

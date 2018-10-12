@@ -11,7 +11,8 @@
     "lint": "eslint --ext .js,.vue src",
     "test": "npm run lint",
     "precommit": "lint-staged",
-    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
+    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
+    "lint:css": "stylelint '**/*.vue' --syntax scss"
   },
   "lint-staged": {
     "src/**/*.{js,vue}": [
@@ -61,6 +62,10 @@
     "showdown": "1.8.6",
     "simplemde": "1.11.2",
     "sortablejs": "1.7.0",
+    "stylelint": "^9.6.0",
+    "stylelint-config-standard": "^18.2.0",
+    "stylelint-processor-html": "^1.0.0",
+    "stylelint-webpack-plugin": "^0.10.5",
     "vue": "2.5.17",
     "vue-count-to": "1.0.13",
     "vue-i18n": "7.3.2",
@@ -89,10 +94,10 @@
     "copy-webpack-plugin": "4.5.2",
     "cross-env": "5.2.0",
     "css-loader": "1.0.0",
-    "eslint": "4.19.1",
+    "eslint": "^5.6.1",
     "eslint-friendly-formatter": "4.0.1",
     "eslint-loader": "^2.1.0",
-    "eslint-plugin-vue": "4.7.1",
+    "eslint-plugin-vue": "^4.7.1",
     "file-loader": "1.1.11",
     "friendly-errors-webpack-plugin": "1.7.0",
     "hash-sum": "1.0.2",

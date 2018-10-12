@@ -63,7 +63,7 @@ export default {
       background-color: #8ada53;
     }
     .qq-svg-container {
-      background-color: #6BA2D6;
+      background-color: #6ba2d6;
       margin-left: 50px;
     }
   }
