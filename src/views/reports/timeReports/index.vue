@@ -143,39 +143,44 @@ export default {
       }, {})
     },
     groupTreeData() {
-      const data = this.list('time-entries').slice()
-      const grouped = this.groupByAttributes(data, 'details')
-      const newData = []
-      for (const key in grouped) {
-        let allMinutes = null
-        let minutes = null
-        const collaborators = []
-        if (grouped.hasOwnProperty(key)) {
-          grouped[key].forEach((item) => {
-            const arrTime = item.attributes.time.split(':')
-            allMinutes += +(arrTime[0] * 60) + +arrTime[1]
-            if ((allMinutes % 60) < 10) {
-              minutes = `0${allMinutes % 60}`
-            } else {
-              minutes = allMinutes % 60
-            }
-            if (!collaborators.find(cl => cl.id === item.relationships.user.data.id)) {
-              item.relationships.user.data.name = this.getIncluded(item.relationships.user.data.id)
-              collaborators.push(item.relationships.user.data)
-            }
-          })
-          newData.push({
-            id: grouped[key][0].id,
-            type: grouped[key][0].type,
-            date: grouped[key][0].attributes.date,
-            details: grouped[key][0].attributes.details,
-            'estimated-time': grouped[key][0].attributes['estimated-time'],
-            time: `${allMinutes / 60 | 0}:${minutes}`,
-            'trello-labels': grouped[key][0].attributes['trello-labels'],
-            collaborators: collaborators
-          })
+      let data = []
+      data = this.list('time-entries').slice()
+      if (data.length) {
+        const grouped = this.groupByAttributes(data, 'details')
+        const newData = []
+        for (const key in grouped) {
+          let allMinutes = null
+          let minutes = null
+          const collaborators = []
+          if (grouped.hasOwnProperty(key)) {
+            grouped[key].forEach((item) => {
+              const arrTime = item.attributes.time.split(':')
+              allMinutes += +(arrTime[0] * 60) + +arrTime[1]
+              if ((allMinutes % 60) < 10) {
+                minutes = `0${allMinutes % 60}`
+              } else {
+                minutes = allMinutes % 60
+              }
+              if (!collaborators.find(cl => cl.id === item.relationships.user.data.id)) {
+                item.relationships.user.data.name = this.getIncluded(item.relationships.user.data.id)
+                collaborators.push(item.relationships.user.data)
+              }
+            })
+            newData.push({
+              id: grouped[key][0].id,
+              type: grouped[key][0].type,
+              date: grouped[key][0].attributes.date,
+              details: grouped[key][0].attributes.details,
+              'estimated-time': grouped[key][0].attributes['estimated-time'],
+              time: `${allMinutes / 60 | 0}:${minutes}`,
+              'trello-labels': grouped[key][0].attributes['trello-labels'],
+              collaborators: collaborators
+            })
+          }
+          this.groupedData = newData
         }
-        this.groupedData = newData
+      } else {
+        this.groupedData = []
       }
     },
     createTreeData() {
