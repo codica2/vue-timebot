@@ -123,7 +123,20 @@ export default {
 
   @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
     .login-container .el-input input {
+      -webkit-appearance: none;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      caret-color: #fff;
+      height: 47px;
+      padding: 12px 5px 12px 15px;
       color: $cursor;
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px #2c3745 inset;
+        background-color: transparent !important;
+      }
       &::first-line {
         color: $light_gray;
       }
