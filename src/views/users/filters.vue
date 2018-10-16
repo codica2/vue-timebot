@@ -17,7 +17,11 @@
             :label="user.name"
             :value="user.name"
           )
-    div
+    div(class="time-entries-filters")
+      div(class="filters-label") Role
+        el-select(v-model="searchParams.role" placeholder="Select" clearable)
+          el-option(v-for="item in roles" :key="item.value" :label="item.label" :value="item.value")
+    div(class="time-entries-filters")
       div(class="filters-label") Status
       div(class="time-entries-checkbox")
         el-checkbox(v-model="searchParams.status") Is Active
@@ -37,8 +41,39 @@ export default {
     type: 'users',
     searchParams: {
       user: '',
-      status: false
-    }
+      role: '',
+      status: true
+    },
+    roles: [
+      {
+        label: 'Front-end',
+        value: 'front_end'
+      },
+      {
+        label: 'Design',
+        value: 'design'
+      },
+      {
+        label: 'PM',
+        value: 'pm'
+      },
+      {
+        label: 'QA',
+        value: 'QA'
+      },
+      {
+        label: 'OPS',
+        value: 'ops'
+      },
+      {
+        label: 'Marketing',
+        value: 'marketing'
+      },
+      {
+        label: 'Back-end',
+        value: 'back_end'
+      }
+    ]
   }),
   computed: {
     ...mapGetters({
@@ -47,7 +82,8 @@ export default {
     entity() {
       return {
         active_status: this.searchParams.status,
-        by_name: this.searchParams.user
+        by_name: this.searchParams.user,
+        by_role: this.searchParams.role
       }
     }
   },
