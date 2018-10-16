@@ -5,14 +5,16 @@
   "author": "Yakovlev Valentin <vyakovlev.codica@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "start": "cross-env BABEL_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "dev": "cross-env BABEL_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "build:prod": "cross-env NODE_ENV=production env_config=prod node build/build.js",
+    "build": "cross-env NODE_ENV=production env_config=prod node build/build.js",
     "build:sit": "cross-env NODE_ENV=production env_config=sit node build/build.js",
     "lint": "eslint --ext .js,.vue src",
     "test": "npm run lint",
     "precommit": "lint-staged",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
-    "lint:css": "stylelint '**/*.vue' --syntax scss"
+    "lint:css": "stylelint '**/*.vue' --syntax scss",
+    "deploy": "node ./node_modules/vue-gh-pages/index.js"
   },
   "lint-staged": {
     "src/**/*.{js,vue}": [
@@ -20,6 +22,7 @@
       "git add"
     ]
   },
+  "homepage": "https://github.com/CodicaVai/vue-timebot",
   "keywords": [
     "vue",
     "element-ui",
@@ -46,6 +49,7 @@
     "eventsource-polyfill": "^0.9.6",
     "file-saver": "^2.0.0-rc.3",
     "font-awesome": "4.7.0",
+    "global": "^4.3.2",
     "highcharts": "^6.1.4",
     "highcharts-vue": "^1.2.0",
     "js-cookie": "2.2.0",
@@ -59,6 +63,7 @@
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.0.0",
     "screenfull": "3.3.3",
+    "serve": "^10.0.2",
     "showdown": "1.8.6",
     "simplemde": "1.11.2",
     "sortablejs": "1.7.0",
@@ -68,6 +73,7 @@
     "stylelint-webpack-plugin": "^0.10.5",
     "vue": "2.5.17",
     "vue-count-to": "1.0.13",
+    "vue-gh-pages": "^1.19.0",
     "vue-i18n": "7.3.2",
     "vue-json-excel": "^0.2.96",
     "vue-router": "3.0.1",
