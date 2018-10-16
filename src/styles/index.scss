@@ -411,7 +411,7 @@ tbody {
   display: none !important;
 }
 .date-calendar {
-  background: url("/src/icons/svg/calendar-date.svg") no-repeat center;
+  background: url("/static/icons/calendar-date.svg") no-repeat center;
 }
 .el-date-editor--daterange.el-input,
 .el-date-editor--daterange.el-input__inner,
@@ -494,7 +494,7 @@ tbody {
   margin: -24px 0 20px 0;
 }
 .create-new-category {
-  background: #305ac7 url('/src/icons/svg/border-plus.svg') no-repeat center left 15px;
+  background: #305ac7 url('/static/icons/border-plus.svg') no-repeat center left 15px;
   border-color: #305ac7;
   border-radius: 3px;
   font-family: $main-ff-medium;
@@ -502,7 +502,7 @@ tbody {
   padding: 13px 15px 7px 40px;
   &:hover,
   &:focus {
-    background: #305ac7 url('/src/icons/svg/border-plus.svg') no-repeat center left 15px;
+    background: #305ac7 url('/static/icons/border-plus.svg') no-repeat center left 15px;
     border-color: #305ac7;
     opacity: .9;
   }

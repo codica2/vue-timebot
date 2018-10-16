@@ -13,8 +13,8 @@
 
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img src="src/icons/svg/lg_blue.svg" class="user-avatar">
-          <img src="src/icons/svg/down-arrow.svg" style="margin: 0 0 15px 5px;">
+          <img :src="require('@/assets/icons/lg_blue.svg')" class="user-avatar">
+          <img :src="require('@/assets/icons/down-arrow.svg')" style="margin: 0 0 15px 5px;">
         </div>
         <el-dropdown-menu slot="dropdown" style="margin: 0; padding: 0;">
           <el-dropdown-item divided>
