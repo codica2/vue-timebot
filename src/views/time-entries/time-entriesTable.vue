@@ -157,7 +157,6 @@ export default {
       return {
         date: this.temp.attributes.date,
         time: this.temp.attributes.time,
-        minutes: this.temp.attributes.time,
         details: this.temp.attributes.details,
         trello_labels: this.temp.attributes.trello_labels,
         user_id: this.temp.relationships.user.data.id,

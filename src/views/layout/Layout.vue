@@ -57,7 +57,7 @@ export default {
     handleScroll() {
       const heightTopBar = window.getComputedStyle(document.querySelector('.navbar'))['height']
       const height = heightTopBar.substring(0, heightTopBar.length - 2)
-      window.pageYOffset >= `${+height + 10}` ? this.fixed = true : this.fixed = false
+      this.fixed = window.pageYOffset >= +height
     }
   }
 }
@@ -79,7 +79,7 @@ export default {
     background: #000;
     opacity: .3;
     width: 100%;
-    top: 0;
+    top: 50px;
     height: 100%;
     position: absolute;
     z-index: 999;
