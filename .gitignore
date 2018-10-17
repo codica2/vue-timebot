@@ -19,3 +19,5 @@ selenium-debug.log
 *.sln
 
 package-lock.json
+.ruby-gemset
+.ruby-version
