@@ -6,9 +6,7 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <el-tooltip :content="$t('navbar.screenfull')" effect="dark" placement="bottom">
-          <screenfull class="screenfull right-menu-item"/>
-        </el-tooltip>
+        <el-tooltip :content="$t('navbar.screenfull')" effect="dark" placement="bottom"/>
       </template>
 
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
@@ -30,13 +28,11 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import Screenfull from '@/components/Screenfull'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger,
-    Screenfull
+    Hamburger
   },
   computed: {
     ...mapGetters([
