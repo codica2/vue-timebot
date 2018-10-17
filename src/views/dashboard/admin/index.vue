@@ -20,21 +20,21 @@
         div(class="dashboard-flex-block")
           div(class="dashboard-header-statistics")(v-if="date")
             div(class="dashboard-header-image")
-              <img src="src/icons/svg/analysis.svg">
+              img(:src="require('@/assets/icons/analysis.svg')")
             div(class="dashboard-stat-padding")
               div Statistics for
               span {{date[0]}} - {{date[1]}}
         div(class="dashboard-flex-block")
           div(class="dashboard-header-statistics")
             div(class="dashboard-header-image")
-              <img src="src/icons/svg/deadline.svg">
+              img(:src="require('@/assets/icons/deadline.svg')")
             div(class="dashboard-stat-padding")
               div Hours to work:
               span {{staticData('hours_to_work')}}
         div(class="dashboard-flex-block")
           div(class="dashboard-header-statistics")
             div(class="dashboard-header-image")
-              <img src="src/icons/svg/task.svg">
+              img(:src="require('@/assets/icons/task.svg')")
             div(class="dashboard-stat-padding")
               div Hours worked:
               span {{Math.round(staticData('hours_worked'))}}
@@ -42,7 +42,7 @@
         div(class="dashboard-flex-block mw-32")
           div(class="dashboard-header-statistics")(v-if="staticData('holidays').length")
             div(class="dashboard-header-image")
-              <img src="src/icons/svg/holiday.svg">
+              img(:src="require('@/assets/icons/holiday.svg')")
             div(class="dashboard-stat-padding")
               div Holidays:
               span(class="mr-2" v-for="(holiday, holidayIndex) in staticData('holidays')" :key="holidayIndex")
@@ -75,9 +75,9 @@
         :series="staticData('series')"
         )
     div(v-if="staticData('absent').length" class="dashboard-header-statistics")
-    el-col(:xs="24" :sm="24" :lg="24")(class="dashboard-graphics-margin")
-      div(class="highcharts-header") Absence
-      tree-table(v-if="staticData('absent').length" :columns="columns" :data="staticData('absent')" :eval-func="func" :eval-args="args" border)
+      el-col(:xs="24" :sm="24" :lg="24")(class="dashboard-graphics-margin")
+        div(class="highcharts-header") Absence
+        tree-table(v-if="staticData('absent').length" :columns="columns" :data="staticData('absent')" :eval-func="func" :eval-args="args" border)
 </template>
 
 <script>
