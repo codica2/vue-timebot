@@ -57,7 +57,7 @@ export default {
     handleScroll() {
       const heightTopBar = window.getComputedStyle(document.querySelector('.navbar'))['height']
       const height = heightTopBar.substring(0, heightTopBar.length - 2)
-      window.pageYOffset >= +height ? this.fixed = true : this.fixed = false
+      this.fixed = window.pageYOffset >= +height
     }
   }
 }
