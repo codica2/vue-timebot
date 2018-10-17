@@ -13,8 +13,7 @@
     "test": "npm run lint",
     "precommit": "lint-staged",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
-    "lint:css": "stylelint '**/*.vue' --syntax scss",
-    "deploy": "node ./node_modules/vue-gh-pages/index.js"
+    "lint:css": "stylelint '**/*.vue' --syntax scss"
   },
   "lint-staged": {
     "src/**/*.{js,vue}": [
@@ -22,7 +21,6 @@
       "git add"
     ]
   },
-  "homepage": "https://github.com/CodicaVai/vue-timebot",
   "keywords": [
     "vue",
     "element-ui",
@@ -73,7 +71,6 @@
     "stylelint-webpack-plugin": "^0.10.5",
     "vue": "2.5.17",
     "vue-count-to": "1.0.13",
-    "vue-gh-pages": "^1.19.0",
     "vue-i18n": "7.3.2",
     "vue-json-excel": "^0.2.96",
     "vue-router": "3.0.1",
