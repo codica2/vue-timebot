@@ -59,8 +59,8 @@ export const mixDate = {
   },
   mounted() {
     if (this.date) {
-      const end = new Date('2018-08-18')
-      const start = new Date('2018-08-12')
+      const end = new Date()
+      const start = new Date()
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
       this.$store.dispatch('setRangeDate', [this.formatDate(start), this.formatDate(end)])
     }

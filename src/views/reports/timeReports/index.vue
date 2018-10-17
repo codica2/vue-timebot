@@ -36,7 +36,9 @@
     tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
       el-table-column(label="Date")
         template(slot-scope="scope")
-          span {{ scope.row.date }}
+          span(v-if="scope.row.date")
+            strong(v-if="scope.row.date.length === 1") {{ scope.row.date[0] }}
+            span(v-else) {{`from ${scope.row.date[scope.row.date.length - 1]} to ${scope.row.date[0]}` }}
       el-table-column(label="Collaborators")
         template(slot-scope="scope")
           div.collaborators-container
@@ -152,6 +154,7 @@ export default {
           let allMinutes = null
           let minutes = null
           const collaborators = []
+          const date = []
           if (grouped.hasOwnProperty(key)) {
             grouped[key].forEach((item) => {
               const arrTime = item.attributes.time.split(':')
@@ -163,13 +166,14 @@ export default {
               }
               if (!collaborators.find(cl => cl.id === item.relationships.user.data.id)) {
                 item.relationships.user.data.name = this.getIncluded(item.relationships.user.data.id)
+                date.push(item.attributes.date)
                 collaborators.push(item.relationships.user.data)
               }
             })
             newData.push({
               id: grouped[key][0].id,
               type: grouped[key][0].type,
-              date: grouped[key][0].attributes.date,
+              date: date,
               details: grouped[key][0].attributes.details,
               'estimated-time': grouped[key][0].attributes['estimated-time'],
               time: `${allMinutes / 60 | 0}:${minutes}`,

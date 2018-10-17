@@ -53,8 +53,8 @@
               el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team.id")
             el-select(v-else v-model="temp.relationships.team.data" placeholder="Select")
               el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team")
-          el-form-item(label="Is active")
-            el-checkbox(v-model="temp.attributes['is-active']")
+          el-form-item(label="")
+            el-checkbox(v-model="temp.attributes['is-active']") Is active
         div(slot="footer" class="dialog-footer")
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create") Create

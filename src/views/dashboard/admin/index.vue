@@ -18,7 +18,7 @@
     div
       div(class="dashboard-flex-container")
         div(class="dashboard-flex-block")
-          div(class="dashboard-header-statistics")(v-if="date")
+          div(class="dashboard-header-statistics" v-if="date")
             div(class="dashboard-header-image")
               img(:src="require('@/assets/icons/analysis.svg')")
             div(class="dashboard-stat-padding")
@@ -40,7 +40,7 @@
               span {{Math.round(staticData('hours_worked'))}}
       div(class="dashboard-flex--holiday-container")
         div(class="dashboard-flex-block mw-32")
-          div(class="dashboard-header-statistics")(v-if="staticData('holidays').length")
+          div(class="dashboard-header-statistics" v-if="staticData('holidays').length")
             div(class="dashboard-header-image")
               img(:src="require('@/assets/icons/holiday.svg')")
             div(class="dashboard-stat-padding")
@@ -49,7 +49,7 @@
                 span {{ holiday[0] }}&nbsp;
                 span {{ holiday[1] }}
     div(class="dashboard-graphics")
-      el-col(:xs="24" :sm="24" :lg="12")(class="dashboard-graphics-margin")
+      el-col(:xs="24" :sm="24" :lg="12" class="dashboard-graphics-margin")
         div(class="highcharts-header") Projects
         .chart-wrapper
           PieChart(
@@ -67,7 +67,7 @@
           :chart="{ type: 'variablepie' }"
           :payloadData="chartData('departments').data"
           )
-    el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series')")(class="dashboard-bt-graphics-margin")
+    el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series')" class="dashboard-bt-graphics-margin")
       div(class="highcharts-header") Projects
       .chart-wrapper
         BarChart(
@@ -75,7 +75,7 @@
         :series="staticData('series')"
         )
     div(v-if="staticData('absent').length" class="dashboard-header-statistics")
-      el-col(:xs="24" :sm="24" :lg="24")(class="dashboard-graphics-margin")
+      el-col(:xs="24" :sm="24" :lg="24" class="dashboard-graphics-margin")
         div(class="highcharts-header") Absence
         tree-table(v-if="staticData('absent').length" :columns="columns" :data="staticData('absent')" :eval-func="func" :eval-args="args" border)
 </template>
