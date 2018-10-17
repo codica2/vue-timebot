@@ -74,10 +74,9 @@
         :xAxisData="staticData('xAxisData')"
         :series="staticData('series')"
         )
-    div(v-if="staticData('absent').length" class="dashboard-header-statistics")
-      el-col(:xs="24" :sm="24" :lg="24" class="dashboard-graphics-margin")
-        div(class="highcharts-header") Absence
-        tree-table(v-if="staticData('absent').length" :columns="columns" :data="staticData('absent')" :eval-func="func" :eval-args="args" border)
+    el-col(v-if="staticData('absent').length" :xs="24" :sm="24" :lg="24" class="dashboard-graphics-margin")
+      div(class="highcharts-header") Absence
+      tree-table(v-if="staticData('absent').length" :columns="columns" :data="staticData('absent')" :eval-func="func" :eval-args="args" border)
 </template>
 
 <script>
