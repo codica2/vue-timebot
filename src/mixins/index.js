@@ -77,7 +77,15 @@ export const mixValidationRules = {
       }
     }
     const checkProject = (rule, value, callback) => {
-      if (!value) {
+      if (!value.id) {
+        callback(new Error())
+      } else {
+        callback()
+      }
+    }
+    const checkUser = (rule, value, callback) => {
+      console.log(value)
+      if (!value.id) {
         callback(new Error())
       } else {
         callback()
@@ -85,6 +93,20 @@ export const mixValidationRules = {
     }
     const checkDate = (rule, value, callback) => {
       if (!value) {
+        callback(new Error())
+      } else {
+        callback()
+      }
+    }
+    const checkRole = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error())
+      } else {
+        callback()
+      }
+    }
+    const checkTeam = (rule, value, callback) => {
+      if (!value.id) {
         callback(new Error())
       } else {
         callback()
@@ -98,8 +120,10 @@ export const mixValidationRules = {
         title: [{ required: true, message: 'title is required', trigger: 'blur' }],
         id: [{ validator: checkName, required: true, message: 'User is required', trigger: 'change' }],
         project: [{ validator: checkProject, required: true, message: 'Project is required', trigger: 'change' }],
+        user: [{ validator: checkUser, required: true, message: 'User is required', trigger: 'change' }],
         name: [{ validator: checkName, required: true, message: 'Name of project is requires', trigger: 'change' }],
-        team: [{ required: true, message: 'Team is requires', trigger: 'change' }]
+        role: [{ validator: checkRole, required: true, message: 'Role is requires', trigger: 'change' }],
+        team: [{ validator: checkTeam, required: true, message: 'Team is requires', trigger: 'change' }]
       }
     }
   }
@@ -121,20 +145,13 @@ export const mixDialog = {
         id: undefined,
         type: '',
         date: '',
-        attributes: {
-          'is-active': false
-        },
-        relationships: {
-          team: {
-            data: {}
-          },
-          user: {
-            data: {}
-          },
-          project: {
-            data: {}
-          }
-        }
+        details: '',
+        'estimated-time': '',
+        time: '',
+        'trello-labels': [],
+        project: {},
+        user: {},
+        team: {}
       }
     }
   },
@@ -156,6 +173,7 @@ export const mixDialog = {
       })
     },
     handleView(row) {
+      console.log(row)
       this.temp = Object.assign({}, row)
       this.dialogStatus = 'view'
       this.dialogViewVisible = true
@@ -165,20 +183,13 @@ export const mixDialog = {
         id: undefined,
         type: '',
         date: '',
-        attributes: {
-          'is-active': false
-        },
-        relationships: {
-          team: {
-            data: {}
-          },
-          user: {
-            data: {}
-          },
-          project: {
-            data: {}
-          }
-        }
+        details: '',
+        'estimated-time': '',
+        time: '',
+        'trello-labels': [],
+        project: {},
+        user: {},
+        team: {}
       }
     }
   }
@@ -315,7 +326,7 @@ export const mixQuery = {
     remoteGetProjects(query) {
       if (typeof query !== 'string') {
         if (this.temp) {
-          query = this.getIncluded(this.temp.relationships.project.data.id) || ''
+          query = this.getIncluded(this.temp.project.id) || ''
         } else {
           query = ''
         }
@@ -329,7 +340,7 @@ export const mixQuery = {
     remoteGetUsers(query) {
       if (typeof query !== 'string') {
         if (this.temp) {
-          query = this.getIncluded(this.temp.relationships.user.data.id) || ''
+          query = this.getIncluded(this.temp.user.id) || ''
         } else {
           query = ''
         }
@@ -364,9 +375,55 @@ export const mixIncludes = {
           if (pj.id === id) return pj
         })
         if (findInclude) {
-          return findInclude.attributes.name
+          return findInclude.name
         }
       }
+    }
+  }
+}
+
+export const mixEntities = {
+  methods: {
+    createEntities(response) {
+      const entities = []
+      const included = []
+      const data = {}
+      console.log(response)
+      response.data.data.forEach(dt => {
+        const entity = {
+          id: dt.id,
+          date: dt.attributes.date,
+          details: dt.attributes.details,
+          'estimated-time': dt.attributes['estimated-time'],
+          time: dt.attributes.time,
+          'trello-labels': dt.attributes['trello-labels'],
+          project: dt.relationships.project ? dt.relationships.project.data : {},
+          user: dt.relationships.user ? dt.relationships.user.data : {},
+          'created-at': dt.attributes['created-at'],
+          'is-active': dt.attributes['is-active'],
+          name: dt.attributes.name,
+          role: dt.attributes.role,
+          uid: dt.attributes.uid
+        }
+        entities.push(entity)
+      })
+      if (response.data.included) {
+        response.data.included.forEach(ic => {
+          const entity = {
+            id: ic.id,
+            'created-at': ic.attributes['created-at'],
+            'is-active': ic.attributes['is-active'],
+            name: ic.attributes.name,
+            role: ic.attributes.role,
+            uid: ic.attributes.uid
+          }
+          included.push(entity)
+        })
+      }
+      data.data = entities
+      data.included = included
+      data.meta = response.data.meta
+      return data
     }
   }
 }

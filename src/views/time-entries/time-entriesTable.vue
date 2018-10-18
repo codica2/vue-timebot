@@ -20,19 +20,19 @@
             span {{ scope.row.id }}
         el-table-column(label="User")
           template(slot-scope="scope")
-            span {{ getIncluded(scope.row.relationships.user.data.id) }}
+            span {{ getIncluded(scope.row.user.id) }}
         el-table-column(label="Project")
           template(slot-scope="scope")
-            span {{ getIncluded(scope.row.relationships.project.data.id) }}
+            span {{ getIncluded(scope.row.project.id) }}
         el-table-column(label="Date")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.date }}
+            span {{ scope.row.date }}
         el-table-column(label="Time")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.time }}
+            span {{ scope.row.time }}
         el-table-column(label="Details")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.details }}
+            span {{ scope.row.details }}
         el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             div(style="text-align: center;")
@@ -43,13 +43,13 @@
       el-dialog(@open="preRemote" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"
         :rules="rules"
-        :model="temp.attributes"
+        :model="temp"
         label-position="left"
         label-width="70px"
         style="width: 400px; margin-left:50px;")
-          el-form-item(label="User")
+          el-form-item(label="User" prop="user")
             el-select(
-              v-model="temp.relationships.user.data.id",
+              v-model="temp.user.id",
               filterable,
               remote,
               @focus="remoteGetUsers"
@@ -63,9 +63,10 @@
                 :label="user.name"
                 :value="user.id"
               )
-          el-form-item(label="Project")
+          el-form-item(label="Project" prop="project")
             el-select(
-              v-model="temp.relationships.project.data.id"
+              clearable,
+              v-model="temp.project.id"
               filterable
               remote,
               @focus="remoteGetProjects"
@@ -80,17 +81,17 @@
             el-date-picker(
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
-              v-model="temp.attributes.date"
+              v-model="temp.date"
               type="date"
               placeholder="Please pick a date"
             )
           el-form-item(label="Time" prop="time")
             el-time-select(
-            :picker-options="{ start: '00:00', step: '00:15', end: '18:30' }"
-            v-model="temp.attributes.time"
+            :picker-options="{ start: '00:00', step: '00:15', end: '24:30' }"
+            v-model="temp.time"
             placeholder="Please pick a time")
           el-form-item(label="Details" prop="timestamp")
-            el-input(v-model="temp.attributes.details" type="details" placeholder="Write smth")
+            el-input(v-model="temp.details" type="details" placeholder="Write smth")
         div(slot="footer" class="dialog-footer")
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create()") Create
@@ -102,25 +103,25 @@
             p {{temp.id}}
           div
             strong User
-            p {{getIncluded(temp.relationships.user.data.id)}}
+            p {{getIncluded(temp.user.id)}}
           div
             strong Date
-            p {{temp.attributes.date}}
+            p {{temp.date}}
           div
             strong Details
-            p {{temp.attributes.details}}
+            p {{temp.details}}
           div
             strong Minutes
-            p {{temp.attributes.time}}
+            p {{temp.time}}
           div
             strong Project
-            p {{temp.relationships.project.data.id}}
+            p {{temp.project.id}}
           div
             strong Ticket
-            p {{temp.attributes.details}}
+            p {{temp.details}}
           div
             strong Trello labels
-            p {{temp.attributes['trello-labels']}}
+            p {{temp['trello-labels']}}
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -155,12 +156,12 @@ export default {
     }),
     entity() {
       return {
-        date: this.temp.attributes.date,
-        time: this.temp.attributes.time,
-        details: this.temp.attributes.details,
-        trello_labels: this.temp.attributes.trello_labels,
-        user_id: this.temp.relationships.user.data.id,
-        project_id: this.temp.relationships.project.data.id
+        date: this.temp.date,
+        time: this.temp.time,
+        details: this.temp.details,
+        trello_labels: this.temp.trello_labels,
+        user_id: this.temp.user.id,
+        project_id: this.temp.project.id
       }
     }
   },

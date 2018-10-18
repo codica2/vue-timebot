@@ -1,5 +1,6 @@
 import * as Api from '@/api/actionEntityTable'
 import { setQuery } from '@/api/queryConst'
+import { mixEntities } from '@/mixins/index'
 const actionEntityTable = {
   namespaced: true,
   state: {
@@ -60,7 +61,8 @@ const actionEntityTable = {
       return new Promise((resolve, reject) => {
         Api.fetchList(setQuery(payload), { page: state.pagination.page, 'per_page': state.pagination.limit, ...state.filters })
           .then((response) => {
-            commit('FETCH_LIST', { data: response.data, type: payload })
+            const data = mixEntities.methods.createEntities(response)
+            commit('FETCH_LIST', { data: data, type: payload })
             resolve()
           })
       })
