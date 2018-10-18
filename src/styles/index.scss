@@ -278,35 +278,65 @@ tbody {
   font-family: $main-ff-regular;
   font-size: 17px;
 }
+
 .el-dialog {
-  max-width: 380px !important;
+  max-width: 552px !important;
+
   .el-dialog__header {
+    padding: 30px 20px 10px;
+
     .el-dialog__title {
       font-family: $main-ff-medium;
-      font-size: 22px;
-      text-transform: uppercase;
+      font-size: 24px;
     }
   }
 }
-.view-flex {
-  strong {
-    color: #383845;
-    font-size: 16px;
-    text-transform: uppercase;
+
+.el-dialog-view {
+  .el-dialog__header{
+    background: url("./../../static/icons/ic-view.svg") no-repeat 20px 22px;
+
+    span {
+      padding: 0 0 0 55px;
+    }
   }
-  div {
+}
+
+.el-dialog-flex {
+  .el-dialog-flex-block {
     border-bottom: 1px solid #ececec;
     margin-bottom: 10px;
+    display: flex;
+    padding: 10px 0;
+    //justify-content: space-between;
+
     &:last-child {
       border-bottom: 0;
     }
   }
-  p {
+
+  .el-dialog-flex-head {
     color: #232323;
-    font-size: 15px;
-    margin: 0 0 5px;
+    font-family: $main-ff-regular;
+    font-size: 17px;
+    font-weight: normal;
+    text-transform: inherit;
+    width: 30%;
+  }
+
+  .el-dialog-flex-subhead {
+    color: #232323;
+    font-family: $main-ff-medium;
+    font-size: 17px;
+    text-align: right;
+    width: 40%;
+
+    span {
+      color: #305ac7;
+    }
   }
 }
+
 .el-message-box__title {
   span {
     font-family: $main-ff-medium;
@@ -529,6 +559,15 @@ tbody {
 }
 .el-checkbox__inner:hover {
   border-color: #305ac7;
+}
+.el-dialog__headerbtn {
+  color: #232323;
+  font-size: 20px;
+  right: 20px;
+  top: 30px;
+}
+.el-dialog__headerbtn .el-dialog__close {
+  color: #232323;
 }
 .el-dialog__headerbtn:focus .el-dialog__close,
 .el-dialog__headerbtn:hover .el-dialog__close,

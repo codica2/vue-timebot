@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="35px" height="35px" viewBox="0 0 35 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>ic-edit</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard-ui" transform="translate(-799.000000, -2140.000000)" fill-rule="nonzero">
+            <g id="ic-edit" transform="translate(799.000000, 2140.000000)">
+                <path d="M17.5,35 C7.83501688,35 0,27.1649831 0,17.5 C0,7.83501688 7.83501688,0 17.5,0 C27.1649831,0 35,7.83501688 35,17.5 C35,27.1649831 27.1649831,35 17.5,35 Z" id="Oval-4-Copy" fill="#C2E0F4"></path>
+                <g id="pencil-edit-button" transform="translate(10.000000, 10.000000)" fill="#3498DB">
+                    <path d="M9.94731191,2.67552182 L13.2014518,5.94198102 L4.96432514,14.2103681 L1.71203025,10.9439089 L9.94731191,2.67552182 Z M15.6707146,1.88772676 L14.2194934,0.430998102 C13.6586465,-0.13197723 12.7479471,-0.13197723 12.1851947,0.430998102 L10.7950699,1.82639848 L14.0492098,5.09288805 L15.6707146,3.4652296 C16.1057089,3.02855408 16.1057089,2.32437192 15.6707146,1.88772676 Z M0.00907372401,15.5351803 C-0.050147448,15.8027173 0.190487713,16.042444 0.457043478,15.9773814 L4.08323629,15.0948311 L0.830941399,11.8283719 L0.00907372401,15.5351803 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
