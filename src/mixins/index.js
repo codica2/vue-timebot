@@ -84,7 +84,6 @@ export const mixValidationRules = {
       }
     }
     const checkUser = (rule, value, callback) => {
-      console.log(value)
       if (!value.id) {
         callback(new Error())
       } else {
@@ -114,16 +113,17 @@ export const mixValidationRules = {
     }
     return {
       rules: {
-        type: [{ required: true, message: 'type is required', trigger: 'change' }],
         date: [{ validator: checkDate, type: 'date', required: true, message: 'Date is required', trigger: 'blur' }],
         time: [{ validator: checkDate, type: 'datetime', required: true, message: 'Time is required', trigger: 'blur' }],
-        title: [{ required: true, message: 'title is required', trigger: 'blur' }],
-        id: [{ validator: checkName, required: true, message: 'User is required', trigger: 'change' }],
         project: [{ validator: checkProject, required: true, message: 'Project is required', trigger: 'change' }],
         user: [{ validator: checkUser, required: true, message: 'User is required', trigger: 'change' }],
-        name: [{ validator: checkName, required: true, message: 'Name of project is requires', trigger: 'change' }],
+        name: [{ validator: checkName, required: true, message: 'Name is requires', trigger: 'change' }],
         role: [{ validator: checkRole, required: true, message: 'Role is requires', trigger: 'change' }],
-        team: [{ validator: checkTeam, required: true, message: 'Team is requires', trigger: 'change' }]
+        team: [{ validator: checkTeam, required: true, message: 'Team is requires', trigger: 'change' }],
+        description: [{ validator: checkName, required: true, message: 'Description is requires', trigger: 'change' }],
+        pass: [{ validator: checkName, required: true, message: 'Password is requires', trigger: 'change' }],
+        email: [{ required: true, message: 'Please input email address', trigger: 'blur' },
+          { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }]
       }
     }
   }
@@ -173,7 +173,6 @@ export const mixDialog = {
       })
     },
     handleView(row) {
-      console.log(row)
       this.temp = Object.assign({}, row)
       this.dialogStatus = 'view'
       this.dialogViewVisible = true
@@ -200,13 +199,13 @@ export const mixPagination = {
   }),
   methods: {
     handleSizeChange(val) {
-      this.$store.dispatch('actionEntityTable/setPagination', { type: 'limit', value: val })
+      this.$store.dispatch('setPagination', { type: 'limit', value: val }, { root: true })
         .then(() => {
           this.getList()
         })
     },
     handleCurrentChange(val) {
-      this.$store.dispatch('actionEntityTable/setPagination', { type: 'page', value: val })
+      this.$store.dispatch('setPagination', { type: 'page', value: val }, { root: true })
         .then(() => {
           this.getList()
         })
@@ -385,44 +384,71 @@ export const mixIncludes = {
 export const mixEntities = {
   methods: {
     createEntities(response) {
+      console.log(response)
       const entities = []
       const included = []
       const data = {}
-      console.log(response)
       response.data.data.forEach(dt => {
-        const entity = {
-          id: dt.id,
-          date: dt.attributes.date,
-          details: dt.attributes.details,
-          'estimated-time': dt.attributes['estimated-time'],
-          time: dt.attributes.time,
-          'trello-labels': dt.attributes['trello-labels'],
-          project: dt.relationships.project ? dt.relationships.project.data : {},
-          user: dt.relationships.user ? dt.relationships.user.data : {},
-          'created-at': dt.attributes['created-at'],
-          'is-active': dt.attributes['is-active'],
-          name: dt.attributes.name,
-          role: dt.attributes.role,
-          uid: dt.attributes.uid
+        const entity = {}
+        for (const key in dt.attributes) {
+          if (dt.attributes.hasOwnProperty(key)) {
+            entity[key] = dt.attributes[key]
+          }
         }
+        for (const key in dt.relationships) {
+          if (dt.relationships.hasOwnProperty(key)) {
+            entity[key] = dt.relationships[key].data
+          }
+        }
+        entity.id = dt.id
         entities.push(entity)
       })
       if (response.data.included) {
         response.data.included.forEach(ic => {
-          const entity = {
-            id: ic.id,
-            'created-at': ic.attributes['created-at'],
-            'is-active': ic.attributes['is-active'],
-            name: ic.attributes.name,
-            role: ic.attributes.role,
-            uid: ic.attributes.uid
+          const entity = {}
+          for (const key in ic.attributes) {
+            if (ic.attributes.hasOwnProperty(key)) {
+              entity[key] = ic.attributes[key]
+            }
           }
+          entity.id = ic.id
           included.push(entity)
         })
       }
       data.data = entities
       data.included = included
       data.meta = response.data.meta
+      return data
+    },
+    createEntity(response) {
+      const included = []
+      const data = {}
+      const entity = {}
+      for (const key in response.data.data.attributes) {
+        if (response.data.data.attributes.hasOwnProperty(key)) {
+          entity[key] = response.data.data.attributes[key]
+        }
+      }
+      for (const key in response.data.data.relationships) {
+        if (response.data.data.relationships.hasOwnProperty(key)) {
+          entity[key] = response.data.data.relationships[key].data
+        }
+      }
+      if (response.data.included) {
+        response.data.included.forEach(ic => {
+          const entity = {}
+          for (const key in ic.attributes) {
+            if (ic.attributes.hasOwnProperty(key)) {
+              entity[key] = ic.attributes[key]
+            }
+          }
+          entity.id = ic.id
+          included.push(entity)
+        })
+      }
+      entity.id = response.data.data.id
+      data.data = entity
+      data.included = included
       return data
     }
   }

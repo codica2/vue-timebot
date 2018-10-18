@@ -2,11 +2,6 @@
   div
     div
       div(class="position-create-new-category")
-        <!--div-->
-        <!--el-dropdown(type="primary")-->
-        <!--span.el-dropdown-link Batch Actions-->
-        <!--el-dropdown-menu(slot="dropdown")-->
-        <!--el-dropdown-item(:disabled="multipleSelection.length <= 0") Delete selected-->
         div
           el-button(@click="handleCreate",
           class="filter-item create-new-category",
@@ -27,16 +22,16 @@
             span {{ scope.row.id }}
         el-table-column(label="Name")
           template(slot-scope="scope")
-            span {{ getIncluded(scope.row.relationships.user.data.id) }}
+            span {{ getIncluded(scope.row.user.id) }}
         el-table-column(label="Date")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.date }}
+            span {{ scope.row.date }}
         el-table-column(label="Reason")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.reason }}
+            span {{ scope.row.reason }}
         el-table-column(label="Comment")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.comment }}
+            span {{ scope.row.comment }}
         el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
@@ -57,7 +52,7 @@
       )
         el-form-item(label="User" prop="user")
           el-select(
-            v-model="temp.relationships.user.data.id",
+            v-model="temp.user.id",
             filterable,
             remote,
             @focus="remoteGetUsers"
@@ -76,14 +71,14 @@
           el-date-picker(
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
-            v-model="temp.attributes.date" type="date" placeholder="Please pick a date")
+            v-model="temp.date" type="date" placeholder="Please pick a date")
         el-form-item(label="Reason" prop="reason")
-          el-radio-group(v-model="temp.attributes.reason")
+          el-radio-group(v-model="temp.reason")
             el-radio(label="vacation") Vacation
             el-radio(label="illness") Illness
             el-radio(label="other") Other
         el-form-item(label="Comment" prop="comment")
-          el-input(placeholder="Please input" v-model="temp.attributes.comment" clearable)
+          el-input(placeholder="Please input" v-model="temp.comment" clearable)
       div(slot="footer" class="dialog-footer")
         el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
         el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
@@ -95,16 +90,16 @@
           div {{temp.id}}
         div
           strong NAME
-          div {{getIncluded(temp.relationships.user.data.id)}}
+          div {{getIncluded(temp.user.id)}}
         div
           strong DATE
-          div {{temp.attributes.date}}
+          div {{temp.date}}
         div
           strong REASON
-          div {{temp.attributes.reason}}
+          div {{temp.reason}}
         div
           strong COMMENT
-          div {{temp.attributes.comment}}
+          div {{temp.comment}}
 </template>
 
 <script>
@@ -134,11 +129,11 @@ export default {
     }),
     entity() {
       return {
-        date: this.temp.attributes.date,
-        reason: this.temp.attributes.reason,
-        comment: this.temp.attributes.comment,
-        user_id: this.temp.relationships.user.data.id,
-        project_id: this.temp.relationships.project.data.id
+        date: this.temp.date,
+        reason: this.temp.reason,
+        comment: this.temp.comment,
+        user_id: this.temp.user.id,
+        project_id: this.temp.project.id
       }
     }
   },

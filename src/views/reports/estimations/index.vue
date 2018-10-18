@@ -95,7 +95,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list',
+      list: 'reportsTable/list',
       filterable: 'actionEntityTable/filterable',
       loader: 'actionEntityTable/loader'
     })
@@ -104,13 +104,23 @@ export default {
     this.setParams()
   },
   methods: {
+    getList() {
+      return new Promise((resolve, reject) => {
+        this.$store.dispatch('actionEntityTable/setLoader', true)
+        this.$store.dispatch('reportsTable/fetchList', this.type)
+          .then(() => {
+            this.$store.dispatch('actionEntityTable/setLoader', false)
+            resolve()
+          })
+      })
+    },
     setParams(date) {
       if (date === null) {
         this.date = [new Date(), new Date()]
       }
       if (this.searchParams.projects) {
         this.$store.dispatch('actionEntityTable/setLoader', true)
-        this.$store.dispatch('actionEntityTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
+        this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
           .then(() => {
             this.getList()
               .then(() => {

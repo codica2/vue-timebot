@@ -20,10 +20,10 @@
             span {{ scope.row.id }}
         el-table-column(label="Name")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.name }}
+            span {{ scope.row.name }}
         el-table-column(label="Description")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.description }}
+            span {{ scope.row.description }}
         el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
@@ -33,13 +33,13 @@
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"
         :rules="rules"
-        :model="temp.attributes"
+        :model="temp"
         label-position="left"
         label-width="70px")
-          el-form-item(label="Name")
-            el-input(v-model="temp.attributes.name" clearable)
-          el-form-item(label="Description")
-            el-input(v-model="temp.attributes.description" clearable)
+          el-form-item(label="Name" prop="name")
+            el-input(v-model="temp.name" clearable)
+          el-form-item(label="Description" prop="description")
+            el-input(v-model="temp.description" clearable)
         div(slot="footer" class="dialog-footer")
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create()") Create
@@ -51,10 +51,10 @@
             p {{temp.id}}
           div
             strong Name
-            p {{temp.attributes.name}}
+            p {{temp.name}}
           div
             strong Description
-            p {{temp.attributes.description}}
+            p {{temp.description}}
 </template>
 
 <script>
@@ -81,8 +81,8 @@ export default {
     }),
     entity() {
       return {
-        name: this.temp.attributes.name,
-        description: this.temp.attributes.description
+        name: this.temp.name,
+        description: this.temp.description
       }
     }
   },
