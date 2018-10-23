@@ -111,7 +111,7 @@ export default {
           if (pj.id === id) return pj
         })
         if (findInclude) {
-          return findInclude.attributes.name
+          return findInclude.name
         }
       }
     },
@@ -121,7 +121,7 @@ export default {
       }
       this.$store.dispatch('actionEntityTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
-          this.$store.dispatch('actionEntityTable/setPagination', { limit: 100 })
+          this.$store.dispatch('setPagination', { limit: 100 }, { root: true })
             .then(() => {
               this.$store.dispatch('actionEntityTable/setLoader', true)
               if (this.searchParams.projects) {
@@ -140,7 +140,7 @@ export default {
     },
     groupByAttributes(xs, key) {
       return xs.reduce(function(rv, x) {
-        (rv[x.attributes[key]] = rv[x.attributes[key]] || []).push(x)
+        (rv[x[key]] = rv[x[key]] || []).push(x)
         return rv
       }, {})
     },
@@ -157,27 +157,27 @@ export default {
           const date = []
           if (grouped.hasOwnProperty(key)) {
             grouped[key].forEach((item) => {
-              const arrTime = item.attributes.time.split(':')
+              const arrTime = item.time.split(':')
               allMinutes += +(arrTime[0] * 60) + +arrTime[1]
               if ((allMinutes % 60) < 10) {
                 minutes = `0${allMinutes % 60}`
               } else {
                 minutes = allMinutes % 60
               }
-              if (!collaborators.find(cl => cl.id === item.relationships.user.data.id)) {
-                item.relationships.user.data.name = this.getIncluded(item.relationships.user.data.id)
-                date.push(item.attributes.date)
-                collaborators.push(item.relationships.user.data)
+              if (!collaborators.find(cl => cl.id === item.user.id)) {
+                item.user.name = this.getIncluded(item.user.id)
+                date.push(item.date)
+                collaborators.push(item.user)
               }
             })
             newData.push({
               id: grouped[key][0].id,
               type: grouped[key][0].type,
               date: date,
-              details: grouped[key][0].attributes.details,
-              'estimated-time': grouped[key][0].attributes['estimated-time'],
+              details: grouped[key][0].details,
+              'estimated-time': grouped[key][0]['estimated-time'],
               time: `${allMinutes / 60 | 0}:${minutes}`,
-              'trello-labels': grouped[key][0].attributes['trello-labels'],
+              'trello-labels': grouped[key][0]['trello-labels'],
               collaborators: collaborators
             })
           }

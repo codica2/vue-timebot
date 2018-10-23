@@ -42,6 +42,7 @@
           v-model="searchParams.date"
           type="daterange",
           range-separator="-",
+          :picker-options="pickerOptions"
           value-format="yyyy-MM-dd",
           start-placeholder="Start date",
           end-placeholder="End date",
@@ -58,7 +59,7 @@ import { mapGetters } from 'vuex'
 import * as mixin from '@/mixins/index'
 export default {
   name: 'Filters',
-  mixins: [mixin.mixQuery, mixin.mixIncludes],
+  mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate],
   data: () => ({
     type: 'time-entries',
     searchParams: {

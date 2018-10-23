@@ -24,12 +24,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      pagination: 'actionEntityTable/pagination'
+      pagination: 'pagination'
     })
   },
   methods: {
     handleSizeChange(limit) {
-      this.$store.dispatch('actionEntityTable/setPagination', { limit: limit })
+      this.$store.dispatch('setPagination', { limit: limit }, { root: true })
         .then(() => {
           this.$store.dispatch('actionEntityTable/setLoader', true)
           this.getList()
@@ -39,7 +39,7 @@ export default {
         })
     },
     handleCurrentChange(page) {
-      this.$store.dispatch('actionEntityTable/setPagination', { page: page })
+      this.$store.dispatch('setPagination', { page: page }, { root: true })
         .then(() => {
           this.$store.dispatch('actionEntityTable/setLoader', true)
           this.getList()

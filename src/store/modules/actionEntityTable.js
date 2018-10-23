@@ -1,15 +1,10 @@
 import * as Api from '@/api/actionEntityTable'
 import { setQuery } from '@/api/queryConst'
+import { mixEntities } from '@/mixins/index'
 const actionEntityTable = {
   namespaced: true,
   state: {
     loader: false,
-    pagination: {
-      page: 1,
-      limit: 30,
-      total: 10,
-      sort: '+id'
-    },
     filters: {
     },
     projects: {
@@ -38,9 +33,6 @@ const actionEntityTable = {
       included: [],
       filterable: []
     },
-    estimationReports: {
-      list: []
-    },
     timeReports: {
       list: []
     },
@@ -52,15 +44,18 @@ const actionEntityTable = {
     list: (state) => type => state[type].list,
     filterable: (state) => type => state[type].filterable,
     included: (state) => type => state[type].included,
-    pagination: (state) => state.pagination,
     loader: (state) => state.loader
   },
   actions: {
-    fetchList({ state, commit }, payload) {
+    fetchList({ state, commit, rootState, dispatch }, payload) {
       return new Promise((resolve, reject) => {
-        Api.fetchList(setQuery(payload), { page: state.pagination.page, 'per_page': state.pagination.limit, ...state.filters })
+        Api.fetchList(setQuery(payload), { page: rootState.pagination.pagination.page, 'per_page': rootState.pagination.pagination.limit, ...state.filters })
           .then((response) => {
-            commit('FETCH_LIST', { data: response.data, type: payload })
+            const data = mixEntities.methods.createEntities(response)
+            commit('FETCH_LIST', { data: data, type: payload })
+            if (response.data.meta) {
+              dispatch('setPagination', { total: response.data.meta['total-count'] || response.data.meta['total_count'] }, { root: true })
+            }
             resolve()
           })
       })
@@ -86,7 +81,8 @@ const actionEntityTable = {
       return new Promise((resolve, reject) => {
         Api.createEntity(payload.row, setQuery(payload.type))
           .then((response) => {
-            commit('CREATE_ENTITY', { data: response.data, type: payload.type })
+            const data = mixEntities.methods.createEntity(response)
+            commit('CREATE_ENTITY', { data: data, type: payload.type })
             resolve()
           })
           .catch(() => {
@@ -97,11 +93,12 @@ const actionEntityTable = {
     updateEntity({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
         Api.updateEntity(payload.row, setQuery(payload.type))
-          .then((res) => {
+          .then((response) => {
             for (const v of state[payload.type].list) {
               if (v.id === payload.row.id) {
                 const index = state[payload.type].list.indexOf(v)
-                commit('UPDATE_ENTITY', { index, data: res.data, type: payload.type })
+                const data = mixEntities.methods.createEntity(response)
+                commit('UPDATE_ENTITY', { index, data: data, type: payload.type })
                 break
               }
             }
@@ -130,12 +127,6 @@ const actionEntityTable = {
         resolve()
       })
     },
-    setPagination({ state, commit }, payload) {
-      return new Promise((resolve, reject) => {
-        commit('SET_PAGINATION', payload)
-        resolve()
-      })
-    },
     setLoader({ state, commit }, payload) {
       commit('SET_LOADER', payload)
     }
@@ -145,9 +136,6 @@ const actionEntityTable = {
       state[payload.type].list = payload.data.data
       if (payload.data.included) {
         state[payload.type].included = payload.data.included
-      }
-      if (payload.data.meta) {
-        state.pagination.total = payload.data.meta['total-count'] || payload.data.meta['total_count']
       }
     },
     SET_FILTER(state, payload) {
@@ -174,13 +162,6 @@ const actionEntityTable = {
     },
     DELETE_ENTITY(state, payload) {
       state[payload.type].list.splice(payload.index, 1)
-    },
-    SET_PAGINATION(state, payload) {
-      if (payload.limit) {
-        state.pagination.limit = payload.limit
-      } else {
-        state.pagination.page = payload.page
-      }
     },
     CLEAR_STORE(state) {
       state.projects = {

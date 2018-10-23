@@ -27,13 +27,13 @@
             span {{ scope.row.id }}
         el-table-column(label="Name")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.name }}
+            span {{ scope.row.name }}
         el-table-column(label="Alias")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.alias }}
+            span {{ scope.row.alias }}
         el-table-column(label="Team")
           template(slot-scope="scope")
-            span {{setTeam(scope.row.relationships.team.data)}}
+            span {{setTeam(scope.row.team)}}
         el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
@@ -47,32 +47,32 @@
     el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
       el-form(ref="dataForm"
       :rules="rules"
-      :model="temp.attributes"
+      :model="temp"
       label-position="left"
       label-width="70px"
       style="width: 400px; margin-left:50px;")
         el-form-item(label="Name" prop="name")
-          el-input(placeholder="Please input" v-model="temp.attributes.name" clearable)
-        el-form-item(label="Team")
-          el-select(v-if="temp.relationships.team.data" v-model="temp.relationships.team.data.id" placeholder="Select")
-            el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team.id")
-          el-select(v-else v-model="temp.relationships.team.data" placeholder="Select")
-            el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team")
+          el-input(placeholder="Please input" v-model="temp.name" clearable)
+        el-form-item(label="Team" prop="team")
+          el-select(v-if="temp.team" v-model="temp.team.id" placeholder="Select")
+            el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team.id")
+          el-select(v-else v-model="temp.team" placeholder="Select")
+            el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team")
       div(slot="footer" class="dialog-footer")
         el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
         el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
         el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") Update
-    el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-      div(class="view-flex")
-        div
-          strong Id
-          p {{temp.id}}
-        div
-          strong Name
-          p {{temp.attributes.name}}
-        div
-          strong Alias
-          p {{temp.attributes.alias}}
+    el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
+      .el-dialog-flex
+        .el-dialog-flex-block
+          .el-dialog-flex-head Id
+          .el-dialog-flex-subhead {{temp.id}}
+        .el-dialog-flex-block
+          .el-dialog-flex-head Name
+          .el-dialog-flex-subhead {{temp.name}}
+        .el-dialog-flex-block
+          .el-dialog-flex-head Alias
+          .el-dialog-flex-subhead {{temp.alias}}
 </template>
 
 <script>
@@ -99,9 +99,9 @@ export default {
     }),
     entity() {
       return {
-        name: this.temp.attributes.name,
-        alias: this.temp.attributes.alias,
-        team_id: this.temp.relationships.team.data.id
+        name: this.temp.name,
+        alias: this.temp.alias,
+        team_id: this.temp.team.id
       }
     }
   },
@@ -134,7 +134,7 @@ export default {
           if (tm.id === team.id) return tm
         })
         if (findTeam) {
-          return findTeam.attributes.name
+          return findTeam.name
         }
       }
     }

@@ -19,7 +19,7 @@
             span {{ scope.row.id }}
         el-table-column(label="Email/Login")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.email }}
+            span {{ scope.row.email }}
         el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
@@ -28,25 +28,25 @@
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"
         :rules="rules"
-        :model="temp.attributes"
+        :model="temp"
         label-position="left"
         label-width="70px")
           el-form-item(label="Email" prop="email")
-            el-input(v-model="temp.attributes.email")
+            el-input(v-model="temp.email")
           el-form-item(v-if="dialogStatus === 'create'" label="Password" prop="pass")
-            el-input(v-model="temp.attributes.password")
+            el-input(v-model="temp.password")
         div(slot="footer" class="dialog-footer")
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create") Create
           el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
-      el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-        div(class="view-flex")
-          div
-            strong Id
-            p {{temp.id}}
-          div
-            strong Email
-            p {{temp.attributes.email}}
+      el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
+        .el-dialog-flex
+          .el-dialog-flex-block
+            .el-dialog-flex-head Id
+            .el-dialog-flex-subhead {{temp.id}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Email
+            .el-dialog-flex-subhead {{temp.email}}
 </template>
 
 <script>
@@ -66,8 +66,8 @@ export default {
     }),
     entity() {
       return {
-        email: this.temp.attributes.email,
-        password: this.temp.attributes.password
+        email: this.temp.email,
+        password: this.temp.password
       }
     }
   },

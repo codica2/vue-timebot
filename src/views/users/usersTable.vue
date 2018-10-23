@@ -20,17 +20,17 @@
             span {{ scope.row.id }}
         el-table-column(label="Name")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.name }}
+            span {{ scope.row.name }}
         el-table-column(label="Role")
           template(slot-scope="scope")
-            span {{ scope.row.attributes.role }}
+            span {{ scope.row.role }}
         el-table-column(label="Is Active")
           template(slot-scope="scope")
-            span(v-if="scope.row.attributes['is-active']") YES
+            span(v-if="scope.row['is-active']") YES
             span(v-else) NO
         el-table-column(label="Team")
           template(slot-scope="scope")
-            span {{setTeam(scope.row.relationships.team.data)}}
+            span {{setTeam(scope.row.team)}}
         el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
@@ -40,21 +40,21 @@
       el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"
         :rules="rules"
-        :model="temp.attributes"
+        :model="temp"
         label-position="left"
         label-width="70px")
           el-form-item(label="Name" prop="name")
-            el-input(v-model="temp.attributes.name")
-          el-form-item(label="Role")
-            el-select(v-model="temp.attributes.role" placeholder="Select")
+            el-input(v-model="temp.name")
+          el-form-item(label="Role" prop="role")
+            el-select(v-model="temp.role" placeholder="Select")
               el-option(v-for="item in roles" :key="item.value" :label="item.label" :value="item.value")
-          el-form-item(label="Team")
-            el-select(v-if="temp.relationships.team.data" v-model="temp.relationships.team.data.id" placeholder="Select")
-              el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team.id")
-            el-select(v-else v-model="temp.relationships.team.data" placeholder="Select")
-              el-option(v-for="team in list('teams')" :key="team.id" :label="team.attributes.name" :value="team")
+          el-form-item(label="Team" prop="team")
+            el-select(v-if="temp.team" v-model="temp.team.id" placeholder="Select")
+              el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team.id")
+            el-select(v-else v-model="temp.team" placeholder="Select")
+              el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team")
           el-form-item(label="")
-            el-checkbox(v-model="temp.attributes['is-active']") Is active
+            el-checkbox(v-model="temp['is-active']") Is active
         div(slot="footer" class="dialog-footer")
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create") Create
@@ -63,21 +63,21 @@
         .el-dialog-flex
           .el-dialog-flex-block
             .el-dialog-flex-head Users name
-            .el-dialog-flex-subhead {{temp.attributes.name}}
+            .el-dialog-flex-subhead {{temp.name}}
           .el-dialog-flex-block
             .el-dialog-flex-head UID
-            .el-dialog-flex-subhead {{temp.attributes.uid}}
-          .el-dialog-flex-block
-            .el-dialog-flex-head Team
-            .el-dialog-flex-subhead {{setTeam(temp.relationships.team.data)}}
+            .el-dialog-flex-subhead {{temp.uid}}
           .el-dialog-flex-block
             .el-dialog-flex-head Created at
-            .el-dialog-flex-subhead {{temp.attributes['created-at']}}
+            .el-dialog-flex-subhead {{temp['created-at']}}
           .el-dialog-flex-block
             .el-dialog-flex-head Status
             .el-dialog-flex-subhead
-              span(v-if="temp.attributes['is-active']") Active
+              span(v-if="temp['is-active']") Active
               span(v-else) Inactive
+          .el-dialog-flex-block
+            .el-dialog-flex-head Team
+            .el-dialog-flex-subhead {{setTeam(temp.team)}}
 </template>
 
 <script>
@@ -134,11 +134,11 @@ export default {
     }),
     entity() {
       return {
-        name: this.temp.attributes.name,
-        is_active: this.temp.attributes['is-active'],
-        uid: this.temp.attributes.uid || this.temp.attributes.name,
-        team_id: this.temp.relationships.team.data.id,
-        role: this.temp.attributes.role
+        name: this.temp.name,
+        is_active: this.temp['is-active'],
+        uid: this.temp.uid || this.temp.name,
+        team_id: this.temp.team.id,
+        role: this.temp.role
       }
     }
   },
@@ -171,7 +171,7 @@ export default {
           if (tm.id === team.id) return tm
         })
         if (findTeam) {
-          return findTeam.attributes.name
+          return findTeam.name
         }
       }
     }
