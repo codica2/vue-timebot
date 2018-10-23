@@ -37,7 +37,7 @@
         el-input(type="textarea" v-model="searchParams.ticket")
     div(class="time-entries-filters")
       div(class="filters-label") Date
-        el-date-picker(style="with:100%;")(
+        el-date-picker(style="with:100%;"
           format="yyyy-MM-dd"
           v-model="searchParams.date"
           type="daterange",

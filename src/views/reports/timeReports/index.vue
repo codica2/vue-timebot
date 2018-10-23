@@ -18,6 +18,16 @@
             :key="project.id",
             :label="project.name")
       div(class="time-entries-filters")
+        div(class="filters-label") Filter by
+          el-select(
+          v-model="searchParams.type"
+          @change="getTimeReports"
+          )
+            el-option(v-for="type in groupType"
+            :value="type.value"
+            :key="type.value",
+            :label="type.name")
+      div(class="time-entries-filters")
         div(class="filters-label") Date
           el-date-picker(
           v-model="date",
@@ -38,7 +48,11 @@
         template(slot-scope="scope")
           span(v-if="scope.row.date")
             strong(v-if="scope.row.date.length === 1") {{ scope.row.date[0] }}
-            span(v-else) {{`from ${scope.row.date[scope.row.date.length - 1]} to ${scope.row.date[0]}` }}
+            strong(v-else-if="typeof scope.row.date === 'string'") {{ scope.row.date }}
+            span(v-else) from &nbsp;
+              strong {{scope.row.date[scope.row.date.length - 1]}}
+              span &nbsp; to &nbsp;
+              strong {{scope.row.date[0] }}
       el-table-column(label="Collaborators")
         template(slot-scope="scope")
           div.collaborators-container
@@ -72,8 +86,19 @@ export default {
     func: treeToArray,
     args: [null, null, 'timeLine'],
     searchParams: {
-      projects: ''
+      projects: '',
+      type: 'user'
     },
+    groupType: [
+      {
+        name: 'Details',
+        value: 'details'
+      },
+      {
+        name: 'User',
+        value: 'user'
+      }
+    ],
     columns: [
       {
         text: 'Project',
@@ -144,11 +169,17 @@ export default {
         return rv
       }, {})
     },
+    groupByUser(xs, key) {
+      return xs.reduce(function(rv, x) {
+        (rv[x[key].id] = rv[x[key].id] || []).push(x)
+        return rv
+      }, {})
+    },
     groupTreeData() {
       let data = []
       data = this.list('time-entries').slice()
       if (data.length) {
-        const grouped = this.groupByAttributes(data, 'details')
+        const grouped = this.searchParams.type === 'user' ? this.groupByUser(data, this.searchParams.type) : this.groupByAttributes(data, this.searchParams.type)
         const newData = []
         for (const key in grouped) {
           let allMinutes = null
@@ -170,16 +201,21 @@ export default {
                 collaborators.push(item.user)
               }
             })
-            newData.push({
+            const data = {
               id: grouped[key][0].id,
               type: grouped[key][0].type,
               date: date,
-              details: grouped[key][0].details,
               'estimated-time': grouped[key][0]['estimated-time'],
               time: `${allMinutes / 60 | 0}:${minutes}`,
-              'trello-labels': grouped[key][0]['trello-labels'],
               collaborators: collaborators
-            })
+            }
+            if (this.searchParams.type === 'user') {
+              data.time_entries = grouped[key]
+            } else {
+              data.details = grouped[key][0].details
+              data['trello-labels'] = grouped[key][0]['trello-labels']
+            }
+            newData.push(data)
           }
           this.groupedData = newData
         }
