@@ -59,25 +59,25 @@
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create") Create
           el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
-      el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-        div(class="view-flex")
-          div
-            strong Name
-            div {{temp.attributes.name}}
-          div
-            strong Uid
-            p {{temp.attributes.uid}}
-          div
-            strong Created at
-            p {{temp.attributes['created-at']}}
-          div
-            strong IS ACTIVE
-            p
+      el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
+        .el-dialog-flex
+          .el-dialog-flex-block
+            .el-dialog-flex-head Users name
+            .el-dialog-flex-subhead {{temp.attributes.name}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head UID
+            .el-dialog-flex-subhead {{temp.attributes.uid}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Team
+            .el-dialog-flex-subhead {{setTeam(temp.relationships.team.data)}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Created at
+            .el-dialog-flex-subhead {{temp.attributes['created-at']}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Status
+            .el-dialog-flex-subhead
               span(v-if="temp.attributes['is-active']") Active
               span(v-else) Inactive
-          div
-            strong TEAM
-            p {{setTeam(temp.relationships.team.data)}}
 </template>
 
 <script>

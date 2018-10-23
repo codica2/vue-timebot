@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="35px" height="35px" viewBox="0 0 35 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>ic-create</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard-ui" transform="translate(-799.000000, -2513.000000)" fill-rule="nonzero">
+            <g id="Create" transform="translate(777.000000, 2491.000000)">
+                <g id="ic-create" transform="translate(22.000000, 22.000000)">
+                    <path d="M17.5,35 C7.83501688,35 0,27.1649831 0,17.5 C0,7.83501688 7.83501688,0 17.5,0 C27.1649831,0 35,7.83501688 35,17.5 C35,27.1649831 27.1649831,35 17.5,35 Z" id="Oval-4-Copy-3" fill="#C0CDEE"></path>
+                    <g id="plus" transform="translate(5.000000, 5.000000)" fill="#305AC7">
+                        <path d="M19.25,14 L14,14 L14,19.5 C14,20.052 13.552,20.5 13,20.5 C12.448,20.5 12,20.052 12,19.5 L12,14 L6.75,14 C6.198,14 5.75,13.552 5.75,13 C5.75,12.448 6.198,12 6.75,12 L12,12 L12,7 C12,6.448 12.448,6 13,6 C13.552,6 14,6.448 14,7 L14,12 L19.25,12 C19.802,12 20.25,12.448 20.25,13 C20.25,13.552 19.802,14 19.25,14 Z" id="Path"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
