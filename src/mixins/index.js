@@ -384,7 +384,6 @@ export const mixIncludes = {
 export const mixEntities = {
   methods: {
     createEntities(response) {
-      console.log(response)
       const entities = []
       const included = []
       const data = {}

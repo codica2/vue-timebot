@@ -96,32 +96,32 @@
           el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
           el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create()") Create
           el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
-      el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-        div(class="view-flex")
-          div
-            strong Id
-            p {{temp.id}}
-          div
-            strong User
-            p {{getIncluded(temp.user.id)}}
-          div
-            strong Date
-            p {{temp.date}}
-          div
-            strong Details
-            p {{temp.details}}
-          div
-            strong Minutes
-            p {{temp.time}}
-          div
-            strong Project
-            p {{temp.project.id}}
-          div
-            strong Ticket
-            p {{temp.details}}
-          div
-            strong Trello labels
-            p {{temp['trello-labels']}}
+      el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
+        .el-dialog-flex
+          .el-dialog-flex-block
+            .el-dialog-flex-head Id
+            .el-dialog-flex-subhead {{temp.id}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head User
+            .el-dialog-flex-subhead {{getIncluded(temp.user.id)}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Date
+            .el-dialog-flex-subhead {{temp.date}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Details
+            .el-dialog-flex-subhead {{temp.details}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Minutes
+            .el-dialog-flex-subhead {{temp.time}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Project
+            .el-dialog-flex-subhead {{temp.project.id}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Ticket
+            .el-dialog-flex-subhead {{temp.details}}
+          .el-dialog-flex-block
+            .el-dialog-flex-head Trello labels
+            .el-dialog-flex-subhead {{temp['trello-labels']}}
 </template>
 <script>
 import { mapGetters } from 'vuex'

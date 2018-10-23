@@ -62,17 +62,17 @@
         el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
         el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
         el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") Update
-    el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-      div(class="view-flex")
-        div
-          strong Id
-          p {{temp.id}}
-        div
-          strong Name
-          p {{temp.name}}
-        div
-          strong Alias
-          p {{temp.alias}}
+    el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
+      .el-dialog-flex
+        .el-dialog-flex-block
+          .el-dialog-flex-head Id
+          .el-dialog-flex-subhead {{temp.id}}
+        .el-dialog-flex-block
+          .el-dialog-flex-head Name
+          .el-dialog-flex-subhead {{temp.name}}
+        .el-dialog-flex-block
+          .el-dialog-flex-head Alias
+          .el-dialog-flex-subhead {{temp.alias}}
 </template>
 
 <script>

@@ -78,9 +78,6 @@
           .el-dialog-flex-block
             .el-dialog-flex-head Team
             .el-dialog-flex-subhead {{setTeam(temp.team)}}
-          div
-            strong TEAM
-            p {{setTeam(temp.relationships.team.data)}}
 </template>
 
 <script>
