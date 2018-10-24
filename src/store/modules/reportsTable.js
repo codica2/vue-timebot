@@ -10,6 +10,9 @@ const reportsTable = {
     timeReports: {
       list: []
     },
+    userReports: {
+      list: []
+    },
     filters: {
     },
     loader: false

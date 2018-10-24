@@ -83,13 +83,13 @@ export const asyncRouterMap = [
         component: () => import('@/views/reports/timeReports/index'),
         name: 'timeReports',
         meta: { title: 'Time reports', icon: 'calendar', noCache: true }
+      },
+      {
+        path: 'user-reports',
+        component: () => import('@/views/reports/userReports/index'),
+        name: 'UserReports',
+        meta: { title: 'User reports', icon: 'user', noCache: true }
       }
-      // {
-      //   path: 'absence',
-      //   component: () => import('@/views/reports/absence/index'),
-      //   name: 'Absence',
-      //   meta: { title: 'Absence', noCache: true }
-      // }
     ]
   },
   {
