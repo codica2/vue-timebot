@@ -40,62 +40,68 @@
               el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
               el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
       pagination(:type="type" v-if="list(type).length")
-      el-dialog(@open="preRemote" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
+
+      el-dialog.el-dialog-edit(:class="{'el-dialog-create': dialogStatus === 'create'}" @open="preRemote" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"
         :rules="rules"
         :model="temp"
         label-position="left"
         label-width="70px"
         style="width: 400px; margin-left:50px;")
-          el-form-item(label="User" prop="user")
-            el-select(
-              v-model="temp.user.id",
-              filterable,
-              remote,
-              @focus="remoteGetUsers"
-              placeholder="Please enter a keyword"
-              :remote-method="remoteGetUsers"
-              :loading="loading"
-            )
-              el-option(
-                v-for="user in filterable('users')"
-                :key="user.id"
-                :label="user.name"
-                :value="user.id"
+          .el-dialog-edit-block
+            el-form-item(label="User" prop="user")
+              el-select(
+                v-model="temp.user.id",
+                filterable,
+                remote,
+                @focus="remoteGetUsers"
+                placeholder="Please enter a keyword"
+                :remote-method="remoteGetUsers"
+                :loading="loading"
               )
-          el-form-item(label="Project" prop="project")
-            el-select(
-              clearable,
-              v-model="temp.project.id"
-              filterable
-              remote,
-              @focus="remoteGetProjects"
-              placeholder="Please enter a keyword"
-              :remote-method="remoteGetProjects"
-            )
-              el-option(v-for="project in filterable('projects')"
-              :value="project.id"
-              :key="project.id",
-              :label="project.name")
-          el-form-item(:label="$t('table.date')" prop="date")
-            el-date-picker(
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              v-model="temp.date"
-              type="date"
-              placeholder="Please pick a date"
-            )
-          el-form-item(label="Time" prop="time")
-            el-time-select(
-            :picker-options="{ start: '00:00', step: '00:15', end: '24:30' }"
-            v-model="temp.time"
-            placeholder="Please pick a time")
-          el-form-item(label="Details" prop="timestamp")
-            el-input(v-model="temp.details" type="details" placeholder="Write smth")
-        div(slot="footer" class="dialog-footer")
-          el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-          el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create()") Create
-          el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
+                el-option(
+                  v-for="user in filterable('users')"
+                  :key="user.id"
+                  :label="user.name"
+                  :value="user.id"
+                )
+            el-form-item(label="Project" prop="project")
+              el-select(
+                clearable,
+                v-model="temp.project.id"
+                filterable
+                remote,
+                @focus="remoteGetProjects"
+                placeholder="Please enter a keyword"
+                :remote-method="remoteGetProjects"
+              )
+                el-option(v-for="project in filterable('projects')"
+                :value="project.id"
+                :key="project.id",
+                :label="project.name")
+          .el-dialog-edit-block
+            el-form-item(:label="$t('table.date')" prop="date")
+              el-date-picker(
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+                v-model="temp.date"
+                type="date"
+                placeholder="Please pick a date"
+              )
+            el-form-item(label="Time" prop="time")
+              el-time-select(
+              :picker-options="{ start: '00:00', step: '00:15', end: '24:30' }"
+              v-model="temp.time"
+              placeholder="Please pick a time")
+          .el-dialog-edit-block
+            el-form-item(label="Details" prop="timestamp")
+              el-input(v-model="temp.details" type="details" placeholder="Write smth")
+          .el-dialog-edit-block-last
+            div(slot="footer" class="dialog-footer")
+              el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
+              el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create()") Create
+              el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
+
       el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
         .el-dialog-flex
           .el-dialog-flex-block

@@ -42,7 +42,8 @@
             type="danger"
             @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
       pagination(:type="type" v-if="list(type).length")
-    el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" @open="remoteGetUsers")
+
+    el-dialog.el-dialog-edit(:class="{'el-dialog-create': dialogStatus === 'create'}" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" @open="remoteGetUsers")
       el-form(ref="dataForm"
       :rules="rules"
       :model="temp.attributes"
@@ -50,39 +51,43 @@
       label-width="70px"
       style="width: 400px; margin-left:50px;"
       )
-        el-form-item(label="User" prop="user")
-          el-select(
-            v-model="temp.user.id",
-            filterable,
-            remote,
-            @focus="remoteGetUsers"
-            placeholder="Please enter a keyword"
-            :remote-method="remoteGetUsers"
-            :loading="loading"
-            clearable
-          )
-            el-option(
-              v-for="user in filterable('users')"
-              :key="user.id"
-              :label="user.name"
-              :value="user.id"
+        .el-dialog-edit-block
+          el-form-item(label="User" prop="user")
+            el-select(
+              v-model="temp.user.id",
+              filterable,
+              remote,
+              @focus="remoteGetUsers"
+              placeholder="Please enter a keyword"
+              :remote-method="remoteGetUsers"
+              :loading="loading"
+              clearable
             )
-        el-form-item(label="Date" prop="date")
-          el-date-picker(
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            v-model="temp.date" type="date" placeholder="Please pick a date")
-        el-form-item(label="Reason" prop="reason")
-          el-radio-group(v-model="temp.reason")
-            el-radio(label="vacation") Vacation
-            el-radio(label="illness") Illness
-            el-radio(label="other") Other
-        el-form-item(label="Comment" prop="comment")
-          el-input(placeholder="Please input" v-model="temp.comment" clearable)
-      div(slot="footer" class="dialog-footer")
-        el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-        el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
-        el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") Update
+              el-option(
+                v-for="user in filterable('users')"
+                :key="user.id"
+                :label="user.name"
+                :value="user.id"
+              )
+          el-form-item(label="Date" prop="date")
+            el-date-picker(
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              v-model="temp.date" type="date" placeholder="Please pick a date")
+        .el-dialog-edit-block
+          el-form-item(label="Reason" prop="reason")
+            el-radio-group(v-model="temp.reason")
+              el-radio(label="vacation") Vacation
+              el-radio(label="illness") Illness
+              el-radio(label="other") Other
+          el-form-item(label="Comment" prop="comment")
+            el-input(placeholder="Please input" v-model="temp.comment" clearable)
+        .el-dialog-edit-block-last
+          div(slot="footer" class="dialog-footer")
+            el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
+            el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
+            el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") Update
+
     el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
       .el-dialog-flex
         .el-dialog-flex-block

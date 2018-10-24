@@ -243,8 +243,8 @@ export const mixQuery = {
       })
     },
     removeEntity(row, status) {
-      this.$confirm('This will permanently delete the entity. Continue?', 'Warning', {
-        confirmButtonText: 'OK',
+      this.$confirm('This will permanently delete the entity. Continue?', 'Delete', {
+        confirmButtonText: 'Delete',
         cancelButtonText: 'Cancel',
         type: 'warning'
       }).then(() => {

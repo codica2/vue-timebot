@@ -205,3 +205,12 @@
     }
   }
 }
+
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #305ac7;
+  background: #305ac7;
+}
+
+.el-radio__input.is-checked+.el-radio__label {
+  color: #305ac7;
+}
