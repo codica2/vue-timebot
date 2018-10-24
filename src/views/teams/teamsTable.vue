@@ -30,20 +30,24 @@
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
             el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
         pagination(:type="type" v-if="list(type).length")
-      el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
+
+      el-dialog.el-dialog-edit(:class="{'el-dialog-create': dialogStatus === 'create'}" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
         el-form(ref="dataForm"
         :rules="rules"
         :model="temp"
         label-position="left"
         label-width="70px")
-          el-form-item(label="Name" prop="name")
-            el-input(v-model="temp.name" clearable)
-          el-form-item(label="Description" prop="description")
-            el-input(v-model="temp.description" clearable)
-        div(slot="footer" class="dialog-footer")
-          el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-          el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create()") Create
-          el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
+          .el-dialog-edit-block
+            el-form-item(label="Name" prop="name")
+              el-input(v-model="temp.name" clearable)
+            el-form-item(label="Description" prop="description")
+              el-input(v-model="temp.description" clearable)
+          .el-dialog-edit-block-last
+            div(slot="footer" class="dialog-footer")
+              el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
+              el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create()") Create
+              el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
+
       el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
         .el-dialog-flex
           .el-dialog-flex-block

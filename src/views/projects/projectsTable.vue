@@ -44,24 +44,28 @@
             type="danger"
             @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
       pagination(:type="type" v-if="list(type).length")
-    el-dialog(:title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
+
+    el-dialog.el-dialog-edit(:class="{'el-dialog-create': dialogStatus === 'create'}" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
       el-form(ref="dataForm"
       :rules="rules"
       :model="temp"
       label-position="left"
       label-width="70px"
       style="width: 400px; margin-left:50px;")
-        el-form-item(label="Name" prop="name")
-          el-input(placeholder="Please input" v-model="temp.name" clearable)
-        el-form-item(label="Team" prop="team")
-          el-select(v-if="temp.team" v-model="temp.team.id" placeholder="Select")
-            el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team.id")
-          el-select(v-else v-model="temp.team" placeholder="Select")
-            el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team")
-      div(slot="footer" class="dialog-footer")
-        el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-        el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
-        el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") Update
+        .el-dialog-edit-block
+          el-form-item(label="Name" prop="name")
+            el-input(placeholder="Please input" v-model="temp.name" clearable)
+          el-form-item(label="Team" prop="team")
+            el-select(v-if="temp.team" v-model="temp.team.id" placeholder="Select")
+              el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team.id")
+            el-select(v-else v-model="temp.team" placeholder="Select")
+              el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team")
+        .el-dialog-edit-block-last
+          div(slot="footer" class="dialog-footer")
+            el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
+            el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
+            el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") Update
+
     el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
       .el-dialog-flex
         .el-dialog-flex-block

@@ -302,13 +302,134 @@ tbody {
   }
 }
 
+.el-dialog-create {
+  .el-dialog__header{
+    background: url("./../../static/icons/ic-create.svg") no-repeat 20px 22px !important;
+  }
+}
+
+.el-dialog-edit {
+  .el-dialog__header{
+    background: url("./../../static/icons/ic-edit.svg") no-repeat 20px 22px;
+
+    span {
+      padding: 0 0 0 55px;
+    }
+  }
+
+  .el-dialog-edit-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .el-form-item.is-success .el-input__inner,
+    .el-form-item.is-success .el-input__inner:focus,
+    .el-form-item.is-success .el-textarea__inner,
+    .el-form-item.is-success .el-textarea__inner:focus {
+      border-color: #305ac7;
+    }
+
+    .el-form-item {
+      margin-bottom: 15px;
+      width: 48%;
+
+      &__label:before {
+        content: none;
+      }
+
+      label {
+        color: #232323;
+        font-family: $main-ff-regular;
+        font-size: 17px;
+        font-weight: normal;
+        text-transform: inherit;
+        width: 25%;
+      }
+    }
+
+    &:nth-child(2) {
+      border-bottom: 1px solid #ececec;
+    }
+
+    .el-date-editor.el-input,
+    .el-date-editor.el-input__inner {
+      width: 100%;
+    }
+  }
+
+  .el-dialog-edit-block-status {
+    display: flex;
+    margin-top: 10px;
+
+    .el-form-item {
+      margin-bottom: 0;
+    }
+
+    label,
+    .el-checkbox__label {
+      color: #232323;
+      font-family: $main-ff-regular;
+      font-size: 17px;
+      font-weight: normal;
+      margin-right: 20px;
+      margin-top: 5px;
+      text-transform: inherit;
+      width: 40%;
+    }
+
+    .el-checkbox__input.is-checked+.el-checkbox__label {
+      color: #305ac7;
+      font-family: $main-ff-regular;
+      font-size: 17px;
+    }
+
+    .el-checkbox__inner {
+      height: 23px;
+      width: 23px;
+
+      &::after {
+        height: 15px;
+        left: 7px;
+        top: 0;
+        width: 7px;
+      }
+    }
+  }
+
+  .el-dialog-edit-block-last {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+
+    .el-button--primary {
+      background-color: #305ac7;
+      border-color: #305ac7;
+      font-family: $main-ff-medium;
+      font-size: 18px;
+      padding: 12px 15px 8px;
+    }
+
+    .el-button--default {
+      background-color: #fff;
+      border-color: #ddd;
+      color: #383845;
+      font-family: $main-ff-medium;
+      font-size: 18px;
+      padding: 12px 15px 8px;
+    }
+  }
+}
+
+.el-radio__inner {
+  margin: 5px 0 0 0;
+}
+
 .el-dialog-flex {
   .el-dialog-flex-block {
     border-bottom: 1px solid #ececec;
     margin-bottom: 10px;
     display: flex;
     padding: 10px 0;
-    //justify-content: space-between;
 
     &:last-child {
       border-bottom: 0;
@@ -321,27 +442,107 @@ tbody {
     font-size: 17px;
     font-weight: normal;
     text-transform: inherit;
-    width: 30%;
+    width: 40%;
   }
 
   .el-dialog-flex-subhead {
     color: #232323;
     font-family: $main-ff-medium;
     font-size: 17px;
-    text-align: right;
+    text-align: left;
     width: 40%;
 
     span {
       color: #305ac7;
     }
   }
-}
 
-.el-message-box__title {
-  span {
-    font-family: $main-ff-medium;
+  .el-dialog-flex-date {
+    display: flex;
+    width: 55%;
+
+    .el-dialog-flex-subhead {
+      margin: 0 10px 0 0;
+
+      img {
+        margin: 0 10px -3px 0;
+      }
+    }
   }
 }
+
+.el-message-box {
+  &__header{
+    padding:0;
+  }
+
+  &__title {
+    background: url("./../../static/icons/ic-delete.svg") no-repeat 20px 22px !important;
+    padding: 30px 0 10px 30px;
+
+    span {
+      color: #313156;
+      font-family: $main-ff-medium;
+      font-size: 24px;
+      padding: 0 0 0 45px;
+    }
+  }
+
+  &__content {
+    padding: 20px;
+  }
+
+  &__headerbtn &__close {
+    color: #232323;
+    font-size: 20px;
+    right: 0;
+    top: 5px;
+    position: absolute;
+
+    &:hover {
+      color: #ed675a;
+    }
+  }
+
+  &__status {
+    display: none;
+  }
+
+  &__status+&__message {
+    padding-left: 0;
+    padding-right: 0;
+
+    p {
+      font-size: 18px;
+      line-height: 1.33;
+      color: #232323;
+    }
+  }
+
+  &__btns {
+    padding: 0 20px 10px;
+
+    .el-button--primary {
+      background-color: #ed675a;
+      border-color: #ed675a;
+      font-family: $main-ff-medium;
+      font-size: 18px;
+      padding: 12px 15px 8px;
+    }
+
+    .el-button--default {
+      &:first-child {
+        background-color: #fff;
+        border-color: #ddd;
+        color: #383845;
+        font-family: $main-ff-medium;
+        font-size: 18px;
+        padding: 12px 15px 8px;
+      }
+    }
+  }
+}
+
 .el-form-item__label {
   float: none;
 }
