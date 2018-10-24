@@ -58,7 +58,9 @@ export default {
       this.$store.dispatch('reportsTable/setFilter', { date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
           this.$store.dispatch('reportsTable/fetchList', this.type)
-          this.$store.dispatch('reportsTable/setLoader', false)
+            .then(() => {
+              this.$store.dispatch('reportsTable/setLoader', false)
+            })
         })
     }
   }
