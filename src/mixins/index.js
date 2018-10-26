@@ -70,6 +70,7 @@ export const mixDate = {
 export const mixValidationRules = {
   data() {
     const checkName = (rule, value, callback) => {
+      console.log(value)
       if (!value) {
         callback(new Error())
       } else {
@@ -104,24 +105,17 @@ export const mixValidationRules = {
         callback()
       }
     }
-    const checkTeam = (rule, value, callback) => {
-      if (!value.id) {
-        callback(new Error())
-      } else {
-        callback()
-      }
-    }
     return {
       rules: {
         date: [{ validator: checkDate, type: 'date', required: true, message: 'Date is required', trigger: 'blur' }],
         time: [{ validator: checkDate, type: 'datetime', required: true, message: 'Time is required', trigger: 'blur' }],
         project: [{ validator: checkProject, required: true, message: 'Project is required', trigger: 'change' }],
         user: [{ validator: checkUser, required: true, message: 'User is required', trigger: 'change' }],
-        name: [{ validator: checkName, required: true, message: 'Name is requires', trigger: 'change' }],
-        role: [{ validator: checkRole, required: true, message: 'Role is requires', trigger: 'change' }],
-        team: [{ validator: checkTeam, required: true, message: 'Team is requires', trigger: 'change' }],
-        description: [{ validator: checkName, required: true, message: 'Description is requires', trigger: 'change' }],
-        pass: [{ validator: checkName, required: true, message: 'Password is requires', trigger: 'change' }],
+        name: [{ validator: checkName, required: true, message: 'Name is required', trigger: 'change' }],
+        role: [{ validator: checkRole, required: true, message: 'Role is required', trigger: 'change' }],
+        team: [{ required: false, message: 'Team is required', trigger: 'change' }],
+        description: [{ validator: checkName, required: true, message: 'Description is required', trigger: 'change' }],
+        password: [{ validator: checkName, required: true, message: 'Password is required', trigger: 'change' }],
         email: [{ required: true, message: 'Please input email address', trigger: 'blur' },
           { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }]
       }
@@ -387,6 +381,7 @@ export const mixEntities = {
       const entities = []
       const included = []
       const data = {}
+      console.log(response)
       response.data.data.forEach(dt => {
         const entity = {}
         for (const key in dt.attributes) {

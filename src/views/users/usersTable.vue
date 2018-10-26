@@ -23,7 +23,7 @@
             span {{ scope.row.name }}
         el-table-column(label="Role")
           template(slot-scope="scope")
-            span {{ scope.row.role }}
+            span {{ scope.row.role ? roles.find(role => role.value === scope.row.role).label : '' }}
         el-table-column(label="Is Active")
           template(slot-scope="scope")
             span(v-if="scope.row['is-active']") YES
@@ -79,8 +79,10 @@
           .el-dialog-flex-block
             .el-dialog-flex-head Created at
             .el-dialog-flex-date
-              .el-dialog-flex-subhead <img src="/static/icons/ic-calendar.svg"> {{temp['created-at']}}
-              .el-dialog-flex-subhead <img src="/static/icons/ic-time-hover.svg"> {{temp['created-at']}}
+              .el-dialog-flex-subhead <img src="/static/icons/ic-calendar.svg"> 
+                span(v-if="temp['created-at']") {{temp['created-at'].date}}
+              .el-dialog-flex-subhead <img src="/static/icons/ic-time-hover.svg"> 
+                span(v-if="temp['created-at']") {{temp['created-at'].time}}
           .el-dialog-flex-block
             .el-dialog-flex-head Status
             .el-dialog-flex-subhead

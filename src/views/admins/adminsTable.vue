@@ -35,7 +35,7 @@
           .el-dialog-edit-block
             el-form-item(label="Email" prop="email")
               el-input(v-model="temp.email")
-            el-form-item(v-if="dialogStatus === 'create'" label="Password" prop="pass")
+            el-form-item(v-if="dialogStatus === 'create'" label="Password" prop="password")
               el-input(v-model="temp.password")
           .el-dialog-edit-block-last
             div(slot="footer" class="dialog-footer")

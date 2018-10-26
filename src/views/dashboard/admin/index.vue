@@ -56,7 +56,7 @@
           :title="chartData('projects').title"
           :innerSize="chartData('projects').innerSize"
           :chart="{ plotBackgroundColor: null, plotBorderWidth: 0, plotShadow: false, type: 'pie' }"
-          :plotOptions="{ pie: { dataLabels: { enabled: true, format: '<span><b>{point.name}</b>: {point.percentage:.1f}</span>', connectorColor: 'silver' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
+          :plotOptions="{ pie: { dataLabels: { enabled: true, format: '<span><b>{point.name}</b>: {y}</span>' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
           :payloadData="chartData('projects').data"
           )#project-chart
       el-col(:xs="24" :sm="24" :lg="12")
@@ -65,7 +65,8 @@
           PieChart(
           :title="chartData('departments').title"
           :chart="{ type: 'variablepie' }"
-          :payloadData="chartData('departments').data"
+          :payloadData="chartData('departments').data",
+          :plotOptions="{ variablepie: { dataLabels: { enabled: true, format: '<span><b>{point.name}</b>: {point.y}</span>' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
           )
     el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series')" class="dashboard-bt-graphics-margin")
       div(class="highcharts-header") Projects

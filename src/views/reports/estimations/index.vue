@@ -38,7 +38,8 @@
     el-table(:data="list('estimationReports')")
       el-table-column(
       prop="project",
-      label="Project")
+      label="Project",
+      width="110")
         template(slot-scope="scope")
           span(v-for="project in scope.row.projects" :key="project.id") {{ project.name }}&nbsp;
       el-table-column(
@@ -50,20 +51,25 @@
           span(v-for="collaborator in scope.row.collaborators" :key="collaborator.id") {{ collaborator.name }}&nbsp;
       el-table-column(
       prop="created_at",
-      label="Created at")
+      label="Created at",
+      width="130")
       el-table-column(
       prop="trello_labels",
-      label="Trello labels")
+      label="Trello labels",
+      width="150")
       el-table-column(
       prop="estimate",
-      label="Estimate")
+      label="Estimate",
+      width="90")
       el-table-column(
       prop="total_time",
-      label="Total time")
+      label="Time spent",
+      width="110")
       el-table-column(
       prop="status",
-      label="Status")
-    pagination(:type="type" v-if="list(type).length")
+      label="Status",
+      width="100")
+    pagination(:store="store" :type="type" v-if="list(type).length")
 </template>
 
 <script>
@@ -78,6 +84,7 @@ export default {
   mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate],
   data: () => ({
     type: 'estimationReports',
+    store: 'reportsTable',
     searchParams: {
       projects: ''
     },
@@ -97,7 +104,7 @@ export default {
     ...mapGetters({
       list: 'reportsTable/list',
       filterable: 'actionEntityTable/filterable',
-      loader: 'actionEntityTable/loader'
+      loader: 'reportsTable/loader'
     })
   },
   mounted() {
@@ -106,10 +113,10 @@ export default {
   methods: {
     getList() {
       return new Promise((resolve, reject) => {
-        this.$store.dispatch('actionEntityTable/setLoader', true)
+        this.$store.dispatch('reportsTable/setLoader', true)
         this.$store.dispatch('reportsTable/fetchList', this.type)
           .then(() => {
-            this.$store.dispatch('actionEntityTable/setLoader', false)
+            this.$store.dispatch('reportsTable/setLoader', false)
             resolve()
           })
       })
@@ -119,12 +126,12 @@ export default {
         this.date = [new Date(), new Date()]
       }
       if (this.searchParams.projects) {
-        this.$store.dispatch('actionEntityTable/setLoader', true)
+        this.$store.dispatch('reportsTable/setLoader', true)
         this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
           .then(() => {
             this.getList()
               .then(() => {
-                this.$store.dispatch('actionEntityTable/setLoader', false)
+                this.$store.dispatch('reportsTable/setLoader', false)
                 this.getJsonStructure()
               })
           })

@@ -18,16 +18,16 @@
         el-table-column(:label="$t('table.id')" align="center" width="65")
           template(slot-scope="scope")
             span {{ scope.row.id }}
-        el-table-column(label="User")
+        el-table-column(label="User" width="140")
           template(slot-scope="scope")
             span {{ getIncluded(scope.row.user.id) }}
-        el-table-column(label="Project")
+        el-table-column(label="Project" width="110")
           template(slot-scope="scope")
             span {{ getIncluded(scope.row.project.id) }}
-        el-table-column(label="Date")
+        el-table-column(label="Date" width="100")
           template(slot-scope="scope")
             span {{ scope.row.date }}
-        el-table-column(label="Time")
+        el-table-column(label="Time" width="90")
           template(slot-scope="scope")
             span {{ scope.row.time }}
         el-table-column(label="Details")
