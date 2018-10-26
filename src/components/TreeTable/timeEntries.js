@@ -26,6 +26,7 @@ export default function treeToArray(data, expandAll, parent, level, item) {
       Vue.set(record, '_marginLeft', 0)
       Vue.set(record, '_width', 1)
     }
+    Vue.set(record, '_expanded', true)
     tmp.push(record)
     if (record.time_entries && record.time_entries.length > 0) {
       const children = treeToArray(record.time_entries, expandAll, record, _level, item)

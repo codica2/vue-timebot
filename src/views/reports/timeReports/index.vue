@@ -1,6 +1,6 @@
 <template lang="pug">
   div(v-loading="loader")
-    div(class="timebot-header") Weekly
+    div(class="timebot-header") Time reports
     div(class="time-entries-filters-container")
       div(class="time-entries-filters")
         div(class="filters-label") Projects name
@@ -44,7 +44,7 @@
           download-excel(v-show="groupedData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
             el-button() Download CSV
     tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
-      el-table-column(label="Date")
+      el-table-column(label="Date" width="150")
         template(slot-scope="scope")
           span(v-if="scope.row.date")
             strong(v-if="scope.row.date.length === 1") {{ scope.row.date[0] }}
@@ -53,20 +53,20 @@
               strong {{scope.row.date[scope.row.date.length - 1]}}
               span &nbsp; to &nbsp;
               strong {{scope.row.date[0] }}
-      el-table-column(label="Collaborators")
+      el-table-column(label="Collaborators" width="150")
         template(slot-scope="scope")
           div.collaborators-container
             span(v-for="(collaborator, collaboratorIndex) in scope.row.collaborators" :key="collaborator.id") {{ collaborator.name }}&nbsp;
       el-table-column(label="Details")
         template(slot-scope="scope")
           span {{ scope.row.details }}
-      el-table-column(label="Trello labels")
+      el-table-column(label="Trello labels" width="160")
         template(slot-scope="scope")
           span(v-for="trelloLabels in scope.row['trello-labels']") {{ trelloLabels }}&nbsp;
-      el-table-column(label="Time")
+      el-table-column(label="Time spentu" width="110")
         template(slot-scope="scope")
           span {{ scope.row.time }}
-      el-table-column(label="Total time")
+      el-table-column(label="Total time" width="110")
         template(slot-scope="scope")
           span {{ scope.row.total_time }}
 </template>
@@ -102,7 +102,8 @@ export default {
     columns: [
       {
         text: 'Project',
-        value: 'name'
+        value: 'name',
+        width: '120'
       }
     ],
     groupedData: [],
@@ -182,19 +183,17 @@ export default {
         const grouped = this.searchParams.type === 'user' ? this.groupByUser(data, this.searchParams.type) : this.groupByAttributes(data, this.searchParams.type)
         const newData = []
         for (const key in grouped) {
-          let allMinutes = null
-          let minutes = null
+          let time = 0
+          let allTime = 0
           const collaborators = []
           const date = []
           if (grouped.hasOwnProperty(key)) {
             grouped[key].forEach((item) => {
               const arrTime = item.time.split(':')
-              allMinutes += +(arrTime[0] * 60) + +arrTime[1]
-              if ((allMinutes % 60) < 10) {
-                minutes = `0${allMinutes % 60}`
-              } else {
-                minutes = allMinutes % 60
-              }
+              const dec = parseInt((arrTime[1]/6)*10, 10)
+              time = parseFloat(parseInt(arrTime[0], 10) + '.' + (dec < 10 ? '0' : '') + dec)
+              allTime += time
+              item.time = time.toFixed(2)
               if (!collaborators.find(cl => cl.id === item.user.id)) {
                 item.user.name = this.getIncluded(item.user.id)
                 date.push(item.date)
@@ -206,9 +205,10 @@ export default {
               type: grouped[key][0].type,
               date: date,
               'estimated-time': grouped[key][0]['estimated-time'],
-              time: `${allMinutes / 60 | 0}:${minutes}`,
+              time: `${time}`,
               collaborators: collaborators
             }
+            data.time = allTime.toFixed(2)
             if (this.searchParams.type === 'user') {
               data.time_entries = grouped[key]
             } else {
@@ -225,23 +225,16 @@ export default {
     },
     createTreeData() {
       this.groupTreeData()
-      let allMinutes = null
-      let minutes = null
+      let time = 0
       this.groupedData.forEach((item) => {
-        const arrTime = item.time.split(':')
-        allMinutes += +(arrTime[0] * 60) + +arrTime[1]
+        time += +item.time
       })
-      if ((allMinutes % 60) < 10) {
-        minutes = `0${allMinutes % 60}`
-      } else {
-        minutes = allMinutes % 60
-      }
       const structure = {
         name: this.filterable('projects').find(p => {
           if (p.id === this.searchParams.projects) return p
         }).name,
         time_entries: this.groupedData,
-        total_time: `${allMinutes / 60 | 0}:${minutes}`
+        total_time: `${time.toFixed(2)}`
       }
       this.treeData = JSON.parse(JSON.stringify(structure))
       const jsonData = JSON.parse(JSON.stringify([...this.groupedData]))
