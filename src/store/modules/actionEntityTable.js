@@ -14,7 +14,8 @@ const actionEntityTable = {
     'time-entries': {
       list: [],
       included: [],
-      filterable: []
+      filterable: [],
+      worked_time: []
     },
     users: {
       list: [],
@@ -41,10 +42,12 @@ const actionEntityTable = {
     }
   },
   getters: {
+    entity: (state) => (type, entity) => state[type][entity],
     list: (state) => type => state[type].list,
     filterable: (state) => type => state[type].filterable,
     included: (state) => type => state[type].included,
-    loader: (state) => state.loader
+    loader: (state) => state.loader,
+    filters: (state) => state.filters
   },
   actions: {
     fetchList({ state, commit, rootState, dispatch }, payload) {
@@ -64,7 +67,10 @@ const actionEntityTable = {
       return new Promise((resolve, reject) => {
         Api.fetchEntityByName(setQuery(payload.type), payload.query)
           .then((response) => {
-            commit('FETCH_ENTITY_BY_NAME', { data: response.data, type: payload.type })
+            commit('FETCH_ENTITY_BY_NAME', { data: response.data.data.sort((a, b) => {
+              if (a > b) return 1
+              if (a < b) return -1
+            }), type: payload.type })
             resolve()
           })
       })
@@ -118,8 +124,13 @@ const actionEntityTable = {
           })
       })
     },
-    clearStore({ state, commit }) {
-      commit('CLEAR_STORE')
+    fetchWorkedTime({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        Api.fetchList(setQuery(payload.type), { ...state.filters })
+          .then((response) => {
+            commit('FETCH_WORKED_TIME', { data: response.data.data })
+          })
+      })
     },
     setFilter({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
@@ -129,9 +140,16 @@ const actionEntityTable = {
     },
     setLoader({ state, commit }, payload) {
       commit('SET_LOADER', payload)
+    },
+    clearFilters({ commit }) {
+      commit('CLEAR_FILTERS')
     }
   },
   mutations: {
+    CLEAR_FILTERS(state) {
+      state.filters = {
+      }
+    },
     FETCH_LIST(state, payload) {
       state[payload.type].list = payload.data.data
       if (payload.data.included) {
@@ -148,11 +166,11 @@ const actionEntityTable = {
       }
     },
     FETCH_ENTITY_BY_NAME(state, payload) {
-      payload.data.data.filter(q => {
+      payload.data.filter(q => {
         q.id = `${q.id}`
         return q
       })
-      state[payload.type].filterable = payload.data.data
+      state[payload.type].filterable = payload.data
     },
     UPDATE_ENTITY(state, payload) {
       state[payload.type].list.splice(payload.index, 1, payload.data.data)
@@ -163,50 +181,8 @@ const actionEntityTable = {
     DELETE_ENTITY(state, payload) {
       state[payload.type].list.splice(payload.index, 1)
     },
-    CLEAR_STORE(state) {
-      state.projects = {
-        list: [],
-        filterable: []
-      }
-      state['time-entries'] = {
-        list: [],
-        included: [],
-        filterable: []
-      }
-      state.users = {
-        list: [],
-        filterable: []
-      }
-      state.teams = {
-        list: [],
-        filterable: []
-      }
-      state.holidays = {
-        list: [],
-        filterable: []
-      }
-      state.absences = {
-        list: [],
-        included: [],
-        filterable: []
-      }
-      state.filters = {
-      }
-      state.pagination = {
-        page: 1,
-        limit: 30,
-        total: 10,
-        sort: '+id'
-      }
-      state.estimationReports = {
-        list: []
-      }
-      state.timeReports = {
-        list: []
-      }
-      state.admins = {
-        list: []
-      }
+    FETCH_WORKED_TIME(state, payload) {
+      state['time-entries'].worked_time = payload.data
     },
     SET_LOADER(state, payload) {
       state.loader = payload

@@ -19,6 +19,9 @@ const pagination = {
           resolve()
         })
       }
+    },
+    setDefault({ state, commit }) {
+      commit('SET_DEFAULT')
     }
   },
   mutations: {
@@ -29,6 +32,14 @@ const pagination = {
         state.pagination.page = payload.page
       } else if (payload.total) {
         state.pagination.total = payload.total
+      }
+    },
+    SET_DEFAULT(state) {
+      state.pagination = {
+        page: 1,
+        limit: 30,
+        total: 10,
+        sort: '+id'
       }
     }
   }

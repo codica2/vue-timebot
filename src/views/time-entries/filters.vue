@@ -91,6 +91,26 @@ export default {
         users: [],
         projects: []
       }
+    },
+    filter() {
+      return new Promise((resolve, reject) => {
+        this.$store.dispatch('actionEntityTable/setLoader', true)
+        this.$store.dispatch('actionEntityTable/setFilter', this.entity)
+          .then(() => {
+            this.$store.dispatch('actionEntityTable/fetchList', this.type)
+              .then(() => {
+                if (this.searchParams.users.length || this.searchParams.projects.length) {
+                  this.$store.dispatch('actionEntityTable/fetchWorkedTime', { type: 'worked_time', users: this.searchParams.users, projects: this.searchParams.projects })
+                } else {
+                  this.$store.commit('actionEntityTable/FETCH_WORKED_TIME', { data: [] })
+                }
+                resolve()
+              })
+              .finally(() => {
+                this.$store.dispatch('actionEntityTable/setLoader', false)
+              })
+          })
+      })
     }
   }
 }

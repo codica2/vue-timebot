@@ -12,5 +12,6 @@ export const setQuery = (payload) => {
     case 'login': return '/api/v1/auth/sessions'
     case 'admins': return '/api/v1/admins'
     case 'userReports': return '/api/v1/reports/user_reports'
+    case 'worked_time': return '/api/v1/reports/user_reports/worked_time'
   }
 }

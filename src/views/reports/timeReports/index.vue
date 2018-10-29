@@ -190,7 +190,7 @@ export default {
           if (grouped.hasOwnProperty(key)) {
             grouped[key].forEach((item) => {
               const arrTime = item.time.split(':')
-              const dec = parseInt((arrTime[1]/6)*10, 10)
+              const dec = parseInt((arrTime[1] / 6) * 10, 10)
               time = parseFloat(parseInt(arrTime[0], 10) + '.' + (dec < 10 ? '0' : '') + dec)
               allTime += time
               item.time = time.toFixed(2)

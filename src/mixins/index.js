@@ -70,7 +70,6 @@ export const mixDate = {
 export const mixValidationRules = {
   data() {
     const checkName = (rule, value, callback) => {
-      console.log(value)
       if (!value) {
         callback(new Error())
       } else {
@@ -204,6 +203,9 @@ export const mixPagination = {
           this.getList()
         })
     }
+  },
+  beforeDestroy() {
+    this.$store.dispatch('setDefault')
   }
 }
 
@@ -223,7 +225,7 @@ export const mixClean = {
 
 export const mixQuery = {
   beforeDestroy() {
-    this.$store.dispatch('actionEntityTable/clearStore')
+    this.$store.dispatch('actionEntityTable/clearFilters')
   },
   methods: {
     getList() {
@@ -350,9 +352,11 @@ export const mixQuery = {
         this.$store.dispatch('actionEntityTable/setFilter', this.entity)
           .then(() => {
             this.$store.dispatch('actionEntityTable/fetchList', this.type)
+              .then(() => {
+                resolve()
+              })
               .finally(() => {
                 this.$store.dispatch('actionEntityTable/setLoader', false)
-                resolve()
               })
           })
       })
@@ -381,7 +385,6 @@ export const mixEntities = {
       const entities = []
       const included = []
       const data = {}
-      console.log(response)
       response.data.data.forEach(dt => {
         const entity = {}
         for (const key in dt.attributes) {
