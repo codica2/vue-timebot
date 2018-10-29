@@ -21,13 +21,13 @@
         el-table-column(label="User" width="140")
           template(slot-scope="scope")
             span {{ getIncluded(scope.row.user.id) }}
-        el-table-column(label="Project" width="110")
+        el-table-column(label="Project" width="115")
           template(slot-scope="scope")
             span {{ getIncluded(scope.row.project.id) }}
         el-table-column(label="Date" width="100")
           template(slot-scope="scope")
             span {{ scope.row.date }}
-        el-table-column(label="Time" width="90")
+        el-table-column(label="Time" width="70")
           template(slot-scope="scope")
             span {{ scope.row.time }}
         el-table-column(label="Details")

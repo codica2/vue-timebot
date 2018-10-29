@@ -79,9 +79,9 @@
           .el-dialog-flex-block
             .el-dialog-flex-head Created at
             .el-dialog-flex-date
-              .el-dialog-flex-subhead <img src="/static/icons/ic-calendar.svg"> 
+              .el-dialog-flex-subhead <img src="/static/icons/ic-calendar.svg">
                 span(v-if="temp['created-at']") {{temp['created-at'].date}}
-              .el-dialog-flex-subhead <img src="/static/icons/ic-time-hover.svg"> 
+              .el-dialog-flex-subhead <img src="/static/icons/ic-time-hover.svg">
                 span(v-if="temp['created-at']") {{temp['created-at'].time}}
           .el-dialog-flex-block
             .el-dialog-flex-head Status
