@@ -13,6 +13,9 @@ const reportsTable = {
     userReports: {
       list: []
     },
+    absenceReports: {
+      list: []
+    },
     filters: {
     },
     loader: false

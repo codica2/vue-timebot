@@ -184,6 +184,9 @@ export const mixDialog = {
         team: {}
       }
     }
+  },
+  beforeDestroy() {
+    this.$store.dispatch('actionEntityTable/clearFilters')
   }
 }
 
@@ -224,9 +227,6 @@ export const mixClean = {
 }
 
 export const mixQuery = {
-  beforeDestroy() {
-    this.$store.dispatch('actionEntityTable/clearFilters')
-  },
   methods: {
     getList() {
       return new Promise((resolve, reject) => {
