@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-loading="loader")
+  div()
     div.timebot-header Teams
     teamsTable
 </template>
@@ -16,7 +16,6 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      loader: 'actionEntityTable/loader'
     })
   }
 }

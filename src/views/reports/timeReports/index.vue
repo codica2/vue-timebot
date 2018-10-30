@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-loading="loader")
+  div()
     div(class="timebot-header") Time reports
     div(class="time-entries-filters-container")
       div(class="time-entries-filters")
@@ -122,7 +122,6 @@ export default {
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list',
-      loader: 'actionEntityTable/loader',
       filterable: 'actionEntityTable/filterable',
       included: 'actionEntityTable/included'
     })
@@ -149,17 +148,17 @@ export default {
         .then(() => {
           this.$store.dispatch('setPagination', { limit: 100 }, { root: true })
             .then(() => {
-              this.$store.dispatch('actionEntityTable/setLoader', true)
+              this.$store.dispatch('setLoader', true)
               if (this.searchParams.projects) {
                 this.$store.dispatch('actionEntityTable/fetchList', 'time-entries')
                   .then(() => {
                     this.createTreeData()
                   })
                   .finally(() => {
-                    this.$store.dispatch('actionEntityTable/setLoader', false)
+                    this.$store.dispatch('setLoader', false)
                   })
               } else {
-                this.$store.dispatch('actionEntityTable/setLoader', false)
+                this.$store.dispatch('setLoader', false)
               }
             })
         })
@@ -241,11 +240,21 @@ export default {
       jsonData.forEach(jd => {
         let q = ''
         jd.collaborators.forEach(cl => {
-          q += cl.name + ' '
+          q += cl.name + ', '
         })
         jd.collaborators = q
       })
       this.jsonData = jsonData
+      if (this.searchParams.type === 'user') {
+        const userData = []
+        jsonData.forEach(jd => {
+          jd.time_entries.forEach(te => {
+            te.collaborators = te.user.name
+            userData.push(te)
+          })
+        })
+        this.jsonData = userData
+      }
     }
   }
 }

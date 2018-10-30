@@ -1,5 +1,5 @@
 <template lang="pug">
-    div(v-loading="loader")
+    div()
       div(class="timebot-header") Projects
       filters
       projectsTable
@@ -38,8 +38,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list',
-      loader: 'actionEntityTable/loader'
+      list: 'actionEntityTable/list'
     })
   }
 }

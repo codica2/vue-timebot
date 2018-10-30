@@ -4,7 +4,6 @@ import { mixEntities } from '@/mixins/index'
 const actionEntityTable = {
   namespaced: true,
   state: {
-    loader: false,
     filters: {
     },
     projects: {
@@ -46,7 +45,6 @@ const actionEntityTable = {
     list: (state) => type => state[type].list,
     filterable: (state) => type => state[type].filterable,
     included: (state) => type => state[type].included,
-    loader: (state) => state.loader,
     filters: (state) => state.filters
   },
   actions: {
@@ -138,9 +136,6 @@ const actionEntityTable = {
         resolve()
       })
     },
-    setLoader({ state, commit }, payload) {
-      commit('SET_LOADER', payload)
-    },
     clearFilters({ commit }) {
       commit('CLEAR_FILTERS')
     }
@@ -183,9 +178,6 @@ const actionEntityTable = {
     },
     FETCH_WORKED_TIME(state, payload) {
       state['time-entries'].worked_time = payload.data
-    },
-    SET_LOADER(state, payload) {
-      state.loader = payload
     }
   }
 }

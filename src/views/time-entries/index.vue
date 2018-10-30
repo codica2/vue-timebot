@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-loading="loader")
+  div()
     div(class="timebot-header") Time entries
     filters
     div(v-if="structure.length") {{structure.title}}
@@ -26,7 +26,6 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      loader: 'actionEntityTable/loader',
       list: 'actionEntityTable/entity',
       filters: 'actionEntityTable/filters'
     }),
@@ -64,7 +63,6 @@ export default {
       } else if (this.filters.hasOwnProperty('by_users') && !this.filters.by_users.length) {
         data = []
       }
-      console.log(data)
       return data
     }
   },

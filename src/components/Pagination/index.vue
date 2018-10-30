@@ -36,20 +36,20 @@ export default {
     handleSizeChange(limit) {
       this.$store.dispatch('setPagination', { limit: limit }, { root: true })
         .then(() => {
-          this.$store.dispatch(`${this.store}/setLoader`, true)
+          this.$store.dispatch(`setLoader`, true)
           this.$store.dispatch(`${this.store}/fetchList`, this.type)
             .then(() => {
-              this.$store.dispatch(`${this.store}/setLoader`, false)
+              this.$store.dispatch(`setLoader`, false)
             })
         })
     },
     handleCurrentChange(page) {
       this.$store.dispatch('setPagination', { page: page }, { root: true })
         .then(() => {
-          this.$store.dispatch(`${this.store}/setLoader`, true)
+          this.$store.dispatch(`setLoader`, true)
           this.$store.dispatch(`${this.store}/fetchList`, this.type)
             .then(() => {
-              this.$store.dispatch(`${this.store}/setLoader`, false)
+              this.$store.dispatch(`setLoader`, false)
               this.$scrollTo('body', 1000)
             })
         })
