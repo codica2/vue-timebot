@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-loading="!isAnswered" style="overflow: hidden;")
+  div(style="overflow: hidden;")
     div(class="datepicker-header-container")
       div(class="timebot-header") Dashboard
       div(class="dashboard-statistics-datepicker")
@@ -129,24 +129,20 @@ export default {
     ])
   },
   mounted() {
-    this.isAnswered = false
-    this.$store.dispatch('fetchChartByDate', { type: this.type, params: { date_from: this.date[0], date_to: this.date[1] }})
-      .then(() => {
-        this.isAnswered = true
-      })
+    this.setDate()
   },
   methods: {
     setDate() {
-      this.isAnswered = false
+      this.$store.dispatch('setLoader', true)
       if (this.date) {
         this.$store.dispatch('fetchChartByDate', { type: this.type, params: { date_from: this.date[0], date_to: this.date[1] }})
           .then(() => {
-            this.isAnswered = true
+            this.$store.dispatch('setLoader', false)
           })
       } else {
         this.$store.dispatch('fetchChartByDate', { type: this.type, params: {}})
           .then(() => {
-            this.isAnswered = true
+            this.$store.dispatch('setLoader', false)
           })
       }
     }

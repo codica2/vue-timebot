@@ -7,7 +7,8 @@ const app = {
       withoutAnimation: false
     },
     device: 'desktop',
-    language: Cookies.get('language') || 'en'
+    language: Cookies.get('language') || 'en',
+    loader: false
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
@@ -30,6 +31,9 @@ const app = {
     SET_LANGUAGE: (state, language) => {
       state.language = language
       Cookies.set('language', language)
+    },
+    SET_LOADER: (state, status) => {
+      state.loader = status
     }
   },
   actions: {
@@ -44,6 +48,9 @@ const app = {
     },
     setLanguage({ commit }, language) {
       commit('SET_LANGUAGE', language)
+    },
+    setLoader({ commit }, status) {
+      commit('SET_LOADER', status)
     }
   }
 }

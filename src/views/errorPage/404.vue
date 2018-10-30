@@ -11,7 +11,7 @@
         <div class="bullshit__oops">OOPS!</div>
         <div class="bullshit__headline">{{ message }}</div>
         <div class="bullshit__info">Please check that the URL you entered is correct. Please click the button below to return to the homepage or send an error report.</div>
-        <a href="" class="bullshit__return-home">Back to home</a>
+        <el-button class="bullshit__return-home" @click="back">Back to home</el-button>
       </div>
     </div>
   </div>
@@ -25,6 +25,15 @@ export default {
     message() {
       return 'You can\'t enter this page......'
     }
+  },
+  methods: {
+    back() {
+      if (this.$route.query.noGoBack) {
+        this.$router.push({ path: '/dashboard' })
+      } else {
+        this.$router.go(-1)
+      }
+    }
   }
 }
 </script>
@@ -35,6 +44,9 @@ export default {
   position: absolute;
   top: 40%;
   left: 50%;
+}
+.bullshit__return-home {
+  padding: 0;
 }
 .wscn-http404 {
   position: relative;

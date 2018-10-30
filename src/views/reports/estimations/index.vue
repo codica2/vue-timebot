@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-loading="loader")
+  div()
     div(class="timebot-header") Estimations
     div(class="time-entries-filters-container")
       div(class="time-entries-filters")
@@ -113,10 +113,10 @@ export default {
   methods: {
     getList() {
       return new Promise((resolve, reject) => {
-        this.$store.dispatch('reportsTable/setLoader', true)
+        this.$store.dispatch('setLoader', true)
         this.$store.dispatch('reportsTable/fetchList', this.type)
           .then(() => {
-            this.$store.dispatch('reportsTable/setLoader', false)
+            this.$store.dispatch('setLoader', false)
             resolve()
           })
       })
@@ -126,12 +126,12 @@ export default {
         this.date = [new Date(), new Date()]
       }
       if (this.searchParams.projects) {
-        this.$store.dispatch('reportsTable/setLoader', true)
+        this.$store.dispatch('setLoader', true)
         this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
           .then(() => {
             this.getList()
               .then(() => {
-                this.$store.dispatch('reportsTable/setLoader', false)
+                this.$store.dispatch('setLoader', false)
                 this.getJsonStructure()
               })
           })

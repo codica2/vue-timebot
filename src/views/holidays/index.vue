@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-loading="loader")
+  div()
     div(class="timebot-header") Holidays
     filters
     holidaysTable
@@ -19,7 +19,6 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      loader: 'actionEntityTable/loader'
     })
   }
 }

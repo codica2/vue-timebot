@@ -3,7 +3,7 @@
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
     <navbar/>
     <sidebar :class="{ fixed: fixed }" class="sidebar-container"/>
-    <div class="main-container">
+    <div v-loading="loader" class="main-container">
       <tags-view/>
       <app-main/>
     </div>
@@ -13,7 +13,7 @@
 <script>
 import { Navbar, Sidebar, AppMain, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'Layout',
   components: {
@@ -29,6 +29,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      loader: 'loader'
+    }),
     sidebar() {
       return this.$store.state.app.sidebar
     },

@@ -184,6 +184,9 @@ export const mixDialog = {
         team: {}
       }
     }
+  },
+  beforeDestroy() {
+    this.$store.dispatch('actionEntityTable/clearFilters')
   }
 }
 
@@ -224,16 +227,13 @@ export const mixClean = {
 }
 
 export const mixQuery = {
-  beforeDestroy() {
-    this.$store.dispatch('actionEntityTable/clearFilters')
-  },
   methods: {
     getList() {
       return new Promise((resolve, reject) => {
-        this.$store.dispatch('actionEntityTable/setLoader', true)
+        this.$store.dispatch('setLoader', true)
         this.$store.dispatch('actionEntityTable/fetchList', this.type)
           .then(() => {
-            this.$store.dispatch('actionEntityTable/setLoader', false)
+            this.$store.dispatch('setLoader', false)
             resolve()
           })
       })
@@ -348,7 +348,7 @@ export const mixQuery = {
     },
     filter() {
       return new Promise((resolve, reject) => {
-        this.$store.dispatch('actionEntityTable/setLoader', true)
+        this.$store.dispatch('setLoader', true)
         this.$store.dispatch('actionEntityTable/setFilter', this.entity)
           .then(() => {
             this.$store.dispatch('actionEntityTable/fetchList', this.type)
@@ -356,7 +356,7 @@ export const mixQuery = {
                 resolve()
               })
               .finally(() => {
-                this.$store.dispatch('actionEntityTable/setLoader', false)
+                this.$store.dispatch('setLoader', false)
               })
           })
       })

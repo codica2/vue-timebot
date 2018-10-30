@@ -6,7 +6,6 @@
         class="filter-item create-new-category",
         type="primary") Add new admin
       el-table(
-      v-loading="loader"
       :key="tableKey"
       :data="list(type)"
       border
@@ -65,8 +64,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list',
-      loader: 'actionEntityTable/loader'
+      list: 'actionEntityTable/list'
     }),
     entity() {
       return {

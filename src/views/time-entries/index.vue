@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-loading="loader")
+  div()
     div(class="timebot-header") Time entries
     filters
     div(v-if="structure.length") {{structure.title}}
@@ -26,14 +26,13 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      loader: 'actionEntityTable/loader',
       list: 'actionEntityTable/entity',
       filters: 'actionEntityTable/filters'
     }),
     structure() {
-      let data = JSON.parse(JSON.stringify(this.list(this.type, 'worked_time')))
+      let data = JSON.parse(JSON.stringify(this.list(this.type, 'worked_time'))) || []
       const newData = []
-      if (this.filters.hasOwnProperty('by_projects') && this.filters.by_projects.length && !this.filters.by_users.length) {
+      if (this.filters.hasOwnProperty('by_users') && this.filters.hasOwnProperty('by_projects') && this.filters.by_projects.length && !this.filters.by_users.length) {
         this.filters.by_projects.forEach(fl => {
           const structure = {
             title: 'Users',
@@ -61,6 +60,8 @@ export default {
           newData.push(structure)
         })
         data = newData
+      } else if (this.filters.hasOwnProperty('by_users') && !this.filters.by_users.length) {
+        data = []
       }
       return data
     }
@@ -83,3 +84,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+[v-cloak] {
+  display: none;
+}
+</style>

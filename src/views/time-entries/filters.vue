@@ -94,7 +94,8 @@ export default {
     },
     filter() {
       return new Promise((resolve, reject) => {
-        this.$store.dispatch('actionEntityTable/setLoader', true)
+        this.$store.commit('actionEntityTable/FETCH_WORKED_TIME', { data: [] })
+        this.$store.dispatch('setLoader', true)
         this.$store.dispatch('actionEntityTable/setFilter', this.entity)
           .then(() => {
             this.$store.dispatch('actionEntityTable/fetchList', this.type)
@@ -104,10 +105,8 @@ export default {
                 } else {
                   this.$store.commit('actionEntityTable/FETCH_WORKED_TIME', { data: [] })
                 }
+                this.$store.dispatch('setLoader', false)
                 resolve()
-              })
-              .finally(() => {
-                this.$store.dispatch('actionEntityTable/setLoader', false)
               })
           })
       })

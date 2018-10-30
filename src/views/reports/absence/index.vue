@@ -11,24 +11,23 @@
           value-format="yyyy-MM-dd",
           start-placeholder="Start date",
           :picker-options="pickerOptions",
-          @change="getTimeReports"
+          @change="getAbsenceReports"
           end-placeholder="End date"
           prefix-icon="date-calendar")
-    el-table(:data="list('userReports')")
+    el-table(:data="list(type)")
       el-table-column(
         prop="name",
         label="Users")
       el-table-column(
-        prop="hours_worked",
-        label="Hours worked")
+        prop="vacation",
+        label="Vacation")
       el-table-column(
-        prop="hours_to_work",
-        label="	Estimated Hours Worked")
+        prop="illness",
+        label="	Illness")
       el-table-column(
-        prop="difference"
-        label="Difference"
+        prop="other"
+        label="Other"
       )
-        template(slot-scope="scope") {{scope.row.difference.toFixed(2)}}
 </template>
 
 <script>
@@ -38,19 +37,19 @@ export default {
   name: 'UserReports',
   mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate],
   data: () => ({
-    type: 'userReports'
+    type: 'absenceReports'
   }),
   computed: {
     ...mapGetters({
-      loader: 'reportsTable/loader',
+      loader: 'loader',
       list: 'reportsTable/list'
     })
   },
   created() {
-    this.getTimeReports()
+    this.getAbsenceReports()
   },
   methods: {
-    getTimeReports() {
+    getAbsenceReports() {
       if (this.date === null) {
         this.date = [new Date(), new Date()]
       }

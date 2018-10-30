@@ -6,7 +6,6 @@
         class="filter-item create-new-category",
         type="primary") Add new time entry
       el-table(
-        v-loading="loader"
         :key="tableKey"
         :data="list(type)"
         border
@@ -157,8 +156,7 @@ export default {
     ...mapGetters({
       list: 'actionEntityTable/list',
       included: 'actionEntityTable/included',
-      filterable: 'actionEntityTable/filterable',
-      loader: 'actionEntityTable/loader'
+      filterable: 'actionEntityTable/filterable'
     }),
     entity() {
       return {
