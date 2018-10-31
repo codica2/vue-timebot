@@ -104,12 +104,12 @@ export default {
     args: [null, null, 'timeLine'],
     columns: [
       {
-        text: 'Date',
-        value: 'date'
-      },
-      {
         text: 'Name',
         value: 'name'
+      },
+      {
+        text: 'Date',
+        value: 'date'
       },
       {
         text: 'Reason',
