@@ -122,6 +122,20 @@ const actionEntityTable = {
           })
       })
     },
+    batchActions({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        Api.batchAction({ ...payload.row }, `${setQuery(payload.type)}/${payload.action}`)
+          .then((res) => {
+            for (let i = 0; i < payload.index.length; i++) {
+              const entityIndex = state[payload.type].list.findIndex((l) => {
+                if (l.id === payload.index[i]) return l
+              })
+              commit('BATCH_ACTIONS', { index: entityIndex, type: payload.type })
+            }
+            resolve()
+          })
+      })
+    },
     fetchWorkedTime({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
         Api.fetchList(setQuery(payload.type), { ...state.filters })
@@ -174,6 +188,9 @@ const actionEntityTable = {
       }
     },
     DELETE_ENTITY(state, payload) {
+      state[payload.type].list.splice(payload.index, 1)
+    },
+    BATCH_ACTIONS(state, payload) {
       state[payload.type].list.splice(payload.index, 1)
     },
     FETCH_WORKED_TIME(state, payload) {

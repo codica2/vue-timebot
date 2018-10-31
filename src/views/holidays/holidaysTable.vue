@@ -13,7 +13,6 @@
       @selection-change="handleSelectionChange"
       highlight-current-row
       style="width: 100%;")
-        el-table-column(type="selection" align="center" width="55")
         el-table-column(:label="$t('table.id')" align="center" width="65")
           template(slot-scope="scope")
             span {{ scope.row.id }}

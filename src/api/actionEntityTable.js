@@ -39,6 +39,14 @@ export function deleteEntity(row, query) {
     paramsSerializer: params => qs.stringify(row, { arrayFormat: 'brackets' })
   })
 }
+export function batchAction(row, query) {
+  return request({
+    url: query,
+    method: 'delete',
+    params: row,
+    paramsSerializer: params => qs.stringify(row, { arrayFormat: 'brackets' })
+  })
+}
 
 export function updateEntity(row, query) {
   return request({

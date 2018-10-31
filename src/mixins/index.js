@@ -307,6 +307,9 @@ export const mixQuery = {
         }
       })
     },
+    multipleDelete(action) {
+      this.$store.dispatch('actionEntityTable/batchActions', { row: this.delete(), type: this.type, action: action, index: this.multipleSelection })
+    },
     setMessageName(type) {
       switch (type) {
         case 'projects': return 'Project'
@@ -360,6 +363,13 @@ export const mixQuery = {
               })
           })
       })
+    },
+    handleSelectionChange(values) {
+      const index = []
+      for (let i = 0; i < values.length; i++) {
+        index.push(values[i].id)
+      }
+      this.multipleSelection = index
     }
   }
 }

@@ -1,12 +1,12 @@
 <template lang="pug">
   div
+    el-dropdown.dropdown(@command="multipleDelete")
+      el-button.el-button-filter Batch actions
+        i.el-icon-arrow-down.el-icon--right
+      el-dropdown-menu(slot="dropdown")
+        el-dropdown-item(command="delete_multiple", :disabled="!multipleSelection.length") Delete
     div
       div(style="display: flex")
-        <!--div-->
-          <!--el-dropdown(type="primary")-->
-            <!--span.el-dropdown-link Batch Actions-->
-            <!--el-dropdown-menu(slot="dropdown")-->
-              <!--el-dropdown-item(:disabled="multipleSelection.length <= 0") Delete selected-->
         div(class="position-create-new-category")
           el-button(@click="handleCreate",
           class="filter-item create-new-category",
@@ -127,8 +127,11 @@ export default {
       }
       this.updateEntity(entity)
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val
+    delete() {
+      const entity = {
+        project_ids: this.multipleSelection
+      }
+      return entity
     },
     setTeam(team) {
       if (team) {
