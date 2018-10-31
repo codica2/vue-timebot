@@ -796,3 +796,19 @@ tr.el-table__row {
     content: "\E605";
   }
 }
+.dropdown {
+  padding: 0 0 10px 0;
+}
+.el-dropdown-menu.el-popper {
+  width: 160px;
+  li {
+    color: #232323;
+    font-family: "Calibre-Medium", sans-serif;
+    font-size: 18px;
+    text-align: center;
+    &:hover {
+      color: #000;
+      opacity: .7;
+    }
+  }
+}
