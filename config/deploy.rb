@@ -13,7 +13,7 @@ set :branch, 'master'
 task :setup do
   # command %{rbenv install 2.3.0 --skip-existing}
 end
-
+3
 desc "Deploys the current version to the server."
 task :deploy do
   deploy do

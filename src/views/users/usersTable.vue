@@ -150,7 +150,7 @@ export default {
         name: this.temp.name,
         is_active: this.temp['is-active'],
         uid: this.temp.uid || this.temp.name,
-        team_id: this.temp.team.id,
+        team_id: this.temp.team ? this.temp.team.id : '',
         role: this.temp.role
       }
     }
