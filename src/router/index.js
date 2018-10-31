@@ -63,7 +63,7 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
-    path: '/reports',
+    path: '',
     component: Layout,
     redirect: 'noredirect',
     name: 'Reports',
