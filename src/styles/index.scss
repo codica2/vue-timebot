@@ -815,3 +815,6 @@ tr.el-table__row {
     }
   }
 }
+.el-table .cell{
+  word-break: break-word;
+}

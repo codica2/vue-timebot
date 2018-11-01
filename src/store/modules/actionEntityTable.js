@@ -66,8 +66,8 @@ const actionEntityTable = {
         Api.fetchEntityByName(setQuery(payload.type), payload.query)
           .then((response) => {
             commit('FETCH_ENTITY_BY_NAME', { data: response.data.data.sort((a, b) => {
-              const nameA = a.name.toUpperCase();
-              const nameB = b.name.toUpperCase();
+              const nameA = a.name.toUpperCase()
+              const nameB = b.name.toUpperCase()
               if (nameA > nameB) return 1
               if (nameA < nameB) return -1
             }), type: payload.type })

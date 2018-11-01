@@ -14,7 +14,7 @@
           @change="getTimeReports"
           end-placeholder="End date"
           prefix-icon="date-calendar")
-    el-table(:data="list('userReports')")
+    el-table(:data="getUsers()")
       el-table-column(
         prop="name",
         label="Users")
@@ -50,6 +50,19 @@ export default {
     this.getTimeReports()
   },
   methods: {
+    getUsers() {
+      return this.list('userReports').slice().sort((a, b) => {
+        const nameA = a.name.toUpperCase()
+        const nameB = b.name.toUpperCase()
+        if (nameA < nameB) {
+          return -1
+        }
+        if (nameA > nameB) {
+          return 1
+        }
+        return 0
+      })
+    },
     getTimeReports() {
       if (this.date === null) {
         this.date = [new Date(), new Date()]

@@ -63,22 +63,26 @@
       el-table-column(label="Trello labels" width="160")
         template(slot-scope="scope")
           span(v-for="trelloLabels in scope.row['trello-labels']") {{ trelloLabels }}&nbsp;
-      el-table-column(label="Time spentu" width="110")
+      el-table-column(label="Time spent" width="110")
         template(slot-scope="scope")
           span {{ scope.row.time }}
       el-table-column(label="Total time" width="110")
         template(slot-scope="scope")
           span {{ scope.row.total_time }}
+    pagination(:store="'actionEntityTable'" :type="'time-entries'" v-if="list('time-entries').length")
 </template>
 <script>
 import * as mixin from '@/mixins/index'
 import { mapGetters } from 'vuex'
 import treeToArray from '@/components/TreeTable/timeEntries'
 import treeTable from '@/components/TreeTable/index'
+import pagination from '@/components/Pagination/index'
+
 export default {
   name: 'TimeReports',
   components: {
-    treeTable
+    treeTable,
+    pagination
   },
   mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate],
   data: () => ({
@@ -89,6 +93,7 @@ export default {
       projects: '',
       type: 'user'
     },
+    store: 'reportsTable',
     groupType: [
       {
         name: 'Details',
@@ -128,6 +133,9 @@ export default {
   },
   mounted() {
     this.getTimeReports()
+    this.$watch(vm => vm.list('time-entries'), () => {
+      this.createTreeData()
+    })
   },
   methods: {
     getIncluded(id) {
@@ -146,7 +154,7 @@ export default {
       }
       this.$store.dispatch('actionEntityTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
-          this.$store.dispatch('setPagination', { limit: 100 }, { root: true })
+          this.$store.dispatch('setPagination', { limit: 50 }, { root: true })
             .then(() => {
               this.$store.dispatch('setLoader', true)
               if (this.searchParams.projects) {
@@ -215,6 +223,17 @@ export default {
               data['trello-labels'] = grouped[key][0]['trello-labels']
             }
             newData.push(data)
+            newData.sort((a, b) => {
+              const nameA = a.collaborators[0].name.toUpperCase()
+              const nameB = b.collaborators[0].name.toUpperCase()
+              if (nameA < nameB) {
+                return -1
+              }
+              if (nameA > nameB) {
+                return 1
+              }
+              return 0
+            })
           }
           this.groupedData = newData
         }
