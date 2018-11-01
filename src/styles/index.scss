@@ -810,5 +810,8 @@ tr.el-table__row {
       color: #000;
       opacity: .7;
     }
+    &.is-disabled {
+      color: #ddd;
+    }
   }
 }

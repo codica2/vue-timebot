@@ -29,7 +29,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error)
     Message({
-      message: error.response ? error.response.data.message : error.message,
+      message: error.response ? (error.response.data.message ? error.response.data.message : error.message) : error.message,
       type: 'error',
       duration: 5 * 1000
     })
