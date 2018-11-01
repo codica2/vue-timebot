@@ -36,7 +36,7 @@
             span {{ scope.row.time }}
         el-table-column(label="Details")
           template(slot-scope="scope")
-            span(v-html="scope.row.details")
+            span() {{scope.row.details}}
         el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             div(style="text-align: center;")

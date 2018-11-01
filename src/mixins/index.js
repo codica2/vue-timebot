@@ -20,7 +20,6 @@ export const mixDate = {
           onClick(picker) {
             const end = new Date()
             const start = new Date()
-            console.log(start.getDate())
             start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDate() - 1))
             picker.$emit('pick', [start, end])
           }
@@ -84,7 +83,7 @@ export const mixDate = {
     if (this.date) {
       const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay() - 1))
       this.$store.dispatch('setRangeDate', [this.formatDate(start), this.formatDate(end)])
     }
   }
