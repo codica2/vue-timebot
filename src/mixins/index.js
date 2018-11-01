@@ -5,31 +5,54 @@ export const mixDate = {
       disabledDate(time) {
         return time.getTime() > Date.now()
       },
-      shortcuts: [{
-        text: 'Last week',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-          picker.$emit('pick', [start, end])
+      shortcuts: [
+        {
+          text: 'Last week',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay() - 1))
+            picker.$emit('pick', [start, end])
+          }
+        },
+        {
+          text: 'Last month',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            console.log(start.getDate())
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDate() - 1))
+            picker.$emit('pick', [start, end])
+          }
+        },
+        {
+          text: 'Last 7 days',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        },
+        {
+          text: 'Last 30 days',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        },
+        {
+          text: 'Last 90 days',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
         }
-      }, {
-        text: 'Last month',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-          picker.$emit('pick', [start, end])
-        }
-      }, {
-        text: 'Last 3 months',
-        onClick(picker) {
-          const end = new Date()
-          const start = new Date()
-          start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-          picker.$emit('pick', [start, end])
-        }
-      }]
+      ]
     },
     isAnswered: true
   }),

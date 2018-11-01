@@ -36,9 +36,7 @@
             span {{ scope.row.time }}
         el-table-column(label="Details")
           template(slot-scope="scope")
-            span(v-if="scope.row.details.indexOf('http') !== -1")
-              |{{scope.row.details}}
-            span(v-else) {{scope.row.details}}
+            span(v-html="scope.row.details")
         el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             div(style="text-align: center;")
