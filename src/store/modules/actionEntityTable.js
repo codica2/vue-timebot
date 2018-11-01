@@ -108,6 +108,9 @@ const actionEntityTable = {
             }
             resolve()
           })
+          .catch(() => {
+            reject()
+          })
       })
     },
     deleteEntity({ state, commit }, payload) {
