@@ -77,7 +77,8 @@ import { mapGetters } from 'vuex'
 import treeToArray from '@/components/TreeTable/timeEntries'
 import treeTable from '@/components/TreeTable/index'
 import pagination from '@/components/Pagination/index'
-
+import { fetchList } from '@/api/actionEntityTable'
+import { setQuery } from '@/api/queryConst'
 export default {
   name: 'TimeReports',
   components: {
@@ -111,6 +112,9 @@ export default {
         width: '120'
       }
     ],
+    'time-entries': {
+      data: []
+    },
     groupedData: [],
     treeData: [],
     json_fields: {
@@ -128,13 +132,20 @@ export default {
     ...mapGetters({
       list: 'actionEntityTable/list',
       filterable: 'actionEntityTable/filterable',
-      included: 'actionEntityTable/included'
+      included: 'actionEntityTable/included',
+      pagination: 'pagination'
     })
   },
   mounted() {
     this.getTimeReports()
     this.$watch(vm => vm.list('time-entries'), () => {
       this.createTreeData()
+    })
+    this.$watch(vm => vm.pagination.total, () => {
+      fetchList(setQuery('time-entries'), { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1], page: 1, per_page: this.pagination.total })
+        .then((res) => {
+          this['time-entries'] = res.data
+        })
     })
   },
   methods: {
@@ -154,7 +165,7 @@ export default {
       }
       this.$store.dispatch('actionEntityTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
-          this.$store.dispatch('setPagination', { limit: 50 }, { root: true })
+          this.$store.dispatch('setPagination', { page: 1, limit: 50 }, { root: true })
             .then(() => {
               this.$store.dispatch('setLoader', true)
               if (this.searchParams.projects) {
@@ -250,6 +261,7 @@ export default {
       const structure = {
         name: this.filterable('projects').find(p => {
           if (p.id === this.searchParams.projects) return p
+          else return {}
         }).name,
         time_entries: this.groupedData,
         total_time: `${time.toFixed(2)}`

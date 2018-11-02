@@ -89,9 +89,8 @@ export default {
     searchParams: {
       projects: ''
     },
-    qw: '',
     json_fields: {
-      'Project': 'project',
+      'Project': 'projects',
       'Details': 'details',
       'Collaborators': 'collaborators',
       'Created at': 'created_at',
@@ -148,6 +147,7 @@ export default {
           q += cl.name + ' '
         })
         jd.collaborators = q
+        jd.projects = jd.projects[0].name
       })
       this.jsonData = jsonData
     }

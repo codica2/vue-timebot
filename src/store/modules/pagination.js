@@ -26,13 +26,7 @@ const pagination = {
   },
   mutations: {
     SET_PAGINATION(state, payload) {
-      if (payload.limit) {
-        state.pagination.limit = payload.limit
-      } else if (payload.page) {
-        state.pagination.page = payload.page
-      } else if (payload.total) {
-        state.pagination.total = payload.total
-      }
+      Object.assign(state.pagination, payload)
     },
     SET_DEFAULT(state) {
       state.pagination = {
