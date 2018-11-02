@@ -8,9 +8,10 @@
           v-model="searchParams.projects"
           filterable
           remote,
+          clearable,
           @focus="remoteGetProjects"
           placeholder="Please enter a projects"
-          @change="setParams"
+          @input="setParams"
           icon="arrow-up"
           :remote-method="remoteGetProjects"
           )
@@ -89,7 +90,7 @@ export default {
       projects: ''
     },
     json_fields: {
-      'Project': 'project',
+      'Project': 'projects',
       'Details': 'details',
       'Collaborators': 'collaborators',
       'Created at': 'created_at',
@@ -127,6 +128,7 @@ export default {
       }
       if (this.searchParams.projects) {
         this.$store.dispatch('setLoader', true)
+        this.$store.dispatch('setPagination', { page: 1 }, { root: true })
         this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
           .then(() => {
             this.getList()
@@ -145,6 +147,7 @@ export default {
           q += cl.name + ' '
         })
         jd.collaborators = q
+        jd.projects = jd.projects[0].name
       })
       this.jsonData = jsonData
     }

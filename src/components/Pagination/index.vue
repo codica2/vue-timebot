@@ -34,12 +34,13 @@ export default {
   },
   methods: {
     handleSizeChange(limit) {
-      this.$store.dispatch('setPagination', { limit: limit }, { root: true })
+      this.$store.dispatch('setPagination', { limit: limit, page: 1 }, { root: true })
         .then(() => {
           this.$store.dispatch(`setLoader`, true)
           this.$store.dispatch(`${this.store}/fetchList`, this.type)
             .then(() => {
               this.$store.dispatch(`setLoader`, false)
+              this.$scrollTo('body', 1000)
             })
         })
     },

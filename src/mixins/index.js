@@ -249,6 +249,9 @@ export const mixClean = {
 }
 
 export const mixQuery = {
+  beforeDestroy() {
+    this.$store.dispatch('setPagination', { page: 1 })
+  },
   methods: {
     getList() {
       return new Promise((resolve, reject) => {

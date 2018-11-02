@@ -83,12 +83,12 @@ export default {
   .ms-tree-space {
     position: relative;
     top: 1px;
-    display: inline-block;
     font-style: normal;
     font-weight: 400;
     line-height: 1;
     width: $space-width;
     height: 14px;
+    display: none;
     &::before {
       content: "";
     }
