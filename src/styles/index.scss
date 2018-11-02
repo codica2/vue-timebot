@@ -465,7 +465,9 @@ tbody {
       margin: 0 10px 0 0;
 
       img {
+        height: 16px;
         margin: 0 10px -3px 0;
+        width: 16px;
       }
     }
   }
@@ -596,6 +598,12 @@ tbody {
       }
     }
   }
+
+  .time-entries-filters-checkbox {
+    margin: 0 20px 0 10px;
+    width: 85px;
+  }
+
   .time-entries-checkbox {
     margin: 0 10px 0 0;
     padding: 13px 0 8px;
@@ -609,6 +617,15 @@ tbody {
   .el-range-editor--medium.el-input__inner {
     width: 100%;
   }
+}
+.time-entries-filters-bottom-head {
+  margin: 10px 0 20px;
+}
+.el-dropdown {
+  margin-bottom: 10px;
+}
+.el-dropdown-selfdefine {
+  padding: 8px 20px 8px;
 }
 .highcharts-root {
   border-radius: 4px !important;

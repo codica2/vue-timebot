@@ -121,7 +121,7 @@
             .el-dialog-flex-head Details
             .el-dialog-flex-subhead {{temp.details}}
           .el-dialog-flex-block
-            .el-dialog-flex-head Minutes
+            .el-dialog-flex-head Time
             .el-dialog-flex-subhead {{temp.time}}
           .el-dialog-flex-block
             .el-dialog-flex-head Project

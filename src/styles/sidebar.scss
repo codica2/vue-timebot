@@ -3,7 +3,7 @@
 #app {
   .main-container {
     background: #f5f7fb;
-    margin-left: 180px;
+    margin-left: 200px;
     min-height: 100%;
     padding: 20px;
     position: relative;
@@ -18,7 +18,7 @@
     position: absolute;
     transition: width .3s linear;
     top: $heightTopBar;
-    width: 180px !important;
+    width: 200px !important;
     z-index: 1001;
 
     //reset element-ui css
@@ -135,7 +135,7 @@
 
   .sidebar-container .nest-menu .el-submenu > .el-submenu__title,
   .sidebar-container .el-submenu .el-menu-item {
-    min-width: 180px !important;
+    min-width: 200px !important;
 
     &:hover {
       background-color: #edeff8 !important;
@@ -143,7 +143,7 @@
   }
 
   .el-menu--collapse .el-menu .el-submenu {
-    min-width: 180px !important;
+    min-width: 200px !important;
   }
 
   .mobile {
@@ -153,13 +153,13 @@
 
     .sidebar-container {
       transition: transform .5s;
-      width: 180px !important;
+      width: 200px !important;
     }
 
     &.hideSidebar {
       .sidebar-container {
         transition-duration: .3s;
-        transform: translate3d(-180px, 0, 0);
+        transform: translate3d(-200px, 0, 0);
       }
     }
   }
@@ -170,4 +170,8 @@
       transition: none;
     }
   }
+}
+
+.el-textarea__inner {
+  padding: 10px 10px 0;
 }

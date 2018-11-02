@@ -2,7 +2,7 @@
   div()
     div(class="timebot-header") Time entries
     filters
-    div(v-if="structure.length") {{structure.title}}
+    div.time-entries-filters-bottom-head(v-if="structure.length") {{structure.title}}
       div(v-for="entity in structure" :key="entity.id")
           strong {{entity.name}}
           div(v-for="project in entity.projects" :key="project.id")

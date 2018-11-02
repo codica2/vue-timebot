@@ -21,7 +21,7 @@
       div(class="filters-label") Role
         el-select(v-model="searchParams.role" placeholder="Select" clearable)
           el-option(v-for="item in roles" :key="item.value" :label="item.label" :value="item.value")
-    div(class="time-entries-filters")
+    div(class="time-entries-filters-checkbox")
       div(class="filters-label") Status
       div(class="time-entries-checkbox")
         el-checkbox(v-model="searchParams.status") Is Active
