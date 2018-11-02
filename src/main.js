@@ -15,6 +15,9 @@ import HighchartsVue from 'highcharts-vue'
 import Highcharts from 'highcharts'
 import variablePie from 'highcharts/modules/variable-pie'
 import JsonExcel from 'vue-json-excel'
+import { VueMaskDirective } from 'v-mask'
+
+Vue.directive('mask', VueMaskDirective)
 
 Vue.use(HighchartsVue)
 variablePie(Highcharts)
