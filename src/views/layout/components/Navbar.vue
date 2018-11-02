@@ -68,7 +68,7 @@ export default {
     padding: 0 20px;
     display: flex;
     align-items: center;
-    width: 180px;
+    width: 200px;
     border-right: 1px solid #e7e7e8;
   }
   .breadcrumb-container {

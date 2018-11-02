@@ -86,7 +86,7 @@
               el-radio(label="other") Other
           el-form-item(label="Comment" prop="comment")
             el-input(placeholder="Please input" v-model="temp.comment" clearable)
-        .el-dialog-edit-block-last
+        .el-dialog-edit-block-last(style="margin-top: 20px")
           div(slot="footer" class="dialog-footer")
             el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
             el-button(v-if="dialogStatus === 'create'" type="primary" :loading="dialogFormLoading" @click="create") {{ $t('table.confirm') }}
