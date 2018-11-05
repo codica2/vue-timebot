@@ -87,8 +87,9 @@ export default {
       this.searchParams = {
         date: [],
         user: '',
-        reason: 'any'
+        reason: ''
       }
+      this.filter()
     }
   }
 }

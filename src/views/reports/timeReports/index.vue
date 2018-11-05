@@ -139,6 +139,7 @@ export default {
     })
   },
   mounted() {
+    this.$store.commit('actionEntityTable/FETCH_LIST', { type: 'time-entries', data: { data: [] }})
     this.getTimeReports()
     this.$watch(vm => vm.pagination.total, () => {
       fetchList(setQuery('time-entries'), { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1], page: 1, per_page: this.pagination.total })
@@ -148,6 +149,9 @@ export default {
           this.createTreeData()
         })
     })
+  },
+  beforeDestroy() {
+    this.$store.commit('actionEntityTable/FETCH_LIST', { type: 'time-entries', data: { data: [] }})
   },
   methods: {
     getIncluded(id) {
@@ -268,7 +272,6 @@ export default {
       const structure = {
         name: this.filterable('projects').find(p => {
           if (p.id === this.searchParams.projects) return p
-          else return {}
         }).name,
         time_entries: this.groupedData,
         total_time: `${time.toFixed(2)}`

@@ -56,6 +56,7 @@ export default {
         name: '',
         alias: ''
       }
+      this.filter()
     }
   }
 }

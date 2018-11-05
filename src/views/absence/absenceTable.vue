@@ -50,7 +50,7 @@
     el-dialog.el-dialog-edit(:class="{'el-dialog-create': dialogStatus === 'create'}" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" @open="remoteGetUsers")
       el-form(ref="dataForm"
       :rules="rules"
-      :model="temp.attributes"
+      :model="temp"
       label-position="left"
       label-width="70px"
       style="width: 400px; margin-left:50px;"
@@ -140,8 +140,7 @@ export default {
         date: this.temp.date,
         reason: this.temp.reason,
         comment: this.temp.comment,
-        user_id: this.temp.user.id,
-        project_id: this.temp.project.id
+        user_id: this.temp.user ? this.temp.user.id : ''
       }
     }
   },

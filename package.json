@@ -80,7 +80,8 @@
     "vuedraggable": "^2.16.0",
     "vuex": "3.0.1",
     "webpack-hot-middleware": "^2.24.0",
-    "xlsx": "^0.14.0"
+    "xlsx": "^0.14.0",
+    "lodash": "latest"
   },
   "devDependencies": {
     "autoprefixer": "8.5.0",
