@@ -51,6 +51,9 @@ export default {
       }
     }
   },
+  mounted() {
+    Object.assign(this.pickerOptions, { disabledDate() {} })
+  },
   methods: {
     clearFilter() {
       this.searchParams = {
