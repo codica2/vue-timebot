@@ -281,10 +281,8 @@ tbody {
 
 .el-dialog {
   max-width: 552px !important;
-
   .el-dialog__header {
     padding: 30px 20px 10px;
-
     .el-dialog__title {
       font-family: $main-ff-medium;
       font-size: 24px;
@@ -598,12 +596,10 @@ tbody {
       }
     }
   }
-
   .time-entries-filters-checkbox {
     margin: 0 20px 0 10px;
     width: 85px;
   }
-
   .time-entries-checkbox {
     margin: 0 10px 0 0;
     padding: 13px 0 8px;
@@ -624,7 +620,7 @@ tbody {
 .el-dropdown {
   margin-bottom: 10px;
 }
-.el-dropdown-selfdefine {
+.dropdown .el-dropdown-selfdefine {
   padding: 8px 20px 8px;
 }
 .highcharts-root {

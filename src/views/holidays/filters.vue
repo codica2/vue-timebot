@@ -57,6 +57,7 @@ export default {
         date: [],
         holiday: ''
       }
+      this.filter()
     }
   }
 }

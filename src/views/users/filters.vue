@@ -99,6 +99,7 @@ export default {
         user: '',
         status: ''
       }
+      this.filterUsers()
     }
   }
 }

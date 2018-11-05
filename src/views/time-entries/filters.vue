@@ -3,6 +3,7 @@
     div(class="time-entries-filters")
       div(class="filters-label") Users name
         el-select(
+          clearable
           v-model="searchParams.users",
           filterable,
           remote,
@@ -91,6 +92,7 @@ export default {
         users: [],
         projects: []
       }
+      this.filter()
     },
     filter() {
       return new Promise((resolve, reject) => {

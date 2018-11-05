@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    el-dropdown.dropdown(@command="multipleDelete")
+    el-dropdown.dropdown(trigger="click" @command="multipleDelete")
       el-button.el-button-filter Batch actions
         i.el-icon-arrow-down.el-icon--right
       el-dropdown-menu(slot="dropdown")

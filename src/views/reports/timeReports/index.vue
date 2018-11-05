@@ -268,7 +268,6 @@ export default {
       const structure = {
         name: this.filterable('projects').find(p => {
           if (p.id === this.searchParams.projects) return p
-          else return {}
         }).name,
         time_entries: this.groupedData,
         total_time: `${time.toFixed(2)}`

@@ -381,9 +381,10 @@ export const mixQuery = {
           .then(() => {
             this.$store.dispatch('actionEntityTable/fetchList', this.type)
               .then(() => {
+                this.$store.dispatch('setLoader', false)
                 resolve()
               })
-              .finally(() => {
+              .catch(() => {
                 this.$store.dispatch('setLoader', false)
               })
           })
