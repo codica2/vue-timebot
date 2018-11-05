@@ -39,10 +39,12 @@
           @change="getTimeReports"
           end-placeholder="End date"
           prefix-icon="date-calendar")
-      div(class="time-entries-filters")
+      div(v-show="groupedData.length" class="time-entries-filters")
         div(class="filters-label-csv")
-          download-excel(v-show="groupedData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
+          download-excel(:data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
             el-button() Download CSV
+      div(style="margin: 19px 0px 0px;" class="time-entries-filters")
+        el-button.el-button-filter(:disabled="!searchParams.projects.length" @click="getTimeReports") Filter
     tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
       el-table-column(label="Date" width="150")
         template(slot-scope="scope")
@@ -85,7 +87,7 @@ export default {
     treeTable,
     pagination
   },
-  mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate],
+  mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate, mixin.mixEntities],
   data: () => ({
     type: 'timeReports',
     func: treeToArray,
@@ -113,7 +115,8 @@ export default {
       }
     ],
     'time-entries': {
-      data: []
+      data: [],
+      fullData: []
     },
     groupedData: [],
     treeData: [],
@@ -121,10 +124,9 @@ export default {
       'Collaborators': 'collaborators',
       'Date': 'date',
       'Details': 'details',
-      'Time': 'time',
       'Trello labels': 'trello-labels',
       'Estimated time': 'estimated-time',
-      'Total time': 'total_time'
+      'Time': 'time'
     },
     jsonData: []
   }),
@@ -138,24 +140,25 @@ export default {
   },
   mounted() {
     this.getTimeReports()
-    this.$watch(vm => vm.list('time-entries'), () => {
-      this.createTreeData()
-    })
     this.$watch(vm => vm.pagination.total, () => {
       fetchList(setQuery('time-entries'), { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1], page: 1, per_page: this.pagination.total })
         .then((res) => {
-          this['time-entries'] = res.data
+          Object.assign(this['time-entries'], this.createEntities(res))
+          this.groupTreeData(res.data.data)
+          this.createTreeData()
         })
     })
   },
   methods: {
     getIncluded(id) {
-      if (this.included('time-entries')) {
-        const findInclude = this.included('time-entries').find(pj => {
+      if (this['time-entries'].included) {
+        const findInclude = this['time-entries'].included.find(pj => {
           if (pj.id === id) return pj
         })
         if (findInclude) {
           return findInclude.name
+        } else {
+          return ''
         }
       }
     },
@@ -194,9 +197,9 @@ export default {
         return rv
       }, {})
     },
-    groupTreeData() {
+    groupTreeData(fullData) {
       let data = []
-      data = this.list('time-entries').slice()
+      fullData ? data = this['time-entries'].data.slice() : data = this.list('time-entries').slice()
       if (data.length) {
         const grouped = this.searchParams.type === 'user' ? this.groupByUser(data, this.searchParams.type) : this.groupByAttributes(data, this.searchParams.type)
         const newData = []
@@ -246,7 +249,11 @@ export default {
               return 0
             })
           }
-          this.groupedData = newData
+          if (fullData) {
+            this['time-entries'].fullData = newData
+          } else {
+            this.groupedData = newData
+          }
         }
       } else {
         this.groupedData = []
@@ -267,7 +274,8 @@ export default {
         total_time: `${time.toFixed(2)}`
       }
       this.treeData = JSON.parse(JSON.stringify(structure))
-      const jsonData = JSON.parse(JSON.stringify([...this.groupedData]))
+
+      const jsonData = JSON.parse(JSON.stringify([...this['time-entries'].fullData]))
       jsonData.forEach(jd => {
         let q = ''
         jd.collaborators.forEach(cl => {

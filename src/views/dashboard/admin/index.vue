@@ -104,8 +104,8 @@ export default {
     args: [null, null, 'timeLine'],
     columns: [
       {
-        text: 'Name',
-        value: 'name'
+        text: 'User',
+        value: 'user'
       },
       {
         text: 'Date',
