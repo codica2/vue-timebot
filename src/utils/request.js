@@ -34,7 +34,7 @@ service.interceptors.response.use(
       duration: 5 * 1000
     })
     if (store.getters.roles.length && error.response && error.response.status === 401) {
-      setTimeout(() => { store.dispatch('LogOut').then(() => { location.reload() }) }, 3000)
+      store.dispatch('LogOut').then(() => { location.reload() })
     }
     return Promise.reject(error)
   }

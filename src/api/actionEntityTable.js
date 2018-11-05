@@ -2,7 +2,6 @@ import request from '@/utils/request'
 import qs from 'qs'
 
 export function fetchList(query, payload) {
-  console.log(payload)
   return request({
     url: query,
     method: 'get',

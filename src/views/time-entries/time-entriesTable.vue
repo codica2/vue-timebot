@@ -93,10 +93,7 @@
                 placeholder="Please pick a date"
               )
             el-form-item(label="Time" prop="time")
-              el-time-select(
-              :picker-options="{ start: '00:00', step: '00:15', end: '24:30' }"
-              v-model="temp.time"
-              placeholder="Please pick a time")
+              input.el-input__inner(v-mask="'##:##'" v-model="temp.time")
           .el-dialog-edit-block
             el-form-item(label="Details" prop="timestamp")
               el-input(v-model="temp.details" type="details" placeholder="Write smth")

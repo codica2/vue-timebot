@@ -32,10 +32,12 @@
             end-placeholder="End date",
             placeholder="Please pick a date",
             prefix-icon="date-calendar")
-      div(class="time-entries-filters")
+      div(v-show="jsonData.length" class="time-entries-filters")
         div(class="filters-label-csv")
-          download-excel(v-show="jsonData.length" :data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
+          download-excel(:data="jsonData" :fields="json_fields" type="csv" name="estimations.xls")
             el-button() Download CSV
+      div(style="margin: 19px 0px 0px;" class="time-entries-filters")
+        el-button.el-button-filter(@click="setParams") Filter
     el-table(:data="list('estimationReports')")
       el-table-column(
       prop="project",
@@ -77,6 +79,8 @@
 import * as mixin from '@/mixins/index'
 import { mapGetters } from 'vuex'
 import pagination from '@/components/Pagination/index'
+import { fetchList } from '@/api/actionEntityTable'
+import { setQuery } from '@/api/queryConst'
 export default {
   name: 'Estimations',
   components: {
@@ -105,7 +109,8 @@ export default {
     ...mapGetters({
       list: 'reportsTable/list',
       filterable: 'actionEntityTable/filterable',
-      loader: 'reportsTable/loader'
+      loader: 'reportsTable/loader',
+      pagination: 'pagination'
     })
   },
   mounted() {
@@ -126,30 +131,32 @@ export default {
       if (date === null) {
         this.date = [new Date(), new Date()]
       }
-      if (this.searchParams.projects) {
-        this.$store.dispatch('setLoader', true)
-        this.$store.dispatch('setPagination', { page: 1 }, { root: true })
-        this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
-          .then(() => {
-            this.getList()
-              .then(() => {
-                this.$store.dispatch('setLoader', false)
-                this.getJsonStructure()
-              })
-          })
-      }
+      this.$store.dispatch('setLoader', true)
+      this.$store.dispatch('setPagination', { page: 1 }, { root: true })
+      this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
+        .then(() => {
+          this.getList()
+            .then(() => {
+              this.$store.dispatch('setLoader', false)
+              this.getJsonStructure()
+            })
+        })
     },
     getJsonStructure() {
-      const jsonData = JSON.parse(JSON.stringify([...this.list('estimationReports')]))
-      jsonData.forEach(jd => {
-        let q = ''
-        jd.collaborators.forEach(cl => {
-          q += cl.name + ' '
+      let jsonData = []
+      fetchList(setQuery(this.type), { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1], page: 1, per_page: this.pagination.total })
+        .then((response) => {
+          jsonData = response.data.data
+          jsonData.forEach(jd => {
+            let q = ''
+            jd.collaborators.forEach(cl => {
+              q += cl.name + ' '
+            })
+            jd.collaborators = q
+            jd.projects = jd.projects[0].name
+          })
+          this.jsonData = jsonData
         })
-        jd.collaborators = q
-        jd.projects = jd.projects[0].name
-      })
-      this.jsonData = jsonData
     }
   }
 }
