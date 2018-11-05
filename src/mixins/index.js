@@ -134,6 +134,7 @@ export const mixValidationRules = {
         user: [{ validator: checkUser, required: true, message: 'User is required', trigger: 'change' }],
         name: [{ validator: checkName, required: true, message: 'Name is required', trigger: 'change' }],
         role: [{ validator: checkRole, required: true, message: 'Role is required', trigger: 'change' }],
+        reason: [{ validator: checkRole, required: true, message: 'Reason is required', trigger: 'change' }],
         team: [{ required: false, message: 'Team is required', trigger: 'change' }],
         description: [{ validator: checkName, required: true, message: 'Description is required', trigger: 'change' }],
         password: [{ validator: checkName, required: true, message: 'Password is required', trigger: 'change' }],
@@ -256,10 +257,13 @@ export const mixQuery = {
     getList() {
       return new Promise((resolve, reject) => {
         this.$store.dispatch('setLoader', true)
-        this.$store.dispatch('actionEntityTable/fetchList', this.type)
+        this.$store.dispatch('actionEntityTable/setFilter', this.entity)
           .then(() => {
-            this.$store.dispatch('setLoader', false)
-            resolve()
+            this.$store.dispatch('actionEntityTable/fetchList', this.type)
+              .then(() => {
+                this.$store.dispatch('setLoader', false)
+                resolve()
+              })
           })
       })
     },
@@ -333,7 +337,18 @@ export const mixQuery = {
       })
     },
     multipleDelete(action) {
-      this.$store.dispatch('actionEntityTable/batchActions', { row: this.delete(), type: this.type, action: action, index: this.multipleSelection })
+      this.$confirm('This will permanently delete the entity. Continue?', 'Delete', {
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+      }).then(() => {
+        this.$store.dispatch('actionEntityTable/batchActions', { row: this.delete(), type: this.type, action: action, index: this.multipleSelection })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Delete canceled'
+        })
+      })
     },
     setMessageName(type) {
       switch (type) {

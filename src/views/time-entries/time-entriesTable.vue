@@ -139,7 +139,7 @@ export default {
   components: {
     pagination
   },
-  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery, mixin.mixIncludes],
+  mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery, mixin.mixIncludes, mixin.mixDate],
   data: () => ({
     multipleSelection: [],
     tableKey: 0,
@@ -162,7 +162,8 @@ export default {
     }),
     entity() {
       return {
-        date: this.temp.date,
+        date_from: this.date[0],
+        date_to: this.date[1],
         time: this.temp.time,
         details: this.temp.details,
         trello_labels: this.temp.trello_labels,
@@ -171,7 +172,7 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     this.getList()
   },
   methods: {

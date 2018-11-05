@@ -40,7 +40,7 @@
       div(class="filters-label") Date
         el-date-picker(style="with:100%;"
           format="yyyy-MM-dd"
-          v-model="searchParams.date"
+          v-model="date"
           type="daterange",
           range-separator="-",
           :picker-options="pickerOptions"
@@ -65,7 +65,6 @@ export default {
     type: 'time-entries',
     searchParams: {
       ticket: '',
-      date: [],
       users: [],
       projects: []
     }
@@ -76,8 +75,8 @@ export default {
     }),
     entity() {
       return {
-        date_from: this.searchParams.date[0],
-        date_to: this.searchParams.date[1],
+        date_from: this.date[0],
+        date_to: this.date[1],
         by_projects: this.searchParams.projects,
         by_users: this.searchParams.users,
         with_ticket: this.searchParams.ticket
@@ -96,6 +95,7 @@ export default {
     },
     filter() {
       return new Promise((resolve, reject) => {
+        this.$store.dispatch('setPagination', { page: 1 }, { root: true })
         this.$store.commit('actionEntityTable/FETCH_WORKED_TIME', { data: [] })
         this.$store.dispatch('setLoader', true)
         this.$store.dispatch('actionEntityTable/setFilter', this.entity)

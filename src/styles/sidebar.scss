@@ -9,7 +9,15 @@
     position: relative;
     transition: all .3s linear;
   }
-
+  .el-submenu {
+    &.is-active {
+      .el-submenu__title {
+        background: #edeff8 !important;
+        border-right: 2px solid #305ac7;
+        color: #305ac7 !important;
+      }
+    }
+  }
   .sidebar-container {
     bottom: 0;
     font-size: 0;
@@ -83,19 +91,15 @@
         position: relative !important;
       }
     }
-
     .el-submenu {
       overflow: hidden;
-
       & > .el-submenu__title {
         position: static !important;
-
         .el-submenu__icon-arrow {
           display: none;
         }
       }
     }
-
     .el-menu--collapse {
       .el-submenu {
         & > .el-submenu__title {
