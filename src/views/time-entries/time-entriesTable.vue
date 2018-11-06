@@ -162,8 +162,7 @@ export default {
     }),
     entity() {
       return {
-        date_from: this.date[0],
-        date_to: this.date[1],
+        date: this.temp.date,
         time: this.temp.time,
         details: this.temp.details,
         trello_labels: this.temp.trello_labels,
