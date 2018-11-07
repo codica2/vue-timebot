@@ -39,10 +39,10 @@
           @change="getTimeReports"
           end-placeholder="End date"
           prefix-icon="date-calendar")
-      div(v-show="AllEntities.length" class="time-entries-filters")
+      div(style="margin-right: 10px;")
         div(class="filters-label-csv")
           download-excel(:data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
-            el-button() Download CSV
+            el-button(:disabled="!AllEntities.length") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
         el-button.el-button-filter(:disabled="!searchParams.projects.length" @click="getTimeReports") Filter
     tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
@@ -70,6 +70,9 @@
         template(slot-scope="scope")
           .label-container
             span {{scope.row.status}}
+      el-table-column(label="Estimate time" width="110")
+        template(slot-scope="scope")
+          span {{ scope.row['estimated-time'] }}
       el-table-column(label="Time spent" width="110")
         template(slot-scope="scope")
           span {{ scope.row.time }}
@@ -207,6 +210,7 @@ export default {
               time = parseFloat(parseInt(arrTime[0], 10) + '.' + (dec < 10 ? '0' : '') + dec)
               allTime += time
               item.time = time.toFixed(2)
+              item.details = item.details.replace(/;/g, ',')
               if (!collaborators.find(cl => cl.id === item.user.id)) {
                 date.push(item.date)
                 collaborators.push(item.user)
@@ -264,7 +268,6 @@ export default {
         total_time: `${time.toFixed(2)}`
       }
       this.treeData = JSON.parse(JSON.stringify(structure))
-      console.log(structure)
       const jsonData = JSON.parse(JSON.stringify([...this.AllEntities]))
       jsonData.forEach(jd => {
         let q = ''

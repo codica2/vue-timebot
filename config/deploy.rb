@@ -6,7 +6,7 @@ set :domain, '172.104.151.14'
 set :user, 'dev'
 set :deploy_to, "/home/dev/www/#{fetch(:application_name)}"
 set :repository, 'git@gitlab.codica.com:codica2/vue-timebot.git'
-set :branch, 'master'
+set :branch, 'fix/time-picker'
 
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.

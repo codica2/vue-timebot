@@ -32,10 +32,10 @@
             end-placeholder="End date",
             placeholder="Please pick a date",
             prefix-icon="date-calendar")
-      div(v-show="jsonData.length" class="time-entries-filters")
+      div(style="margin-right: 10px;")
         div(class="filters-label-csv")
           download-excel(:data="jsonData" :fields="json_fields" type="csv" name="estimations.xls")
-            el-button() Download CSV
+            el-button(:disabled="!jsonData.length") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
         el-button.el-button-filter(@click="setParams") Filter
     el-table(:data="list('estimationReports')")
