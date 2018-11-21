@@ -23,7 +23,8 @@ const reportsTable = {
   getters: {
     list: (state) => type => state[type].list,
     included: (state) => type => state[type].included,
-    loader: (state) => state.loader
+    loader: (state) => state.loader,
+    filters: (state) => state.filters
   },
   actions: {
     fetchList({ state, commit, dispatch, rootState }, payload) {
@@ -35,6 +36,9 @@ const reportsTable = {
               dispatch('setPagination', { total: response.data.meta['total-count'] || response.data.meta['total_count'] }, { root: true })
             }
             resolve()
+          })
+          .catch(() => {
+            reject()
           })
       })
     },

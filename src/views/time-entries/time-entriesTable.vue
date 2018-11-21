@@ -93,7 +93,10 @@
                 placeholder="Please pick a date"
               )
             el-form-item(label="Time" prop="time")
-              input.el-input__inner(v-mask="'##:##'" v-model="temp.time")
+              el-tooltip(effect="dark" content="If you want record 5 hours, you need write next: 05:00" placement="top-start")
+                input.el-input__inner(v-mask="'##:##'" placeholder="hh:mm" v-model="temp.time")
+              <!--el-time-picker(v-model="temp.time" value-format="HH:mm" placeholder="Select time")-->
+              <!--el-time-select(v-model="temp.time" :picker-options="{ start: '00:00', step: '00:10', end: '24:00' }" placeholder="Select time")-->
           .el-dialog-edit-block
             el-form-item(label="Details" prop="timestamp")
               el-input(v-model="temp.details" type="details" placeholder="Write smth")

@@ -134,17 +134,13 @@ export default {
   methods: {
     setDate() {
       this.$store.dispatch('setLoader', true)
-      if (this.date) {
-        this.$store.dispatch('fetchChartByDate', { type: this.type, params: { date_from: this.date[0], date_to: this.date[1] }})
-          .then(() => {
-            this.$store.dispatch('setLoader', false)
-          })
-      } else {
-        this.$store.dispatch('fetchChartByDate', { type: this.type, params: {}})
-          .then(() => {
-            this.$store.dispatch('setLoader', false)
-          })
+      if (this.date === null) {
+        this.date = []
       }
+      this.$store.dispatch('fetchChartByDate', { type: this.type, params: { date_from: this.date[0], date_to: this.date[1] }})
+        .then(() => {
+          this.$store.dispatch('setLoader', false)
+        })
     }
   }
 }

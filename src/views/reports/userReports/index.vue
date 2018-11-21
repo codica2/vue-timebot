@@ -65,7 +65,7 @@ export default {
     },
     getTimeReports() {
       if (this.date === null) {
-        this.date = [new Date(), new Date()]
+        this.date = []
       }
       this.$store.dispatch('setLoader', true)
       this.$store.dispatch('reportsTable/setFilter', { date_from: this.date[0], date_to: this.date[1] })

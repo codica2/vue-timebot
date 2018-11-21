@@ -75,9 +75,17 @@
               )
           el-form-item(label="Date" prop="date")
             el-date-picker(
+              v-if="dialogStatus === 'update'"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
               v-model="temp.date" type="date" placeholder="Please pick a date")
+            el-date-picker(
+              v-else
+              format="yyyy-MM-dd"
+              start-placeholder="Start date"
+              end-placeholder="End date"
+              value-format="yyyy-MM-dd"
+              v-model="temp.date" type="dates" placeholder="Please pick a date")
         .el-dialog-edit-block
           el-form-item(label="Reason" prop="reason")
             el-radio-group(v-model="temp.reason")
@@ -156,10 +164,16 @@ export default {
       this.updateEntity(entity)
     },
     create() {
-      const entity = {
-        absence: this.entity
+      const date = JSON.parse(JSON.stringify(this.entity.date))
+      const entities = { absences: [] }
+      for (let i = 0; i < date.length; i++) {
+        const entity = {
+          absence: JSON.parse(JSON.stringify(this.entity))
+        }
+        entity.absence.date = date[i]
+        entities.absences.push(entity)
       }
-      this.createEntity(entity)
+      this.createEntity(entities)
     },
     delete() {
       const entity = {

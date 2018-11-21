@@ -87,7 +87,8 @@ const actionEntityTable = {
       return new Promise((resolve, reject) => {
         Api.createEntity(payload.row, setQuery(payload.type))
           .then((response) => {
-            const data = mixEntities.methods.createEntity(response)
+            let data
+            Array.isArray(response.data.data) ? data = mixEntities.methods.createEntities(response) : data = mixEntities.methods.createEntity(response)
             commit('CREATE_ENTITY', { data: data, type: payload.type })
             resolve()
           })
@@ -174,7 +175,11 @@ const actionEntityTable = {
       state.filters = payload.data
     },
     CREATE_ENTITY(state, payload) {
-      state[payload.type].list.unshift(payload.data.data)
+      if (Array.isArray(payload.data.data)) {
+        state[payload.type].list.unshift(...payload.data.data)
+      } else {
+        state[payload.type].list.unshift(payload.data.data)
+      }
       if (payload.data.included) {
         state[payload.type].included = [...state[payload.type].included, ...payload.data.included]
       }
