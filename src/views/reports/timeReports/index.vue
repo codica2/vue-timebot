@@ -42,7 +42,7 @@
       div(style="margin-right: 10px;")
         div(class="filters-label-csv")
           download-excel(:data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
-            el-button(:disabled="!AllEntities.length") Download CSV
+            el-button(:loading="!AllEntities.length") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
         el-button.el-button-filter(:disabled="!searchParams.projects.length" @click="getTimeReports") Filter
     tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
@@ -129,7 +129,7 @@ export default {
       'Collaborators': 'collaborators',
       'Date': 'date',
       'Details': 'details',
-      'Trello labels': 'trello-labels',
+      'Trello labels': 'trello_labels',
       'Status': 'status',
       'Estimated time': 'estimated-time',
       'Time': 'time'
