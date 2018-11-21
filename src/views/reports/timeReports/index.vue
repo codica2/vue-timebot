@@ -39,7 +39,7 @@
           @change="getTimeReports"
           end-placeholder="End date"
           prefix-icon="date-calendar")
-      div(v-show="groupedData.length" class="time-entries-filters")
+      div(v-show="AllEntities.length" class="time-entries-filters")
         div(class="filters-label-csv")
           download-excel(:data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
             el-button() Download CSV
@@ -64,14 +64,19 @@
           span {{ scope.row.details }}
       el-table-column(label="Trello labels" width="160")
         template(slot-scope="scope")
-          span(v-for="trelloLabels in scope.row['trello-labels']") {{ trelloLabels }}&nbsp;
+          .label-container
+            span(v-for="trelloLabels in scope.row['trello_labels']").label {{ trelloLabels }}&nbsp;
+      el-table-column(label="Status" width="110")
+        template(slot-scope="scope")
+          .label-container
+            span {{scope.row.status}}
       el-table-column(label="Time spent" width="110")
         template(slot-scope="scope")
           span {{ scope.row.time }}
       el-table-column(label="Total time" width="110")
         template(slot-scope="scope")
           span {{ scope.row.total_time }}
-    pagination(:store="'actionEntityTable'" :type="'time-entries'" v-if="list('time-entries').length")
+    pagination(:store="'reportsTable'" :type="type" v-if="list(type).length")
 </template>
 <script>
 import * as mixin from '@/mixins/index'
@@ -114,10 +119,7 @@ export default {
         width: '120'
       }
     ],
-    'time-entries': {
-      data: [],
-      fullData: []
-    },
+    AllEntities: [],
     groupedData: [],
     treeData: [],
     json_fields: {
@@ -125,6 +127,7 @@ export default {
       'Date': 'date',
       'Details': 'details',
       'Trello labels': 'trello-labels',
+      'Status': 'status',
       'Estimated time': 'estimated-time',
       'Time': 'time'
     },
@@ -132,55 +135,40 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      list: 'actionEntityTable/list',
+      list: 'reportsTable/list',
       filterable: 'actionEntityTable/filterable',
       included: 'actionEntityTable/included',
-      pagination: 'pagination'
+      pagination: 'pagination',
+      filters: 'reportsTable/filters'
     })
   },
   mounted() {
-    this.$store.commit('actionEntityTable/FETCH_LIST', { type: 'time-entries', data: { data: [] }})
-    this.getTimeReports()
-    this.$watch(vm => vm.pagination.total, () => {
-      fetchList(setQuery('time-entries'), { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1], page: 1, per_page: this.pagination.total })
-        .then((res) => {
-          Object.assign(this['time-entries'], this.createEntities(res))
-          this.groupTreeData(res.data.data)
-          this.createTreeData()
-        })
+    this.$watch(vm => vm.list(this.type), () => {
+      this.createTreeData()
     })
   },
-  beforeDestroy() {
-    this.$store.commit('actionEntityTable/FETCH_LIST', { type: 'time-entries', data: { data: [] }})
-  },
   methods: {
-    getIncluded(id) {
-      if (this['time-entries'].included) {
-        const findInclude = this['time-entries'].included.find(pj => {
-          if (pj.id === id) return pj
-        })
-        if (findInclude) {
-          return findInclude.name
-        } else {
-          return ''
-        }
-      }
-    },
     getTimeReports() {
       if (this.date === null) {
         this.date = [new Date(), new Date()]
       }
-      this.$store.dispatch('actionEntityTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
+      this.AllEntities = []
+      this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
-          this.$store.dispatch('setPagination', { page: 1, limit: 50 }, { root: true })
+          this.$store.dispatch('setPagination', { page: 1, limit: 10 }, { root: true })
             .then(() => {
               this.$store.dispatch('setLoader', true)
               if (this.searchParams.projects) {
-                this.$store.dispatch('actionEntityTable/fetchList', 'time-entries')
+                this.$store.dispatch('reportsTable/fetchList', this.type)
                   .then(() => {
-                    this.createTreeData()
+                    this.$store.dispatch('setLoader', false)
+                    fetchList(setQuery(this.type), { per_page: this.pagination.total, ...this.filters })
+                      .then((response) => {
+                        this.AllEntities = response.data.data
+                        this.createTreeData(true)
+                      })
                   })
-                  .finally(() => {
+                  .catch(() => {
                     this.$store.dispatch('setLoader', false)
                   })
               } else {
@@ -201,9 +189,9 @@ export default {
         return rv
       }, {})
     },
-    groupTreeData(fullData) {
+    groupTreeData(isAll) {
       let data = []
-      fullData ? data = this['time-entries'].data.slice() : data = this.list('time-entries').slice()
+      data = isAll ? this.AllEntities.slice() : this.list(this.type).slice()
       if (data.length) {
         const grouped = this.searchParams.type === 'user' ? this.groupByUser(data, this.searchParams.type) : this.groupByAttributes(data, this.searchParams.type)
         const newData = []
@@ -220,26 +208,25 @@ export default {
               allTime += time
               item.time = time.toFixed(2)
               if (!collaborators.find(cl => cl.id === item.user.id)) {
-                item.user.name = this.getIncluded(item.user.id)
                 date.push(item.date)
                 collaborators.push(item.user)
               }
             })
             const data = {
               id: grouped[key][0].id,
-              type: grouped[key][0].type,
               date: date,
               'estimated-time': grouped[key][0]['estimated-time'],
               time: `${time}`,
-              collaborators: collaborators
+              collaborators: collaborators,
+              status: grouped[key][0].status
             }
             data.time = allTime.toFixed(2)
             if (this.searchParams.type === 'user') {
               data.time_entries = grouped[key]
             } else {
               data.details = grouped[key][0].details
-              data['trello-labels'] = grouped[key][0]['trello-labels']
             }
+            data['trello_labels'] = grouped[key][0]['trello_labels']
             newData.push(data)
             newData.sort((a, b) => {
               const nameA = a.collaborators[0].name.toUpperCase()
@@ -253,18 +240,18 @@ export default {
               return 0
             })
           }
-          if (fullData) {
-            this['time-entries'].fullData = newData
-          } else {
+          if (!isAll) {
             this.groupedData = newData
+          } else {
+            this.AllEntities = newData
           }
         }
       } else {
         this.groupedData = []
       }
     },
-    createTreeData() {
-      this.groupTreeData()
+    createTreeData(isAll) {
+      this.groupTreeData(isAll)
       let time = 0
       this.groupedData.forEach((item) => {
         time += +item.time
@@ -277,8 +264,8 @@ export default {
         total_time: `${time.toFixed(2)}`
       }
       this.treeData = JSON.parse(JSON.stringify(structure))
-
-      const jsonData = JSON.parse(JSON.stringify([...this['time-entries'].fullData]))
+      console.log(structure)
+      const jsonData = JSON.parse(JSON.stringify([...this.AllEntities]))
       jsonData.forEach(jd => {
         let q = ''
         jd.collaborators.forEach(cl => {
@@ -306,5 +293,18 @@ export default {
   .collaborators-container {
     display: flex;
     flex-direction: column;
+  }
+  .label-container {
+    display: flex;
+    flex-wrap: wrap;
+    .label {
+      border: 1px solid rgba(64, 158, 255, .2);
+      border-radius: 4px;
+      height: 32px;
+      background-color: rgba(144, 147, 153, .1);
+      border-color: rgba(144, 147, 153, .2);
+      margin: 2px;
+      padding: 5px;
+    }
   }
 </style>

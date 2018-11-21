@@ -75,8 +75,8 @@ export default {
     }),
     entity() {
       return {
-        date_from: this.date[0],
-        date_to: this.date[1],
+        date_from: this.date ? this.date[0] : '',
+        date_to: this.date ? this.date[1] : '',
         by_projects: this.searchParams.projects,
         by_users: this.searchParams.users,
         with_ticket: this.searchParams.ticket

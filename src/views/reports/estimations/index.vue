@@ -129,7 +129,7 @@ export default {
     },
     setParams(date) {
       if (date === null) {
-        this.date = [new Date(), new Date()]
+        this.date = []
       }
       this.$store.dispatch('setLoader', true)
       this.$store.dispatch('setPagination', { page: 1 }, { root: true })
