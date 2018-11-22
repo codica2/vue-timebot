@@ -20,7 +20,8 @@ export default {
         'trello-labels': [],
         project: {},
         user: {},
-        team: {}
+        team: {},
+        'is-active': true
       }
     }
   },
@@ -57,7 +58,8 @@ export default {
         'trello-labels': [],
         project: {},
         user: {},
-        team: {}
+        team: {},
+        'is-active': true
       }
     }
   },

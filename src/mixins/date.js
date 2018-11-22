@@ -22,16 +22,26 @@ export default {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay() + 6))
-            end.setTime(end.getTime() - 3600 * 1000 * 24 * (end.getDay() + 2))
+            end.setTime(end.getTime() - 3600 * 1000 * 24 * (end.getDay() + 1))
+            picker.$emit('pick', [start, end])
+          }
+        },
+        {
+          text: 'Current month',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDate() - 1))
             picker.$emit('pick', [start, end])
           }
         },
         {
           text: 'Last month',
           onClick(picker) {
-            const end = new Date()
             const start = new Date()
+            const end = new Date(start.getFullYear(), start.getMonth(), 0)
             start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDate() - 1))
+            start.setMonth(start.getMonth() - 1)
             picker.$emit('pick', [start, end])
           }
         },

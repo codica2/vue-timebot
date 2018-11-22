@@ -89,9 +89,12 @@ export default {
   },
   methods: {
     filterUsers() {
-      this.filter()
+      this.$store.dispatch('setPagination', { page: 1 }, { root: true })
         .then(() => {
-          this.$store.dispatch('actionEntityTable/fetchList', 'teams')
+          this.filter()
+            .then(() => {
+              this.$store.dispatch('actionEntityTable/fetchList', 'teams')
+            })
         })
     },
     clearFilter() {
