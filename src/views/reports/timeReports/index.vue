@@ -42,7 +42,7 @@
       div(style="margin-right: 10px;")
         div(class="filters-label-csv")
           download-excel(:data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
-            el-button(:loading="!AllEntities.length") Download CSV
+            el-button(:disabled="!searchParams.projects" :loading="loadingStatus") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
         el-button.el-button-filter(:disabled="!searchParams.projects.length" @click="getTimeReports") Filter
     tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
@@ -104,6 +104,7 @@ export default {
       projects: '',
       type: 'user'
     },
+    loadingStatus: false,
     store: 'reportsTable',
     groupType: [
       {
@@ -155,6 +156,7 @@ export default {
       if (this.date === null) {
         this.date = [new Date(), new Date()]
       }
+      this.loadingStatus = true
       this.AllEntities = []
       this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
@@ -248,6 +250,7 @@ export default {
             this.groupedData = newData
           } else {
             this.AllEntities = newData
+            this.loadingStatus = false
           }
         }
       } else {

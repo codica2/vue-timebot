@@ -25,7 +25,7 @@ export default {
         this.$store.dispatch('actionEntityTable/deleteEntity', { row, type: this.type })
           .then(() => {
             this.$message({
-              message: 'Project was deleted',
+              message: `${this.setMessageName(this.type)} was deleted`,
               type: 'success'
             })
             row.status = status
