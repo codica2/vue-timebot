@@ -12,7 +12,7 @@ export default {
           onClick(picker) {
             const end = new Date()
             const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay() - 1))
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay()))
             picker.$emit('pick', [start, end])
           }
         },
@@ -21,7 +21,7 @@ export default {
           onClick(picker) {
             const end = new Date()
             const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay() + 6))
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay() + 7))
             end.setTime(end.getTime() - 3600 * 1000 * 24 * (end.getDay() + 1))
             picker.$emit('pick', [start, end])
           }
@@ -104,7 +104,7 @@ export default {
     if (this.date) {
       const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay() - 1))
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay()))
       this.$store.dispatch('setRangeDate', [this.formatDate(start), this.formatDate(end)])
     }
   }

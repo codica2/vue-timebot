@@ -831,3 +831,11 @@ tr.el-table__row {
 .el-table .cell{
   word-break: break-word;
 }
+.el-date-table td.end-date.disabled span,
+.el-date-table td.start-date.disabled span {
+  background-color: transparent;
+}
+.el-date-table td.end-date.disabled div {
+  border-radius: 0;
+  margin-right: 0;
+}
