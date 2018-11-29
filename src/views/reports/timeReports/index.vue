@@ -8,6 +8,7 @@
             v-model="searchParams.projects"
             filterable
             remote,
+            multiple,
             @focus="remoteGetProjects"
             placeholder="Please enter a projects"
             @change="getTimeReports"
@@ -42,7 +43,7 @@
       div(style="margin-right: 10px;")
         div(class="filters-label-csv")
           download-excel(:data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
-            el-button(:disabled="!searchParams.projects" :loading="loadingStatus") Download CSV
+            el-button(:disabled="!jsonData.length" :loading="loadingStatus") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
         el-button.el-button-filter(:disabled="!searchParams.projects.length" @click="getTimeReports") Filter
     tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
@@ -66,34 +67,31 @@
         template(slot-scope="scope")
           .label-container
             span(v-for="trelloLabels in scope.row['trello_labels']").label {{ trelloLabels }}&nbsp;
+      //- el-table-column(label="Estimate time" width="110")
+      //-   template(slot-scope="scope")
+      //-     span {{ scope.row['estimated-time'] }}
+      el-table-column(label="Time spent" width="110")
+        template(slot-scope="scope")
+          span {{ scope.row.time }}
       el-table-column(label="Status" width="110")
         template(slot-scope="scope")
           .label-container
             span {{scope.row.status}}
-      el-table-column(label="Estimate time" width="110")
-        template(slot-scope="scope")
-          span {{ scope.row['estimated-time'] }}
-      el-table-column(label="Time spent" width="110")
-        template(slot-scope="scope")
-          span {{ scope.row.time }}
       el-table-column(label="Total time" width="110")
         template(slot-scope="scope")
           span {{ scope.row.total_time }}
-    pagination(:store="'reportsTable'" :type="type" v-if="list(type).length")
 </template>
 <script>
 import * as mixin from '@/mixins/index'
 import { mapGetters } from 'vuex'
 import treeToArray from '@/components/TreeTable/timeEntries'
 import treeTable from '@/components/TreeTable/index'
-import pagination from '@/components/Pagination/index'
 import { fetchList } from '@/api/actionEntityTable'
 import { setQuery } from '@/api/queryConst'
 export default {
   name: 'TimeReports',
   components: {
-    treeTable,
-    pagination
+    treeTable
   },
   mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate, mixin.mixEntities],
   data: () => ({
@@ -101,7 +99,7 @@ export default {
     func: treeToArray,
     args: [null, null, 'timeLine'],
     searchParams: {
-      projects: '',
+      projects: [],
       type: 'user'
     },
     loadingStatus: false,
@@ -127,22 +125,22 @@ export default {
     groupedData: [],
     treeData: [],
     json_fields: {
+      'Project': 'project',
       'Collaborators': 'collaborators',
       'Date': 'date',
       'Details': 'details',
       'Trello labels': 'trello_labels',
-      'Status': 'status',
-      'Estimated time': 'estimated-time',
-      'Time': 'time'
+      'Time': 'time',
+      'Status': 'status'
     },
-    jsonData: []
+    jsonData: [],
+    projects: []
   }),
   computed: {
     ...mapGetters({
       list: 'reportsTable/list',
       filterable: 'actionEntityTable/filterable',
       included: 'actionEntityTable/included',
-      pagination: 'pagination',
       filters: 'reportsTable/filters'
     })
   },
@@ -150,6 +148,29 @@ export default {
     this.$watch(vm => vm.list(this.type), () => {
       this.createTreeData()
     })
+    this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
+      .then(() => {
+        fetchList('/api/v1/projects')
+          .then(response => {
+            fetchList('/api/v1/projects', { per_page: response.data.meta['total-count'] })
+              .then(response => {
+                this.projects = response.data.data
+                fetchList('/api/v1/time_entries', { ...this.filters })
+                  .then(res => {
+                    if (!res.data.included) {
+                      return
+                    }
+                    const projects = res.data.included.filter(data => data.type === 'projects')
+                    projects.forEach(pj => {
+                      this.searchParams.projects.push(pj.id)
+                      this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'projects', query: pj.attributes.name })
+                    })
+                    this.getTimeReports()
+                    this.createTreeData()
+                  })
+              })
+          })
+      })
   },
   methods: {
     getTimeReports() {
@@ -158,28 +179,22 @@ export default {
       }
       this.loadingStatus = true
       this.AllEntities = []
-      this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
+      this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
-          this.$store.dispatch('setPagination', { page: 1, limit: 10 }, { root: true })
-            .then(() => {
-              this.$store.dispatch('setLoader', true)
-              if (this.searchParams.projects) {
-                this.$store.dispatch('reportsTable/fetchList', this.type)
-                  .then(() => {
-                    this.$store.dispatch('setLoader', false)
-                    fetchList(setQuery(this.type), { per_page: this.pagination.total, ...this.filters })
-                      .then((response) => {
-                        this.AllEntities = response.data.data
-                        this.createTreeData(true)
-                      })
-                  })
-                  .catch(() => {
-                    this.$store.dispatch('setLoader', false)
-                  })
-              } else {
+          this.$store.dispatch('setLoader', true)
+          if (this.searchParams.projects) {
+            this.$store.dispatch('reportsTable/fetchList', this.type)
+              .then(() => {
                 this.$store.dispatch('setLoader', false)
-              }
-            })
+                fetchList(setQuery(this.type), { ...this.filters })
+                this.loadingStatus = false
+              })
+              .catch(() => {
+                this.$store.dispatch('setLoader', false)
+              })
+          } else {
+            this.$store.dispatch('setLoader', false)
+          }
         })
     },
     groupByAttributes(xs, key) {
@@ -194,9 +209,9 @@ export default {
         return rv
       }, {})
     },
-    groupTreeData(isAll) {
+    groupTreeData(id) {
       let data = []
-      data = isAll ? this.AllEntities.slice() : this.list(this.type).slice()
+      data = this.list(this.type).slice().filter(data => +data.project.id === +id)
       if (data.length) {
         const grouped = this.searchParams.type === 'user' ? this.groupByUser(data, this.searchParams.type) : this.groupByAttributes(data, this.searchParams.type)
         const newData = []
@@ -246,31 +261,36 @@ export default {
               return 0
             })
           }
-          if (!isAll) {
-            this.groupedData = newData
-          } else {
-            this.AllEntities = newData
-            this.loadingStatus = false
-          }
+          this.groupedData = newData
+          this.AllEntities.push(...newData)
+          this.loadingStatus = false
         }
       } else {
         this.groupedData = []
       }
     },
-    createTreeData(isAll) {
-      this.groupTreeData(isAll)
-      let time = 0
-      this.groupedData.forEach((item) => {
-        time += +item.time
+    createTreeData() {
+      this.treeData = []
+      this.groupedData = []
+      this.AllEntities = []
+      this.projects.find(p => {
+        this.groupTreeData(p.id)
+        let time = 0
+        this.groupedData.forEach((item) => {
+          time += +item.time
+        })
+        if (this.searchParams.projects.find(id => id === p.id)) {
+          const structure = {
+            name: p.attributes.name,
+            time_entries: this.groupedData,
+            total_time: `${time.toFixed(2)}`
+          }
+          this.treeData.push(JSON.parse(JSON.stringify(structure)))
+        }
       })
-      const structure = {
-        name: this.filterable('projects').find(p => {
-          if (p.id === this.searchParams.projects) return p
-        }).name,
-        time_entries: this.groupedData,
-        total_time: `${time.toFixed(2)}`
-      }
-      this.treeData = JSON.parse(JSON.stringify(structure))
+      this.treeData.sort((a, b) => {
+        return b.total_time - a.total_time
+      })
       const jsonData = JSON.parse(JSON.stringify([...this.AllEntities]))
       jsonData.forEach(jd => {
         let q = ''
@@ -285,10 +305,11 @@ export default {
         jsonData.forEach(jd => {
           jd.time_entries.forEach(te => {
             te.collaborators = te.user.name
+            te.project = te.project.name
             userData.push(te)
           })
         })
-        this.jsonData = userData
+        this.jsonData = this.lodash.uniqBy(userData, (item) => item.id)
       }
     }
   }
