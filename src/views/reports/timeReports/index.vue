@@ -118,7 +118,7 @@ export default {
       {
         text: 'Project',
         value: 'name',
-        width: '120'
+        width: '140'
       }
     ],
     AllEntities: [],
@@ -214,6 +214,7 @@ export default {
       data = this.list(this.type).slice().filter(data => +data.project.id === +id)
       if (data.length) {
         const grouped = this.searchParams.type === 'user' ? this.groupByUser(data, this.searchParams.type) : this.groupByAttributes(data, this.searchParams.type)
+        console.log(grouped)
         const newData = []
         for (const key in grouped) {
           let time = 0
@@ -239,7 +240,8 @@ export default {
               'estimated-time': grouped[key][0]['estimated-time'],
               time: `${time}`,
               collaborators: collaborators,
-              status: grouped[key][0].status
+              status: grouped[key][0].status,
+              project: grouped[key][0].project.name
             }
             data.time = allTime.toFixed(2)
             if (this.searchParams.type === 'user') {
@@ -297,9 +299,9 @@ export default {
         jd.collaborators.forEach(cl => {
           q += cl.name + ', '
         })
-        jd.collaborators = q
+        jd.collaborators = q.slice(0, -2)
       })
-      this.jsonData = jsonData
+      this.jsonData = this.lodash.uniqBy(jsonData, (item) => item.id)
       if (this.searchParams.type === 'user') {
         const userData = []
         jsonData.forEach(jd => {
