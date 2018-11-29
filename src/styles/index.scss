@@ -839,3 +839,6 @@ tr.el-table__row {
   border-radius: 0;
   margin-right: 0;
 }
+.el-table th > .cell {
+  text-align: center;
+}
