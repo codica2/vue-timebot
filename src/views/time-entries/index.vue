@@ -74,6 +74,7 @@ export default {
       return Math.floor(time)
     },
     setMinutes(time) {
+      time = +time
       const times = `${time.toFixed(2)}`.split('.')
       if (times[1]) {
         return Math.round(Math.abs(+times[1]) / 100 * 60)
