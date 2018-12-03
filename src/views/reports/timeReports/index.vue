@@ -37,7 +37,7 @@
           value-format="yyyy-MM-dd",
           start-placeholder="Start date",
           :picker-options="pickerOptions",
-          @change="getTimeReports"
+          @change="getProjectsByPeriods"
           end-placeholder="End date"
           prefix-icon="date-calendar")
       div(style="margin-right: 10px;")
@@ -46,7 +46,8 @@
             el-button(:disabled="!jsonData.length" :loading="loadingStatus") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
         el-button.el-button-filter(:disabled="!searchParams.projects.length" @click="getTimeReports") Filter
-    tree-table(:data="treeData" :columns="columns" :eval-func="func" :eval-args="args" border)
+        el-button.el-button-filter(@click="clearFilter") Clear
+    tree-table(:data="treeData" :columns="columns" :eval-func="searchParams.type === 'user' ? func : closeFunc" :eval-args="args" border)
       el-table-column(label="Date" width="150")
         template(slot-scope="scope")
           span(v-if="scope.row.date")
@@ -85,6 +86,7 @@
 import * as mixin from '@/mixins/index'
 import { mapGetters } from 'vuex'
 import treeToArray from '@/components/TreeTable/timeEntries'
+import closeFunc from '@/components/TreeTable/closeFunc'
 import treeTable from '@/components/TreeTable/index'
 import { fetchList } from '@/api/actionEntityTable'
 import { setQuery } from '@/api/queryConst'
@@ -95,12 +97,14 @@ export default {
   },
   mixins: [mixin.mixQuery, mixin.mixIncludes, mixin.mixDate, mixin.mixEntities],
   data: () => ({
+    qtyProjects: null,
     type: 'timeReports',
     func: treeToArray,
+    closeFunc: closeFunc,
     args: [null, null, 'timeLine'],
     searchParams: {
       projects: [],
-      type: 'user'
+      type: 'details'
     },
     loadingStatus: false,
     store: 'reportsTable',
@@ -148,34 +152,50 @@ export default {
     this.$watch(vm => vm.list(this.type), () => {
       this.createTreeData()
     })
-    this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
-      .then(() => {
-        fetchList('/api/v1/projects')
-          .then(response => {
-            fetchList('/api/v1/projects', { per_page: response.data.meta['total-count'] })
-              .then(response => {
-                this.projects = response.data.data
-                fetchList('/api/v1/time_entries', { ...this.filters })
-                  .then(res => {
-                    if (!res.data.included) {
-                      return
-                    }
-                    const projects = res.data.included.filter(data => data.type === 'projects')
-                    projects.forEach(pj => {
-                      this.searchParams.projects.push(pj.id)
-                      this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'projects', query: pj.attributes.name })
-                    })
-                    this.getTimeReports()
-                    this.createTreeData()
-                  })
-              })
-          })
-      })
+    this.getProjectsByPeriods()
   },
   methods: {
+    clearFilter() {
+      this.searchParams.projects = []
+      this.getTimeReports()
+    },
+    getProjectsByPeriods() {
+      this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
+        .then(() => {
+          fetchList('/api/v1/projects')
+            .then(response => {
+              fetchList('/api/v1/projects', { per_page: response.data.meta['total-count'] })
+                .then(response => {
+                  this.projects = response.data.data
+                  fetchList('/api/v1/time_entries', { date_from: this.date[0], date_to: this.date[1] })
+                    .then(res => {
+                      if (!res.data.included) {
+                        this.searchParams.projects = []
+                        this.getTimeReports()
+                        this.createTreeData()
+                        return
+                      }
+                      const projects = res.data.included.filter(data => data.type === 'projects')
+                      this.searchParams.projects = []
+                      projects.forEach(pj => {
+                        this.searchParams.projects.push(pj.id)
+                        this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'projects', query: pj.attributes.name })
+                      })
+                      this.qtyProjects = this.searchParams.projects.length
+                      this.getTimeReports()
+                      this.createTreeData()
+                    })
+                })
+            })
+        })
+    },
     getTimeReports() {
       if (this.date === null) {
         this.date = [new Date(), new Date()]
+      }
+      if (this.qtyProjects > this.searchParams.projects.length) {
+        this.createTreeData()
+        return
       }
       this.loadingStatus = true
       this.AllEntities = []
@@ -214,7 +234,6 @@ export default {
       data = this.list(this.type).slice().filter(data => +data.project.id === +id)
       if (data.length) {
         const grouped = this.searchParams.type === 'user' ? this.groupByUser(data, this.searchParams.type) : this.groupByAttributes(data, this.searchParams.type)
-        console.log(grouped)
         const newData = []
         for (const key in grouped) {
           let time = 0
