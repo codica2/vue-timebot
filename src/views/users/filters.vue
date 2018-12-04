@@ -29,9 +29,11 @@
       div
         el-button.el-button-filter(@click="filterUsers") Filter
         el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
+        el-button.sync(@click="syncUsers" type="info") Sync users
 </template>
 
 <script>
+import * as Api from '@/api/actionEntityTable'
 import { mapGetters } from 'vuex'
 import * as mixin from '@/mixins/index'
 export default {
@@ -88,6 +90,22 @@ export default {
     }
   },
   methods: {
+    syncUsers() {
+      Api.syncUsers('/api/v1/users/sync_users')
+        .then(res => {
+          this.$message({
+            message: `Users was synced`,
+            type: 'success'
+          })
+        })
+        .catch(() => {
+          this.$message({
+            message: 'Something went wrong',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        })
+    },
     filterUsers() {
       this.$store.dispatch('setPagination', { page: 1 }, { root: true })
         .then(() => {
@@ -108,6 +126,11 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  .el-button.sync {
+    color: #fff;
+    font-family: "Calibre-Medium", sans-serif;
+    font-size: 17px;
+    padding: 12px 20px 8px;
+  }
 </style>

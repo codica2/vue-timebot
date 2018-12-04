@@ -56,3 +56,11 @@ export function updateEntity(row, query) {
     paramsSerializer: params => qs.stringify(row, { arrayFormat: 'brackets' })
   })
 }
+
+export function syncUsers(query) {
+  return request({
+    url: query,
+    method: 'post',
+    params: {}
+  })
+}
