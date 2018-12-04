@@ -94,7 +94,7 @@ export default {
       Api.syncUsers('/api/v1/users/sync_users')
         .then(res => {
           this.$message({
-            message: `Users was synced`,
+            message: `Users were synced`,
             type: 'success'
           })
         })
