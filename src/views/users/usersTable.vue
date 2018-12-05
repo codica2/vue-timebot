@@ -6,10 +6,6 @@
       el-dropdown-menu(slot="dropdown")
         el-dropdown-item(command="delete_multiple", :disabled="!multipleSelection.length") Delete
     div
-      div(class="position-create-new-category")
-        el-button(@click="handleCreate",
-        class="filter-item create-new-category",
-        type="primary") Add new user
       el-table(
       :key="tableKey"
       :data="list(type)"
