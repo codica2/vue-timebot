@@ -133,6 +133,10 @@ export default {
         {
           label: 'Back-end',
           value: 'back_end'
+        },
+        {
+          label: 'Not set',
+          value: 'not_set'
         }
       ]
     }

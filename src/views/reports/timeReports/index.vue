@@ -19,7 +19,7 @@
             :key="project.id",
             :label="project.name")
       div(class="time-entries-filters")
-        div(class="filters-label") Filter by
+        div(class="filters-label") Group by
           el-select(
           v-model="searchParams.type"
           @change="getTimeReports"
@@ -88,8 +88,6 @@ import { mapGetters } from 'vuex'
 import treeToArray from '@/components/TreeTable/timeEntries'
 import closeFunc from '@/components/TreeTable/closeFunc'
 import treeTable from '@/components/TreeTable/index'
-import { fetchList } from '@/api/actionEntityTable'
-import { setQuery } from '@/api/queryConst'
 export default {
   name: 'TimeReports',
   components: {
@@ -149,43 +147,33 @@ export default {
     })
   },
   mounted() {
-    this.$watch(vm => vm.list(this.type), () => {
-      this.createTreeData()
-    })
     this.getProjectsByPeriods()
   },
   methods: {
     clearFilter() {
+      this.projects = []
       this.searchParams.projects = []
+      this.$store.commit('reportsTable/FETCH_LIST', { data: [], type: this.type })
+      this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
       this.getTimeReports()
     },
     getProjectsByPeriods() {
+      this.$store.dispatch('setLoader', true)
       this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
-          fetchList('/api/v1/projects')
-            .then(response => {
-              fetchList('/api/v1/projects', { per_page: response.data.meta['total-count'] })
-                .then(response => {
-                  this.projects = response.data.data
-                  fetchList('/api/v1/time_entries', { date_from: this.date[0], date_to: this.date[1] })
-                    .then(res => {
-                      if (!res.data.included) {
-                        this.searchParams.projects = []
-                        this.getTimeReports()
-                        this.createTreeData()
-                        return
-                      }
-                      const projects = res.data.included.filter(data => data.type === 'projects')
-                      this.searchParams.projects = []
-                      projects.forEach(pj => {
-                        this.searchParams.projects.push(pj.id)
-                        this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'projects', query: pj.attributes.name })
-                      })
-                      this.qtyProjects = this.searchParams.projects.length
-                      this.getTimeReports()
-                      this.createTreeData()
-                    })
-                })
+          this.$store.dispatch('reportsTable/fetchList', this.type)
+            .then(() => {
+              this.list(this.type).forEach(entries => {
+                this.projects.push(entries.project)
+              })
+              this.projects = this.lodash.uniqBy(this.projects, (item) => item.id)
+              this.$store.commit('actionEntityTable/FETCH_ENTITY_BY_NAME', { data: this.projects, type: 'projects' })
+              this.projects.forEach(project => {
+                this.searchParams.projects.push(project.id)
+              })
+              this.qtyProjects = this.searchParams.projects.length
+              this.createTreeData()
+              this.$store.dispatch('setLoader', false)
             })
         })
     },
@@ -206,7 +194,6 @@ export default {
             this.$store.dispatch('reportsTable/fetchList', this.type)
               .then(() => {
                 this.$store.dispatch('setLoader', false)
-                fetchList(setQuery(this.type), { ...this.filters })
                 this.loadingStatus = false
               })
               .catch(() => {
@@ -302,7 +289,7 @@ export default {
         })
         if (this.searchParams.projects.find(id => id === p.id)) {
           const structure = {
-            name: p.attributes.name,
+            name: p.name,
             time_entries: this.groupedData,
             total_time: `${time.toFixed(2)}`
           }
