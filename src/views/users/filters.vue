@@ -91,12 +91,14 @@ export default {
   },
   methods: {
     syncUsers() {
+      this.$store.dispatch('setLoader', true)
       Api.syncUsers('/api/v1/users/sync_users')
         .then(res => {
           this.$message({
             message: `Users were synced`,
             type: 'success'
           })
+          this.filterUsers()
         })
         .catch(() => {
           this.$message({

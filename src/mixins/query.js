@@ -24,14 +24,14 @@ export default {
       }).then(() => {
         this.$store.dispatch('actionEntityTable/deleteEntity', { row, type: this.type })
           .then(() => {
-            this.$message({
+            this.$notify({
               message: `${this.setMessageName(this.type)} was deleted`,
               type: 'success'
             })
             row.status = status
           })
       }).catch(() => {
-        this.$message({
+        this.$notify({
           type: 'info',
           message: 'Delete canceled'
         })
@@ -93,7 +93,7 @@ export default {
       }).then(() => {
         this.$store.dispatch('actionEntityTable/batchActions', { row: this.delete(), type: this.type, action: action, index: this.multipleSelection })
       }).catch(() => {
-        this.$message({
+        this.$notify({
           type: 'info',
           message: 'Delete canceled'
         })
