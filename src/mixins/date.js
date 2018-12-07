@@ -3,10 +3,15 @@ import { mapGetters } from 'vuex'
 export default {
   data: () => ({
     pickerOptions: {
-      disabledDate(time) {
-        return time.getTime() > Date.now()
-      },
       shortcuts: [
+        {
+          text: 'Today',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            picker.$emit('pick', [start, end])
+          }
+        },
         {
           text: 'Current week',
           onClick(picker) {

@@ -159,14 +159,17 @@ export default {
     },
     getProjectsByPeriods() {
       this.$store.dispatch('setLoader', true)
+      this.searchParams.projects = []
       this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
           this.$store.dispatch('reportsTable/fetchList', this.type)
             .then(() => {
+              this.projects = []
               this.list(this.type).forEach(entries => {
                 this.projects.push(entries.project)
               })
               this.projects = this.lodash.uniqBy(this.projects, (item) => item.id)
+              this.$store.commit('actionEntityTable/FETCH_ENTITY_BY_NAME', { data: [], type: 'projects' })
               this.$store.commit('actionEntityTable/FETCH_ENTITY_BY_NAME', { data: this.projects, type: 'projects' })
               this.projects.forEach(project => {
                 this.searchParams.projects.push(project.id)
