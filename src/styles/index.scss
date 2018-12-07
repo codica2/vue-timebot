@@ -844,9 +844,9 @@ tr.el-table__row {
 }
 .el-picker-panel [slot=sidebar],
 .el-picker-panel__sidebar {
-  width: 160px;
+  width: 180px;
 }
 .el-picker-panel [slot=sidebar] + .el-picker-panel__body,
 .el-picker-panel__sidebar + .el-picker-panel__body {
-  margin-left: 160px;
+  margin-left: 180px;
 }
