@@ -13,11 +13,22 @@ export default {
           }
         },
         {
+          text: 'Yesterday',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setDate(start.getDate() - 1)
+            end.setDate(end.getDate() - 1)
+            picker.$emit('pick', [start, end])
+          }
+        },
+        {
           text: 'Current week',
           onClick(picker) {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDay() - 1))
+            end.setTime(end.setDate(end.getDate() - end.getDay() + 7))
             picker.$emit('pick', [start, end])
           }
         },
@@ -36,44 +47,40 @@ export default {
           onClick(picker) {
             const end = new Date()
             const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDate() - 1))
+            start.setMonth(start.getMonth() - 1)
+            start.setDate(16)
+            end.setDate(15)
             picker.$emit('pick', [start, end])
           }
         },
         {
           text: 'Last month',
           onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setMonth(start.getMonth() - 2)
+            end.setMonth(end.getMonth() - 1)
+            start.setDate(16)
+            end.setDate(15)
+            picker.$emit('pick', [start, end])
+          }
+        },
+        {
+          text: 'Current month(Calendar)',
+          onClick(picker) {
+            const start = new Date()
+            const end = new Date(start.getFullYear(), start.getMonth() + 1, 0)
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDate() - 1))
+            picker.$emit('pick', [start, end])
+          }
+        },
+        {
+          text: 'Last month(Calendar)',
+          onClick(picker) {
             const start = new Date()
             const end = new Date(start.getFullYear(), start.getMonth(), 0)
             start.setTime(start.getTime() - 3600 * 1000 * 24 * (start.getDate() - 1))
             start.setMonth(start.getMonth() - 1)
-            picker.$emit('pick', [start, end])
-          }
-        },
-        {
-          text: 'Last 7 days',
-          onClick(picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
-          }
-        },
-        {
-          text: 'Last 30 days',
-          onClick(picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        },
-        {
-          text: 'Last 90 days',
-          onClick(picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
             picker.$emit('pick', [start, end])
           }
         }
