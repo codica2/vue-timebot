@@ -14,7 +14,8 @@ const reportsTable = {
       list: []
     },
     absenceReports: {
-      list: []
+      list: [],
+      filterable: []
     },
     filters: {
     },
@@ -22,6 +23,7 @@ const reportsTable = {
   },
   getters: {
     list: (state) => type => state[type].list,
+    filterable: (state) => type => state[type].filterable,
     included: (state) => type => state[type].included,
     loader: (state) => state.loader,
     filters: (state) => state.filters

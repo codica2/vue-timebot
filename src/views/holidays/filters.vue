@@ -4,6 +4,7 @@
       div(class="filters-label") Holiday name
         el-input(
           v-model="searchParams.holiday",
+          @input="filter"
           placeholder="Please enter a holiday",
           clearable
         )
@@ -17,12 +18,12 @@
         v-model="searchParams.date"
         :picker-options="pickerOptions",
         start-placeholder="Start date",
+        @input="filter"
         end-placeholder="End date",
         placeholder="Please pick a date",
         prefix-icon="date-calendar")
     div(style="margin: 19px 0 0")
       div
-        el-button.el-button-filter(@click="filter") Filter
         el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
 </template>
 

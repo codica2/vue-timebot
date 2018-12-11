@@ -66,35 +66,25 @@ export const asyncRouterMap = [
     path: '',
     component: Layout,
     redirect: 'noredirect',
-    name: 'Reports',
-    meta: {
-      title: 'Reports',
-      icon: '404'
-    },
+    children: [
+      {
+        path: 'time-logs',
+        component: () => import('@/views/time-entries/index'),
+        name: 'Time logs',
+        meta: { title: 'Time logs', icon: 'time', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'noredirect',
     children: [
       {
         path: 'estimations',
         component: () => import('@/views/reports/estimations/index'),
         name: 'Estimations',
-        meta: { title: 'Estimations', icon: 'time', noCache: true }
-      },
-      {
-        path: 'time-reports',
-        component: () => import('@/views/reports/timeReports/index'),
-        name: 'TimeReports',
-        meta: { title: 'Time reports', icon: 'calendar', noCache: true }
-      },
-      {
-        path: 'user-reports',
-        component: () => import('@/views/reports/userReports/index'),
-        name: 'UserReports',
-        meta: { title: 'User reports', icon: 'user', noCache: true }
-      },
-      {
-        path: 'absence-reports',
-        component: () => import('@/views/reports/absence/index'),
-        name: 'AbsenceReports',
-        meta: { title: 'Absence', icon: 'sofa', noCache: true }
+        meta: { title: 'Estimations Analysis', icon: 'time', noCache: true }
       }
     ]
   },
@@ -104,10 +94,10 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     children: [
       {
-        path: 'time-entries',
-        component: () => import('@/views/time-entries/index'),
-        name: 'Time entries',
-        meta: { title: 'Time entries', icon: 'time', noCache: true }
+        path: 'weekly-reports',
+        component: () => import('@/views/reports/timeReports/index'),
+        name: 'TimeReports',
+        meta: { title: 'Weekly reports', icon: 'calendar', noCache: true }
       }
     ]
   },
@@ -115,72 +105,62 @@ export const asyncRouterMap = [
     path: '',
     component: Layout,
     redirect: 'noredirect',
+    children: [
+      {
+        path: 'user-reports',
+        component: () => import('@/views/reports/userReports/index'),
+        name: 'UserReports',
+        meta: { title: 'Time to work', icon: 'user', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'absence-reports',
+        component: () => import('@/views/reports/absence/index'),
+        name: 'AbsenceReports',
+        meta: { title: 'Absence Report', icon: 'sofa', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'Settings',
+    meta: {
+      title: 'Settings',
+      icon: '404'
+    },
     children: [
       {
         path: 'users',
         component: () => import('@/views/users/index'),
         name: 'Users',
         meta: { title: 'Users', icon: 'user', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
+      },
       {
         path: 'teams',
         component: () => import('@/views/teams/index'),
         name: 'Teams',
         meta: { title: 'Teams', icon: 'teams', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
+      },
       {
         path: 'projects',
         component: () => import('@/views/projects/index'),
         name: 'Projects',
         meta: { title: 'Projects', icon: 'projects', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
+      },
       {
         path: 'holidays',
         component: () => import('@/views/holidays/index'),
         name: 'Holidays',
         meta: { title: 'Holidays', icon: 'rocket', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'absence',
-        component: () => import('@/views/absence/index'),
-        name: 'Absence',
-        meta: { title: 'Absence', icon: 'sofa', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
+      },
       {
         path: 'admins',
         component: () => import('@/views/admins/index'),

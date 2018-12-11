@@ -7,7 +7,7 @@ export function getToken() {
 }
 
 export function setToken(token, exp) {
-  return Cookies.set(TokenKey, token, { expires: exp / 1440 }) // Hours to day
+  return Cookies.set(TokenKey, token, { expires: exp / (3600 * 24) }) // Hours to day
 }
 
 export function removeToken() {

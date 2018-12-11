@@ -9,9 +9,10 @@
             filterable
             remote,
             multiple,
+            @remove-tag="setQtyProjects"
             @focus="remoteGetProjects"
+            @input="getTimeReports"
             placeholder="Please enter a projects"
-            @change="getTimeReports"
             :remote-method="remoteGetProjects"
           )
             el-option(v-for="project in filterable('projects')"
@@ -22,7 +23,6 @@
         div(class="filters-label") Group by
           el-select(
           v-model="searchParams.type"
-          @change="getTimeReports"
           )
             el-option(v-for="type in groupType"
             :value="type.value"
@@ -45,9 +45,8 @@
           download-excel(:data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
             el-button(:disabled="!jsonData.length" :loading="loadingStatus") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
-        el-button.el-button-filter(:disabled="!searchParams.projects.length" @click="getTimeReports") Filter
         el-button.el-button-filter(@click="clearFilter") Clear
-    tree-table(:data="treeData" :columns="columns" :eval-func="searchParams.type === 'user' ? func : closeFunc" :eval-args="args" border)
+    tree-table(:data="treeData" :columns="columns" :eval-func="(searchParams.type === 'user') ? func : closeFunc" :eval-args="args" border)
       el-table-column(label="Date" width="150")
         template(slot-scope="scope")
           span(v-if="scope.row.date")
@@ -150,12 +149,18 @@ export default {
     this.getProjectsByPeriods()
   },
   methods: {
+    setQtyProjects() {
+      this.qtyProjects = this.searchParams.projects.length
+    },
     clearFilter() {
+      this.date = []
       this.projects = []
       this.searchParams.projects = []
       this.$store.commit('reportsTable/FETCH_LIST', { data: [], type: this.type })
       this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
+      this.setQtyProjects()
       this.getTimeReports()
+      this.createTreeData()
     },
     getProjectsByPeriods() {
       this.$store.dispatch('setLoader', true)
@@ -174,7 +179,7 @@ export default {
               this.projects.forEach(project => {
                 this.searchParams.projects.push(project.id)
               })
-              this.qtyProjects = this.searchParams.projects.length
+              this.setQtyProjects()
               this.createTreeData()
               this.$store.dispatch('setLoader', false)
             })
@@ -196,6 +201,7 @@ export default {
           if (this.searchParams.projects) {
             this.$store.dispatch('reportsTable/fetchList', this.type)
               .then(() => {
+                this.setQtyProjects()
                 this.$store.dispatch('setLoader', false)
                 this.loadingStatus = false
               })
@@ -232,12 +238,16 @@ export default {
           const date = []
           if (grouped.hasOwnProperty(key)) {
             grouped[key].forEach((item) => {
+              time = +item.time
               const arrTime = item.time.split(':')
-              const dec = parseInt((arrTime[1] / 6) * 10, 10)
-              time = parseFloat(parseInt(arrTime[0], 10) + '.' + (dec < 10 ? '0' : '') + dec)
+              if (arrTime.length > 1) {
+                const dec = parseInt((arrTime[1] / 6) * 10, 10)
+                time = parseFloat(parseInt(arrTime[0], 10) + '.' + (dec < 10 ? '0' : '') + dec)
+              }
               allTime += time
               item.time = time.toFixed(2)
               item.details = item.details.replace(/;/g, ',')
+              item.details = item.details.replace(/	/g, ' ') // horizontal tab to space
               if (!collaborators.find(cl => cl.id === item.user.id)) {
                 date.push(item.date)
                 collaborators.push(item.user)

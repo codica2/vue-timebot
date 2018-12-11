@@ -8,6 +8,7 @@
         remote,
         @focus="remoteGetProjects"
         clearable,
+        @input="filter",
         placeholder="Please enter a keyword"
         :remote-method="remoteGetProjects"
         )
@@ -18,9 +19,8 @@
           :label="project.name")
     div(class="time-entries-filters")
       div(class="filters-label") Alias
-        el-input(v-model="searchParams.alias")
+        el-input(v-model="searchParams.alias" @input="filter")
     div(style="margin: 19px 0 0")
-      el-button.el-button-filter(@click="filter") Filter
       el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
 </template>
 

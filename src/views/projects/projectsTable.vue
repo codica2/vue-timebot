@@ -33,6 +33,10 @@
         el-table-column(label="Team")
           template(slot-scope="scope")
             span {{setTeam(scope.row.team)}}
+        el-table-column(label="Is Active")
+          template(slot-scope="scope")
+            span(v-if="scope.row['is-active']") YES
+            span(v-else) NO
         el-table-column(:label="$t('table.actions')" width="230" class-name="small-padding fixed-width")
           template(slot-scope="scope")
             el-button(type="info" size="mini" @click="handleView(scope.row)") View
@@ -59,6 +63,9 @@
               el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team.id")
             el-select(v-else v-model="temp.team" placeholder="Select")
               el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team")
+        .el-dialog-edit-block-status
+          el-form-item(label="Status")
+          el-checkbox(v-model="temp['is-active']") Is Active
         .el-dialog-edit-block-last
           div(slot="footer" class="dialog-footer")
             el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
@@ -76,6 +83,11 @@
         .el-dialog-flex-block
           .el-dialog-flex-head Alias
           .el-dialog-flex-subhead {{temp.alias}}
+        .el-dialog-flex-block
+          .el-dialog-flex-head Status
+          .el-dialog-flex-subhead
+            span(v-if="temp['is-active']") Active
+            span(v-else) Inactive
 </template>
 
 <script>
