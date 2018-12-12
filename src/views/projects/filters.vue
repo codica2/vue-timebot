@@ -20,6 +20,10 @@
     div(class="time-entries-filters")
       div(class="filters-label") Alias
         el-input(v-model="searchParams.alias" @input="filter")
+    div(class="time-entries-filters-checkbox")
+      div(class="filters-label") Status
+      div(class="time-entries-checkbox")
+        el-checkbox(v-model="searchParams.status" @input="filter") Is Active
     div(style="margin: 19px 0 0")
       el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
 </template>
@@ -35,7 +39,8 @@ export default {
     searchParams: {
       date: [],
       name: '',
-      alias: ''
+      alias: '',
+      status: false
     }
   }),
   computed: {
@@ -45,7 +50,8 @@ export default {
     entity() {
       return {
         by_name: this.searchParams.name,
-        by_alias: this.searchParams.alias
+        by_alias: this.searchParams.alias,
+        by_active: this.searchParams.status
       }
     }
   },
