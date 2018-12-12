@@ -202,6 +202,7 @@ export default {
             this.$store.dispatch('reportsTable/fetchList', this.type)
               .then(() => {
                 this.setQtyProjects()
+                this.createTreeData()
                 this.$store.dispatch('setLoader', false)
                 this.loadingStatus = false
               })
