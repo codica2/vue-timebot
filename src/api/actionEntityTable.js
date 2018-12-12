@@ -16,11 +16,12 @@ export function fetchEntity(query, id) {
     params: ''
   })
 }
-export function fetchEntityByName(query, param) {
+export function fetchEntityByName(query, payload) {
   return request({
-    url: `${query}/search?by_name=${param}`,
+    url: `${query}/search`,
     method: 'get',
-    params: ''
+    params: payload,
+    paramsSerializer: params => qs.stringify(payload, { arrayFormat: 'brackets' })
   })
 }
 export function createEntity(row, query) {

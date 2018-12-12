@@ -51,7 +51,8 @@
       el-table-column(
       label="Collaborators")
         template(slot-scope="scope")
-          span(v-for="collaborator in scope.row.collaborators" :key="collaborator.id") {{ collaborator.name }}&nbsp;
+          span(v-for="(collaborator, collaboratorIndex) in scope.row.collaborators" :key="collaborator.id") {{ collaborator.name }}
+            span(v-if="scope.row.collaborators.length > collaboratorIndex + 1") ,&nbsp;
       el-table-column(
       prop="created_at",
       label="Created at",
@@ -121,6 +122,7 @@ export default {
       this.searchParams.projects = ''
       this.date = [new Date(), new Date()]
       this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
+      this.getList()
     },
     getList() {
       return new Promise((resolve, reject) => {
@@ -136,6 +138,7 @@ export default {
       if (date === null) {
         this.date = [new Date(), new Date()]
       }
+      this.jsonData = []
       this.$store.dispatch('setLoader', true)
       this.$store.dispatch('setPagination', { page: 1 }, { root: true })
       this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })

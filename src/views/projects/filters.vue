@@ -41,7 +41,8 @@ export default {
       name: '',
       alias: '',
       status: false
-    }
+    },
+    active: true
   }),
   computed: {
     ...mapGetters({

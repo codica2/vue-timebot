@@ -1,6 +1,6 @@
 <template lang="pug">
   div()
-    div(class="timebot-header") Time reports
+    div(class="timebot-header") Weekly reports
     div(class="time-entries-filters-container")
       div(class="time-entries-filters")
         div(class="filters-label") Projects name
@@ -42,7 +42,7 @@
           prefix-icon="date-calendar")
       div(style="margin-right: 10px;")
         div(class="filters-label-csv")
-          download-excel(:data="jsonData" :fields="json_fields" type="csv" name="time-reports.xls")
+          download-excel(:data="jsonData" :fields="json_fields" type="csv" name="weekly-reports.xls")
             el-button(:disabled="!jsonData.length" :loading="loadingStatus") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
         el-button.el-button-filter(@click="clearFilter") Clear
@@ -66,7 +66,7 @@
       el-table-column(label="Trello labels" width="160")
         template(slot-scope="scope")
           .label-container
-            span(v-for="trelloLabels in scope.row['trello_labels']").label {{ trelloLabels }}&nbsp;
+            span(v-for="label in scope.row['trello_labels'] ? scope.row['trello_labels'].split(', ') : []").label {{ label }}
       //- el-table-column(label="Estimate time" width="110")
       //-   template(slot-scope="scope")
       //-     span {{ scope.row['estimated-time'] }}
@@ -165,6 +165,9 @@ export default {
     getProjectsByPeriods() {
       this.$store.dispatch('setLoader', true)
       this.searchParams.projects = []
+      if (this.date === null) {
+        this.date = [new Date(), new Date()]
+      }
       this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
         .then(() => {
           this.$store.dispatch('reportsTable/fetchList', this.type)
@@ -247,7 +250,7 @@ export default {
               }
               allTime += time
               item.time = time.toFixed(2)
-              item.details = item.details.replace(/;/g, ',')
+              item.details = item.details.replace(/;/g, ', ')
               item.details = item.details.replace(/	/g, ' ') // horizontal tab to space
               if (!collaborators.find(cl => cl.id === item.user.id)) {
                 date.push(item.date)
@@ -256,7 +259,7 @@ export default {
             })
             const data = {
               id: grouped[key][0].id,
-              date: date,
+              date: date.join(', '),
               'estimated-time': grouped[key][0]['estimated-time'],
               time: `${time}`,
               collaborators: collaborators,
@@ -269,7 +272,7 @@ export default {
             } else {
               data.details = grouped[key][0].details
             }
-            data['trello_labels'] = grouped[key][0]['trello_labels']
+            data['trello_labels'] = grouped[key][0]['trello_labels'] ? grouped[key][0]['trello_labels'].join(', ') : ''
             newData.push(data)
             newData.sort((a, b) => {
               const nameA = a.collaborators[0].name.toUpperCase()
@@ -296,12 +299,12 @@ export default {
       this.groupedData = []
       this.AllEntities = []
       this.projects.find(p => {
-        this.groupTreeData(p.id)
-        let time = 0
-        this.groupedData.forEach((item) => {
-          time += +item.time
-        })
         if (this.searchParams.projects.find(id => id === p.id)) {
+          this.groupTreeData(p.id)
+          let time = 0
+          this.groupedData.forEach((item) => {
+            time += +item.time
+          })
           const structure = {
             name: p.name,
             time_entries: this.groupedData,

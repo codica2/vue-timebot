@@ -119,7 +119,7 @@ export default {
         }
       }
       this.loading = true
-      this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'projects', query: query })
+      this.$store.dispatch('actionEntityTable/fetchEntityByName', { type: 'projects', query: query, active: !this.active ? true : '' })
         .then(() => {
           this.loading = false
         })
