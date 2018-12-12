@@ -115,7 +115,8 @@ export default {
       return {
         name: this.temp.name,
         alias: this.temp.alias,
-        team_id: this.temp.team ? this.temp.team.id : ''
+        team_id: this.temp.team ? this.temp.team.id : '',
+        active: this.temp.active
       }
     }
   },
