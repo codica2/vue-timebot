@@ -37,7 +37,7 @@
           download-excel(:data="jsonData" :fields="json_fields" type="csv" name="estimations.xls")
             el-button(:disabled="!jsonData.length") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
-        el-button.el-button-filter(@click="setParams") Filter
+        el-button.el-button-filter(@click="clearFilter") Clear
     el-table(:data="list('estimationReports')")
       el-table-column(
       prop="project",
@@ -51,7 +51,8 @@
       el-table-column(
       label="Collaborators")
         template(slot-scope="scope")
-          span(v-for="collaborator in scope.row.collaborators" :key="collaborator.id") {{ collaborator.name }}&nbsp;
+          span(v-for="(collaborator, collaboratorIndex) in scope.row.collaborators" :key="collaborator.id") {{ collaborator.name }}
+            span(v-if="scope.row.collaborators.length > collaboratorIndex + 1") ,&nbsp;
       el-table-column(
       prop="created_at",
       label="Created at",
@@ -117,6 +118,12 @@ export default {
     this.setParams()
   },
   methods: {
+    clearFilter() {
+      this.searchParams.projects = ''
+      this.date = [new Date(), new Date()]
+      this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
+      this.getList()
+    },
     getList() {
       return new Promise((resolve, reject) => {
         this.$store.dispatch('setLoader', true)
@@ -129,8 +136,9 @@ export default {
     },
     setParams(date) {
       if (date === null) {
-        this.date = []
+        this.date = [new Date(), new Date()]
       }
+      this.jsonData = []
       this.$store.dispatch('setLoader', true)
       this.$store.dispatch('setPagination', { page: 1 }, { root: true })
       this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
@@ -144,15 +152,20 @@ export default {
     },
     getJsonStructure() {
       let jsonData = []
+      if (this.date === null) {
+        this.date = [new Date(), new Date()]
+      }
       fetchList(setQuery(this.type), { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1], page: 1, per_page: this.pagination.total })
         .then((response) => {
           jsonData = response.data.data
           jsonData.forEach(jd => {
-            let q = ''
+            let collaborators = ''
             jd.collaborators.forEach(cl => {
-              q += cl.name + ' '
+              collaborators += cl.name + ', '
             })
-            jd.collaborators = q
+            jd.details = jd.details.replace(/;/g, ',')
+            jd.details = jd.details.replace(/	/g, ' ') // horizontal tab to space
+            jd.collaborators = collaborators
             jd.projects = jd.projects[0].name
           })
           this.jsonData = jsonData

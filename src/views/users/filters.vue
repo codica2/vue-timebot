@@ -8,6 +8,7 @@
           remote,
           @focus="remoteGetUsers"
           clearable,
+          @input="filterUsers",
           placeholder="Please enter a user"
           :remote-method="remoteGetUsers"
         )
@@ -19,15 +20,14 @@
           )
     div(class="time-entries-filters")
       div(class="filters-label") Role
-        el-select(v-model="searchParams.role" placeholder="Select" clearable)
+        el-select(v-model="searchParams.role" placeholder="Select" clearable @input="filterUsers")
           el-option(v-for="item in roles" :key="item.value" :label="item.label" :value="item.value")
     div(class="time-entries-filters-checkbox")
       div(class="filters-label") Status
       div(class="time-entries-checkbox")
-        el-checkbox(v-model="searchParams.status") Is Active
+        el-checkbox(v-model="searchParams.status" @input="filterUsers") Is Active
     div(style="margin: 19px 0 0")
       div
-        el-button.el-button-filter(@click="filterUsers") Filter
         el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
         el-button.sync(@click="syncUsers" type="info") Sync users
 </template>
@@ -74,6 +74,10 @@ export default {
       {
         label: 'Back-end',
         value: 'back_end'
+      },
+      {
+        label: 'Not set',
+        value: 'not_set'
       }
     ]
   }),
@@ -94,14 +98,14 @@ export default {
       this.$store.dispatch('setLoader', true)
       Api.syncUsers('/api/v1/users/sync_users')
         .then(res => {
-          this.$message({
+          this.$notify({
             message: `Users were synced`,
             type: 'success'
           })
           this.filterUsers()
         })
         .catch(() => {
-          this.$message({
+          this.$notify({
             message: 'Something went wrong',
             type: 'error',
             duration: 5 * 1000

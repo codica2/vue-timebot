@@ -63,14 +63,9 @@ const actionEntityTable = {
     },
     fetchEntityByName({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
-        Api.fetchEntityByName(setQuery(payload.type), payload.query)
+        Api.fetchEntityByName(setQuery(payload.type), Object.assign({ active: payload.active }, { by_name: payload.query }))
           .then((response) => {
-            commit('FETCH_ENTITY_BY_NAME', { data: response.data.data.sort((a, b) => {
-              const nameA = a.name.toUpperCase()
-              const nameB = b.name.toUpperCase()
-              if (nameA > nameB) return 1
-              if (nameA < nameB) return -1
-            }), type: payload.type })
+            commit('FETCH_ENTITY_BY_NAME', { data: response.data.data, type: payload.type })
             resolve()
           })
       })

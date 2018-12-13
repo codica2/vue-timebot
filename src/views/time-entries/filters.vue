@@ -9,6 +9,7 @@
           remote,
           @focus="remoteGetUsers"
           multiple,
+          @input="filter",
           placeholder="Please enter a users"
           :remote-method="remoteGetUsers"
         )
@@ -25,6 +26,7 @@
           filterable
           remote,
           multiple,
+          @input="filter",
           @focus="remoteGetProjects"
           placeholder="Please enter a projects"
           :remote-method="remoteGetProjects"
@@ -35,7 +37,7 @@
             :label="project.name")
     div(class="time-entries-filters")
       div(class="filters-label") Details
-        el-input(type="textarea" v-model="searchParams.ticket")
+        el-input(type="textarea" @input="filter", v-model="searchParams.ticket")
     div(class="time-entries-filters")
       div(class="filters-label") Date
         el-date-picker(style="with:100%;"
@@ -48,10 +50,10 @@
           start-placeholder="Start date",
           end-placeholder="End date",
           placeholder="Please pick a date",
+          @input="filter",
           prefix-icon="date-calendar")
     div(style="margin: 19px 0 0")
       div
-        el-button.el-button-filter(@click="filter") Filter
         el-button.el-button-clear-filter(@click="clearFilter" type="info") Clear Filters
 </template>
 

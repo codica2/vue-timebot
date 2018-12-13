@@ -69,7 +69,7 @@
           :plotOptions="{ variablepie: { dataLabels: { enabled: true, format: '<span><b>{point.name}</b>: {point.y}</span>' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
           )
     el-col(:xs="24" :sm="24" :lg="24" v-if="staticData('series')" class="dashboard-bt-graphics-margin")
-      div(class="highcharts-header") Projects
+      div(class="highcharts-header") People
       .chart-wrapper
         BarChart(
         :xAxisData="staticData('xAxisData')"
