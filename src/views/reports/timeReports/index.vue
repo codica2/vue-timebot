@@ -8,6 +8,7 @@
             v-model="searchParams.projects"
             filterable
             remote,
+            clearable,
             multiple,
             @remove-tag="setQtyProjects"
             @focus="remoteGetProjects"

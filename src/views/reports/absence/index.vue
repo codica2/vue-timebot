@@ -185,6 +185,17 @@ export default {
             return accum
           }, [])
         })
+        acum.sort((a, b) => {
+          const nameA = a.name.toUpperCase()
+          const nameB = b.name.toUpperCase()
+          if (nameA < nameB) {
+            return -1
+          }
+          if (nameA > nameB) {
+            return 1
+          }
+          return 0
+        })
         return acum
       }, [])
     },
@@ -193,7 +204,7 @@ export default {
         this.date = [new Date(), new Date()]
       }
       this.$store.dispatch('setLoader', true)
-      this.$store.dispatch('actionEntityTable/setFilter', { date_from: this.date[0], date_to: this.date[1] })
+      this.$store.dispatch('actionEntityTable/setFilter', { date_from: this.date[0], date_to: this.date[1], active_status: true })
         .then(() => {
           this.$store.dispatch('actionEntityTable/fetchList', this.type)
             .finally(() => {
