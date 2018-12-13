@@ -204,7 +204,7 @@ export default {
         this.date = [new Date(), new Date()]
       }
       this.$store.dispatch('setLoader', true)
-      this.$store.dispatch('actionEntityTable/setFilter', { date_from: this.date[0], date_to: this.date[1] })
+      this.$store.dispatch('actionEntityTable/setFilter', { date_from: this.date[0], date_to: this.date[1], by_active_users: true })
         .then(() => {
           this.$store.dispatch('actionEntityTable/fetchList', this.type)
             .finally(() => {
