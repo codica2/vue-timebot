@@ -46,7 +46,7 @@
           download-excel(:data="jsonData" :fields="json_fields" type="csv" name="weekly-reports.xls")
             el-button(:disabled="!jsonData.length" :loading="loadingStatus") Download CSV
       div(style="margin: 19px 0px 0px;" class="time-entries-filters")
-        el-button.el-button-filter(@click="clearFilter") Clear
+        el-button.el-button-clear-filter.el-button--info(@click="clearFilter") Clear Filters
     tree-table(:data="treeData" :columns="columns" :eval-func="(searchParams.type === 'user') ? func : closeFunc" :eval-args="args" border)
       el-table-column(label="Date" width="150")
         template(slot-scope="scope")
