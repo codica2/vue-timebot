@@ -18,7 +18,7 @@ import JsonExcel from 'vue-json-excel'
 import { VueMaskDirective } from 'v-mask'
 import VueLodash from 'vue-lodash'
 
-const options = { name: 'lodash' } // customize the way you want to call it
+const options = { name: 'lodash' }
 
 Vue.use(VueLodash, options)
 Vue.directive('mask', VueMaskDirective)
