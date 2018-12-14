@@ -1,16 +1,18 @@
 <template lang="pug">
-  div()
+  div.absence
     div(class="timebot-header") Absence reports
     div(class="time-entries-filters-container")
       div(class="time-entries-filters")
         div(class="filters-label") Date
-          .el-row--flex
+          .el-row--flex.align-center
+            span From&nbsp;
             el-date-picker(
             v-model="date[0]",
             type="year",
             value-format="yyyy-MM-dd",
             placeholder="Start date",
             @change="getAbsenceReports")
+            span To&nbsp;
             el-date-picker(
               v-model="date[1]",
               type="year",
@@ -149,7 +151,18 @@ export default {
       }
     }
   },
+  watch: {
+    date() {
+      if (this.date[1]) {
+        const endDate = this.date[1].split('-')
+        endDate[1] = '12'
+        endDate[2] = '31'
+        this.date[1] = endDate.join('-')
+      }
+    }
+  },
   created() {
+    this.date = [`${new Date().getFullYear()}-01-01`, `${new Date().getFullYear()}-12-31`]
     this.getAbsenceReports()
     this.$watch(vm => vm.list(this.type), () => {
       this.getAbsences()
@@ -160,12 +173,6 @@ export default {
       this.$refs.absenceTable.toggleRowExpansion(row)
     },
     getAbsences() {
-      if (this.date[1]) {
-        const endDate = this.date[1].split('-')
-        endDate[1] = '12'
-        endDate[2] = '31'
-        this.date[1] = endDate.join('-')
-      }
       const obj = {}
       this.list(this.type).forEach((abs) => {
         const { id, comment, reason, date } = abs
@@ -248,6 +255,14 @@ export default {
       .el-input__inner {
         padding-right: 10px;
       }
+    }
+    &.align-center {
+      align-items: center;
+    }
+  }
+  .absence {
+    .time-entries-filters-container .time-entries-filters {
+      width: 280px;
     }
   }
 </style>

@@ -112,7 +112,13 @@ export default {
       filterable: 'actionEntityTable/filterable',
       loader: 'reportsTable/loader',
       pagination: 'pagination'
-    })
+    }),
+    date_period() {
+      return {
+        date_from: this.date ? this.date[0] : '',
+        date_to: this.date ? this.date[1] : ''
+      }
+    }
   },
   mounted() {
     this.setParams()
@@ -121,7 +127,7 @@ export default {
     clearFilter() {
       this.searchParams.projects = ''
       this.date = [new Date(), new Date()]
-      this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date[0], date_to: this.date[1] })
+      this.$store.dispatch('reportsTable/setFilter', { by_projects: this.searchParams.projects, date_from: this.date_period.date_from, date_to: this.date_period.date_to })
       this.getList()
     },
     getList() {
@@ -135,13 +141,10 @@ export default {
       })
     },
     setParams(date) {
-      if (date === null) {
-        this.date = [new Date(), new Date()]
-      }
       this.jsonData = []
       this.$store.dispatch('setLoader', true)
       this.$store.dispatch('setPagination', { page: 1 }, { root: true })
-      this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1] })
+      this.$store.dispatch('reportsTable/setFilter', { by_projects: [this.searchParams.projects], date_from: this.date_period.date_from, date_to: this.date_period.date_to })
         .then(() => {
           this.getList()
             .then(() => {
@@ -155,7 +158,7 @@ export default {
       if (this.date === null) {
         this.date = [new Date(), new Date()]
       }
-      fetchList(setQuery(this.type), { by_projects: [this.searchParams.projects], date_from: this.date[0], date_to: this.date[1], page: 1, per_page: this.pagination.total })
+      fetchList(setQuery(this.type), { by_projects: [this.searchParams.projects], date_from: this.date_period.date_from, date_to: this.date_period.date_to, page: 1, per_page: this.pagination.total })
         .then((response) => {
           jsonData = response.data.data
           jsonData.forEach(jd => {
