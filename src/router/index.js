@@ -69,7 +69,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'time-logs',
-        component: () => import('@/views/time-entries/index'),
+        component: () => import('@/views/time-logs/index'),
         name: 'Time logs',
         meta: { title: 'Time logs', icon: 'time', noCache: true }
       }
@@ -82,7 +82,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'estimations',
-        component: () => import('@/views/reports/estimations/index'),
+        component: () => import('@/views/estimations-analysis/index'),
         name: 'Estimations',
         meta: { title: 'Estimations Analysis', icon: 'time', noCache: true }
       }
@@ -95,7 +95,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'weekly-reports',
-        component: () => import('@/views/reports/timeReports/index'),
+        component: () => import('@/views/time-reports/index'),
         name: 'TimeReports',
         meta: { title: 'Weekly reports', icon: 'calendar', noCache: true }
       }
@@ -108,7 +108,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'user-reports',
-        component: () => import('@/views/reports/userReports/index'),
+        component: () => import('@/views/user-reports/index'),
         name: 'UserReports',
         meta: { title: 'Time to work', icon: 'user', noCache: true }
       }
@@ -121,7 +121,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'absence-reports',
-        component: () => import('@/views/reports/absence/index'),
+        component: () => import('@/views/absence-report/index'),
         name: 'AbsenceReports',
         meta: { title: 'Absence Report', icon: 'sofa', noCache: true }
       }
@@ -139,31 +139,31 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'users',
-        component: () => import('@/views/users/index'),
+        component: () => import('@/views/settings/users/index'),
         name: 'Users',
         meta: { title: 'Users', icon: 'user', noCache: true }
       },
       {
         path: 'teams',
-        component: () => import('@/views/teams/index'),
+        component: () => import('@/views/settings/teams/index'),
         name: 'Teams',
         meta: { title: 'Teams', icon: 'teams', noCache: true }
       },
       {
         path: 'projects',
-        component: () => import('@/views/projects/index'),
+        component: () => import('@/views/settings/projects/index'),
         name: 'Projects',
         meta: { title: 'Projects', icon: 'projects', noCache: true }
       },
       {
         path: 'holidays',
-        component: () => import('@/views/holidays/index'),
+        component: () => import('@/views/settings/holidays/index'),
         name: 'Holidays',
         meta: { title: 'Holidays', icon: 'rocket', noCache: true }
       },
       {
         path: 'admins',
-        component: () => import('@/views/admins/index'),
+        component: () => import('@/views/settings/admins/index'),
         name: 'Admins',
         meta: { title: 'Admins', icon: 'admins', noCache: true }
       }
