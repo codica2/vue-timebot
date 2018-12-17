@@ -1,7 +1,7 @@
 <template lang="pug">
   highcharts(
   :style="{height: height}"
-  :options="{title: {text: 'Projects'}, series: series,legend: legend, tooltip: tooltip, plotOptions: plotOptions, chart: chart, xAxis: { categories: xAxisData }}")
+  :options="{title: {text: 'Projects'}, colors: colors, series: series,legend: legend, tooltip: tooltip, plotOptions: plotOptions, chart: chart, xAxis: { categories: xAxisData }}")
 </template>
 
 <script>
@@ -18,6 +18,10 @@ export default {
     height: {
       type: String,
       default: '800px'
+    },
+    colors: {
+      type: Array,
+      default: () => []
     },
     series: {
       type: Array,
