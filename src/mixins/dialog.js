@@ -47,6 +47,9 @@ export default {
     },
     handleView(row) {
       this.temp = Object.assign({}, row)
+      if (!row.team) {
+        Object.assign(this.temp, { team: { id: '', type: 'teams' }})
+      }
       this.dialogStatus = 'view'
       this.dialogViewVisible = true
     },
