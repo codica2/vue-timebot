@@ -9,7 +9,7 @@
           @focus="remoteGetUsers"
           clearable,
           @input="filterUsers",
-          placeholder="Please enter a user"
+          placeholder="Please select a user"
           :remote-method="remoteGetUsers"
         )
           el-option(
@@ -124,7 +124,7 @@ export default {
     clearFilter() {
       this.searchParams = {
         user: '',
-        status: ''
+        status: true
       }
       this.filterUsers()
     }

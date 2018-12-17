@@ -1,7 +1,7 @@
 <template lang="pug">
   highcharts(
   :style="{height: height, width: width}"
-  :options="{title: {text: title}, legend: legend, series: [{name: 'Hours', innerSize: innerSize, data: payloadData}], tooltip: tooltip, plotOptions: plotOptions, chart: chart}")
+  :options="{title: {text: title}, colors: colors, legend: legend, series: [{name: 'Hours', innerSize: innerSize, data: payloadData}], tooltip: tooltip, plotOptions: plotOptions, chart: chart}")
 </template>
 <script>
 export default {
@@ -26,7 +26,7 @@ export default {
       type: String,
       default: ''
     },
-    color: {
+    colors: {
       type: Array,
       default: () => { return [] }
     },

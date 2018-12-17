@@ -57,7 +57,9 @@ export default {
       return show ? 'animation:treeTableShow 1s;-webkit-animation:treeTableShow 1s;' : 'display:none;'
     },
     toggleExpanded: function(trIndex) {
-      const record = trIndex
+      const record = trIndex || {}
+      console.log(record)
+      console.log(record._expanded)
       record._expanded = !record._expanded
     },
     iconShow(index, record) {

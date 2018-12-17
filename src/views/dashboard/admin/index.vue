@@ -55,6 +55,7 @@
           PieChart(
           :title="chartData('projects').title"
           :innerSize="chartData('projects').innerSize"
+          :colors="chartData('projects').colors"
           :chart="{ plotBackgroundColor: null, plotBorderWidth: 0, plotShadow: false, type: 'pie' }"
           :plotOptions="{ pie: { dataLabels: { enabled: true, format: '<span><b>{point.name}</b>: {y}</span>' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
           :payloadData="chartData('projects').data"
@@ -65,6 +66,7 @@
           PieChart(
           :title="chartData('departments').title"
           :chart="{ type: 'variablepie' }"
+          :colors="chartData('departments').colors"
           :payloadData="chartData('departments').data",
           :plotOptions="{ variablepie: { dataLabels: { enabled: true, format: '<span><b>{point.name}</b>: {point.y}</span>' }, showInLegend: true, startAngle: 0, endAngle: 360, center: ['50%', '50%'], size: '70%' } }"
           )
@@ -72,6 +74,7 @@
       div(class="highcharts-header") People
       .chart-wrapper
         BarChart(
+        :colors="staticData('colors')"
         :xAxisData="staticData('xAxisData')"
         :series="staticData('series')"
         )

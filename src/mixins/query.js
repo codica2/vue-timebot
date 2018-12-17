@@ -140,6 +140,7 @@ export default {
     },
     filter() {
       return new Promise((resolve, reject) => {
+        this.$store.dispatch('setPagination', { page: 1 }, { root: true })
         this.$store.dispatch('setLoader', true)
         this.$store.dispatch('actionEntityTable/setFilter', this.entity)
           .then(() => {

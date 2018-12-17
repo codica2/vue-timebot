@@ -9,7 +9,7 @@
             remote,
             @focus="remoteGetUsers"
             clearable,
-            placeholder="Please enter a user"
+            placeholder="Please select a user"
             :remote-method="remoteGetUsers"
           )
             el-option(
@@ -26,7 +26,7 @@
             remote,
             @focus="remoteGetProjects"
             clearable,
-            placeholder="Please enter a project"
+            placeholder="Please select a project"
             :remote-method="remoteGetProjects"
           )
             el-option(

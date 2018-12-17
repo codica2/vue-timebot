@@ -64,6 +64,7 @@ const charts = {
       state.rangeDate = [payload.data.start_of_week, payload.data.end_of_week]
       state.series = payload.data.series
       state.xAxisData = payload.data.xAxisData
+      state.colors = payload.data.colors
     },
     SET_RANGE_DATE(state, payload) {
       state.rangeDate = payload
