@@ -1,6 +1,6 @@
 <template lang="pug">
   div()
-    div(class="timebot-header") Time entries
+    div(class="timebot-header") Time logs
     filters
     div.time-entries-filters-bottom-head(v-if="structure.length") {{structure.title}}
       div(v-for="entity in structure" :key="entity.id")

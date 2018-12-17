@@ -37,6 +37,16 @@ export default {
       },
       tooltip: {
         pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+        formatter: function() {
+          let q = ''
+          this.points.forEach(point => {
+            if (point.y) {
+              q += `<span style="color: ${point.series.color}"> ${point.series.name}</span>: ${point.y}<br/>`
+            }
+          })
+          q += `<span style="color: ${this.points[0].series.color}"> Total</span>: ${this.points[0].total}<br/>`
+          return q
+        },
         shared: true
       },
       legend: {

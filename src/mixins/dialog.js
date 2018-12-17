@@ -28,6 +28,9 @@ export default {
   methods: {
     handleUpdate(row) {
       this.temp = Object.assign({}, row)
+      if (!row.team) {
+        Object.assign(this.temp, { team: { id: '', type: 'teams' }})
+      }
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {

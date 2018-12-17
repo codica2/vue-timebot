@@ -13,7 +13,7 @@
             @remove-tag="setQtyProjects"
             @focus="remoteGetProjects"
             @input="getTimeReports"
-            placeholder="Please enter a projects"
+            placeholder="Please enter a project"
             :remote-method="remoteGetProjects"
           )
             el-option(v-for="project in filterable('projects')"
@@ -23,6 +23,7 @@
       div(class="time-entries-filters")
         div(class="filters-label") Group by
           el-select(
+          @input="getProjectsByPeriods"
           v-model="searchParams.type"
           )
             el-option(v-for="type in groupType"
@@ -67,7 +68,7 @@
       el-table-column(label="Trello labels" width="160")
         template(slot-scope="scope")
           .label-container
-            span(v-for="label in scope.row['trello_labels'] ? scope.row['trello_labels'].split(', ') : []").label {{ label }}
+            span(v-for="label in typeof scope.row['trello_labels'] === 'string' ? scope.row['trello_labels'].split(', ') : []").label {{ label }}
       //- el-table-column(label="Estimate time" width="110")
       //-   template(slot-scope="scope")
       //-     span {{ scope.row['estimated-time'] }}

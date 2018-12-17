@@ -124,7 +124,7 @@ export default {
     clearFilter() {
       this.searchParams = {
         user: '',
-        status: ''
+        status: true
       }
       this.filterUsers()
     }

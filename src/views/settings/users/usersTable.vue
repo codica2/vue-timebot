@@ -52,10 +52,8 @@
                 el-option(v-for="item in roles" :key="item.value" :label="item.label" :value="item.value")
           .el-dialog-edit-block
             el-form-item(label="Team" prop="team")
-              el-select(v-if="temp.team" v-model="temp.team.id" placeholder="Select" clearable)
-                el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team.id")
-              el-select(v-else v-model="temp.team" placeholder="Select" clearable)
-                el-option(v-for="team in list('teams')" :key="team.id" :label="team.name" :value="team")
+              el-select(v-model="temp.team.id" placeholder="Select" clearable)
+                el-option(v-for="(team, teamIndex) in list('teams')" :key="teamIndex" :label="team.name" :value="team.id")
           .el-dialog-edit-block-status
             el-form-item(label="Status")
             el-checkbox(v-model="temp['is-active']") Is Active

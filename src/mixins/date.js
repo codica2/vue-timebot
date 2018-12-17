@@ -47,7 +47,12 @@ export default {
           onClick(picker) {
             const end = new Date()
             const start = new Date()
-            start.setMonth(start.getMonth() - 1)
+            if (start.getDate() >= 16) {
+              start.setMonth(start.getMonth())
+              end.setMonth(end.getMonth() + 1)
+            } else {
+              start.setMonth(start.getMonth() - 1)
+            }
             start.setDate(16)
             end.setDate(15)
             picker.$emit('pick', [start, end])
@@ -58,8 +63,13 @@ export default {
           onClick(picker) {
             const end = new Date()
             const start = new Date()
-            start.setMonth(start.getMonth() - 2)
-            end.setMonth(end.getMonth() - 1)
+            if (start.getDate() >= 16) {
+              start.setMonth(start.getMonth() - 1)
+              end.setMonth(end.getMonth())
+            } else {
+              start.setMonth(start.getMonth() - 2)
+              end.setMonth(end.getMonth() - 1)
+            }
             start.setDate(16)
             end.setDate(15)
             picker.$emit('pick', [start, end])

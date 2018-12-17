@@ -10,7 +10,7 @@
           remote,
           clearable,
           @focus="remoteGetProjects"
-          placeholder="Please enter a projects"
+          placeholder="Please enter a project"
           @input="setParams"
           icon="arrow-up"
           :remote-method="remoteGetProjects"
