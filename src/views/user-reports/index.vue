@@ -1,6 +1,6 @@
 <template lang="pug">
   div()
-    div(class="timebot-header") User reports
+    div(class="timebot-header") Time to work
     div(class="time-entries-filters-container")
       div(class="time-entries-filters")
         div(class="filters-label") Date

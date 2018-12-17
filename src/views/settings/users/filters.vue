@@ -9,7 +9,7 @@
           @focus="remoteGetUsers"
           clearable,
           @input="filterUsers",
-          placeholder="Please enter a user"
+          placeholder="Please select a user"
           :remote-method="remoteGetUsers"
         )
           el-option(

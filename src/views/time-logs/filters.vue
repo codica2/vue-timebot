@@ -10,7 +10,7 @@
           @focus="remoteGetUsers"
           multiple,
           @input="filter",
-          placeholder="Please enter a user"
+          placeholder="Please select a user"
           :remote-method="remoteGetUsers"
         )
           el-option(
@@ -28,7 +28,7 @@
           multiple,
           @input="filter",
           @focus="remoteGetProjects"
-          placeholder="Please enter a project"
+          placeholder="Please select a project"
           :remote-method="remoteGetProjects"
         )
           el-option(v-for="project in filterable('projects')"

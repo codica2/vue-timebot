@@ -1,6 +1,6 @@
 <template lang="pug">
   div()
-    div(class="timebot-header") Estimations
+    div(class="timebot-header") Estimations Analysis
     div(class="time-entries-filters-container")
       div(class="time-entries-filters")
         div(class="filters-label") Projects name
@@ -10,7 +10,7 @@
           remote,
           clearable,
           @focus="remoteGetProjects"
-          placeholder="Please enter a project"
+          placeholder="Please select a project"
           @input="setParams"
           icon="arrow-up"
           :remote-method="remoteGetProjects"
