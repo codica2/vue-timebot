@@ -68,7 +68,7 @@
       el-table-column(label="Trello labels" width="160")
         template(slot-scope="scope")
           .label-container
-            span(v-for="label in typeof scope.row['trello_labels'] === 'string' ? scope.row['trello_labels'].split(', ') : []").label {{ label }}
+            span(v-if="scope.row['trello_labels']" v-for="label in typeof scope.row['trello_labels'] === 'string' ? scope.row['trello_labels'].split(', ') : []").label {{ label }}
       //- el-table-column(label="Estimate time" width="110")
       //-   template(slot-scope="scope")
       //-     span {{ scope.row['estimated-time'] }}
