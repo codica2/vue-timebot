@@ -7,6 +7,7 @@ import charts from './modules/charts'
 import user from './modules/user'
 import actionEntityTable from './modules/actionEntityTable'
 import reportsTable from './modules/reportsTable'
+import modals from './modules/modals'
 import pagination from './modules/pagination'
 import getters from './getters'
 
@@ -19,6 +20,7 @@ const store = new Vuex.Store({
     tagsView,
     charts,
     user,
+    modals,
     actionEntityTable,
     reportsTable,
     pagination

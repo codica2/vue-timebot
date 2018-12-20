@@ -68,7 +68,8 @@
       el-table-column(label="Trello labels" width="160")
         template(slot-scope="scope")
           .label-container
-            span(v-if="scope.row['trello_labels']" v-for="label in typeof scope.row['trello_labels'] === 'string' ? scope.row['trello_labels'].split(', ') : []").label {{ label }}
+            span(v-for="trelloLabels in scope.row['trello_labels']").label {{ trelloLabels }}&nbsp;
+            <!--span(v-if="scope.row['trello_labels']" v-for="label in typeof scope.row['trello_labels'] === 'string' ? scope.row['trello_labels'].split(', ') : []").label {{ label }}-->
       //- el-table-column(label="Estimate time" width="110")
       //-   template(slot-scope="scope")
       //-     span {{ scope.row['estimated-time'] }}
@@ -274,7 +275,8 @@ export default {
             } else {
               data.details = grouped[key][0].details
             }
-            data['trello_labels'] = grouped[key][0]['trello_labels'] ? grouped[key][0]['trello_labels'].join(', ') : ''
+            data['trello_labels'] = grouped[key][0]['trello_labels']
+            // data['trello_labels'] = grouped[key][0]['trello_labels'] ? grouped[key][0]['trello_labels'].join(', ') : ''
             newData.push(data)
             newData.sort((a, b) => {
               const nameA = a.collaborators[0].name.toUpperCase()
@@ -318,6 +320,14 @@ export default {
       this.treeData.sort((a, b) => {
         return b.total_time - a.total_time
       })
+      if (this.searchParams.type === 'user') {
+        this.treeData.forEach(td => {
+          td.time_entries.forEach(ti => {
+            ti.trello_labels = ''
+            ti.status = ''
+          })
+        })
+      }
       const jsonData = JSON.parse(JSON.stringify([...this.AllEntities]))
       jsonData.forEach(jd => {
         let q = ''

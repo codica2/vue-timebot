@@ -58,8 +58,6 @@ export default {
     },
     toggleExpanded: function(trIndex) {
       const record = trIndex || {}
-      console.log(record)
-      console.log(record._expanded)
       record._expanded = !record._expanded
     },
     iconShow(index, record) {

@@ -40,7 +40,7 @@ export default {
       date: [],
       name: '',
       alias: '',
-      status: false
+      status: true
     },
     active: true
   }),
@@ -52,7 +52,7 @@ export default {
       return {
         by_name: this.searchParams.name,
         by_alias: this.searchParams.alias,
-        by_active: this.searchParams.status
+        active: this.searchParams.status
       }
     }
   },
@@ -61,7 +61,8 @@ export default {
       this.searchParams = {
         data: [],
         name: '',
-        alias: ''
+        alias: '',
+        status: true
       }
       this.filter()
     }

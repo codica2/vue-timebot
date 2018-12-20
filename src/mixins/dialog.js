@@ -1,72 +1,39 @@
 export default {
   data() {
     return {
-      dialogStatus: '',
-      dialogFormVisible: false,
-      dialogViewVisible: false,
       dialogFormLoading: false,
+      loading: false,
       textMap: {
         update: 'Edit',
         create: 'Create',
         view: 'View'
-      },
-      temp: {
-        id: undefined,
-        type: '',
-        date: '',
-        details: '',
-        'estimated-time': '',
-        time: '',
-        'trello-labels': [],
-        project: {},
-        user: {},
-        team: {},
-        'is-active': true
       }
     }
   },
   methods: {
     handleUpdate(row) {
-      this.temp = Object.assign({}, row)
+      let temp = {}
+      temp = Object.assign({}, JSON.parse(JSON.stringify(row)))
       if (!row.team) {
-        Object.assign(this.temp, { team: { id: '', type: 'teams' }})
+        Object.assign(temp, { team: { id: '', type: 'teams' }})
       }
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+      this.$store.dispatch('modals/toggleModal', { visible: { edit: true }, status: 'update', temp: temp })
     },
     handleCreate() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+      this.$store.dispatch('modals/toggleModal', { visible: { edit: true }, status: 'create', temp: {}})
     },
     handleView(row) {
-      this.temp = Object.assign({}, row)
+      let temp = {}
+      temp = Object.assign({}, JSON.parse(JSON.stringify(row)))
       if (!row.team) {
-        Object.assign(this.temp, { team: { id: '', type: 'teams' }})
+        Object.assign(temp, { team: { id: '', type: 'teams' }})
       }
-      this.dialogStatus = 'view'
-      this.dialogViewVisible = true
-    },
-    resetTemp() {
-      this.temp = {
-        id: undefined,
-        type: '',
-        date: '',
-        details: '',
-        'estimated-time': '',
-        time: '',
-        'trello-labels': [],
-        project: {},
-        user: {},
-        team: {},
-        'is-active': true
-      }
+      this.$store.dispatch('modals/toggleModal', { visible: { view: true }, status: 'view', temp: temp })
+    }
+  },
+  watch: {
+    temp() {
+      if (this.$refs['dataForm']) this.$refs['dataForm'].clearValidate()
     }
   },
   beforeDestroy() {

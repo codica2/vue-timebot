@@ -2,7 +2,7 @@ require 'mina/rails'
 require 'mina/git'
 
 set :application_name, 'vue-timebot'
-set :domain, '172.104.151.14'
+set :domain, ''
 set :user, 'dev'
 set :deploy_to, "/home/dev/www/#{fetch(:application_name)}"
 set :repository, 'git@gitlab.codica.com:codica2/vue-timebot.git'

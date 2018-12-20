@@ -37,64 +37,21 @@
             el-button(type="primary" size="mini" @click="handleUpdate(scope.row)") {{ $t('table.edit') }}
             el-button(v-if="scope.row.status !== 'deleted'" size="mini" type="danger" @click="removeEntity(scope.row,'deleted')") {{ $t('table.delete') }}
       pagination(:type="type" v-if="list(type).length")
-
-      el-dialog.el-dialog-edit(:class="{'el-dialog-create': dialogStatus === 'create'}" :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible")
-        el-form(ref="dataForm"
-        :rules="rules"
-        :model="temp"
-        label-position="left"
-        label-width="70px")
-          .el-dialog-edit-block
-            el-form-item(label="Users name" prop="name" class="el-dialog-flex-head")
-              el-input(v-model="temp.name")
-            el-form-item(label="Role" prop="role")
-              el-select(v-model="temp.role" placeholder="Select")
-                el-option(v-for="item in roles" :key="item.value" :label="item.label" :value="item.value")
-          .el-dialog-edit-block
-            el-form-item(label="Team" prop="team")
-              el-select(v-model="temp.team.id" placeholder="Select" clearable)
-                el-option(v-for="(team, teamIndex) in list('teams')" :key="teamIndex" :label="team.name" :value="team.id")
-          .el-dialog-edit-block-status
-            el-form-item(label="Status")
-            el-checkbox(v-model="temp['is-active']") Is Active
-          .el-dialog-edit-block-last
-            div(slot="footer" class="dialog-footer")
-              el-button(@click="dialogFormVisible = false") {{ $t('table.cancel') }}
-              el-button(v-if="dialogStatus === 'create'" :loading="dialogFormLoading" type="primary" @click="create") Create
-              el-button(v-else type="primary" :loading="dialogFormLoading" @click="update") {{ $t('table.confirm') }}
-
-      el-dialog.el-dialog-view(:title="textMap[dialogStatus]" :visible.sync="dialogViewVisible")
-        .el-dialog-flex
-          .el-dialog-flex-block
-            .el-dialog-flex-head Users name
-            .el-dialog-flex-subhead {{temp.name}}
-          .el-dialog-flex-block
-            .el-dialog-flex-head UID
-            .el-dialog-flex-subhead {{temp.uid}}
-          .el-dialog-flex-block
-            .el-dialog-flex-head Team
-            .el-dialog-flex-subhead {{setTeam(temp.team)}}
-          .el-dialog-flex-block
-            .el-dialog-flex-head Created at
-            .el-dialog-flex-date
-              .el-dialog-flex-subhead <img src="/static/icons/ic-calendar.svg">
-                span(v-if="temp['created-at']") {{temp['created-at'].date}}
-              .el-dialog-flex-subhead <img src="/static/icons/ic-time-hover.svg">
-                span(v-if="temp['created-at']") {{temp['created-at'].time}}
-          .el-dialog-flex-block
-            .el-dialog-flex-head Status
-            .el-dialog-flex-subhead
-              span(v-if="temp['is-active']") Active
-              span(v-else) Inactive
+    modal-edit(ref="edit")
+    modal-view(ref="view")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import * as mixin from '@/mixins/index'
 import pagination from '@/components/Pagination/index'
+import ModalEdit from './components/modals/edit/index'
+import ModalView from './components/modals/view/index'
 export default {
   name: 'UsersTable',
   components: {
+    ModalView,
+    ModalEdit,
     pagination
   },
   mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery],
@@ -142,16 +99,7 @@ export default {
   computed: {
     ...mapGetters({
       list: 'actionEntityTable/list'
-    }),
-    entity() {
-      return {
-        name: this.temp.name,
-        is_active: this.temp['is-active'],
-        uid: this.temp.uid || this.temp.name,
-        team_id: this.temp.team ? this.temp.team.id : '',
-        role: this.temp.role
-      }
-    }
+    })
   },
   created() {
     this.getList()
@@ -160,25 +108,6 @@ export default {
       })
   },
   methods: {
-    create() {
-      const entity = {
-        user: this.entity
-      }
-      this.createEntity(entity)
-    },
-    update() {
-      const entity = {
-        id: this.temp.id,
-        user: this.entity
-      }
-      this.updateEntity(entity)
-    },
-    delete() {
-      const entity = {
-        user_ids: this.multipleSelection
-      }
-      return entity
-    },
     setTeam(team) {
       if (team) {
         const findTeam = this.list('teams').find(tm => {

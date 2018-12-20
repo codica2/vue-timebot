@@ -41,11 +41,9 @@ export default {
       return new Promise((resolve, reject) => {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            this.dialogFormLoading = true
+            this.$store.dispatch('modals/setLoading', { loading: true })
             this.$store.dispatch('actionEntityTable/createEntity', { row: entity, type: this.type })
               .then((res) => {
-                this.dialogFormVisible = false
-                this.dialogFormLoading = false
                 this.$notify({
                   title: 'Success',
                   message: `${this.setMessageName(this.type)} was created`,
@@ -55,8 +53,10 @@ export default {
                 resolve()
               })
               .catch(() => {
-                this.dialogFormVisible = false
-                this.dialogFormLoading = false
+              })
+              .finally(() => {
+                this.$store.dispatch('modals/setLoading', { loading: false })
+                this.$store.dispatch('modals/toggleModal', { visible: { edit: false }, status: this.status })
               })
           }
         })
@@ -65,11 +65,9 @@ export default {
     updateEntity(entity) {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          this.dialogFormLoading = true
+          this.$store.dispatch('modals/setLoading', { loading: true })
           this.$store.dispatch('actionEntityTable/updateEntity', { row: entity, type: this.type })
             .then(() => {
-              this.dialogFormVisible = false
-              this.dialogFormLoading = false
               this.$notify({
                 title: 'Success',
                 message: `${this.setMessageName(this.type)} was updated`,
@@ -79,8 +77,10 @@ export default {
             })
             .catch(err => {
               console.log(err)
-              this.dialogFormVisible = false
-              this.dialogFormLoading = false
+            })
+            .finally(() => {
+              this.$store.dispatch('modals/setLoading', { loading: false })
+              this.$store.dispatch('modals/toggleModal', { visible: { edit: false }, status: this.status })
             })
         }
       })
