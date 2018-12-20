@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 **/*.log
 config/prod.env.js
-config/deploy.rb
 
 test/unit/coverage
 test/e2e/reports
