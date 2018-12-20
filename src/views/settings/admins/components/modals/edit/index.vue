@@ -4,16 +4,12 @@
     :rules="rules"
     :model="temp"
     label-position="left"
-    label-width="70px"
-    style="width: 400px; margin-left:50px;")
+    label-width="70px")
       .el-dialog-edit-block
-        el-form-item(label="Name" prop="name")
-          el-input(v-model="temp.name" clearable)
-        el-form-item(label="Date" prop="date")
-          el-date-picker(
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd"
-          v-model="temp.date" type="date" placeholder="Please pick a date")
+        el-form-item(label="Email" prop="email")
+          el-input(v-model="temp.email")
+        el-form-item(v-if="status === 'create'" label="Password" prop="password")
+          el-input(v-model="temp.password")
       .el-dialog-edit-block-last
         div(slot="footer" class="dialog-footer")
           el-button(@click="closeModal") {{ $t('table.cancel') }}
@@ -28,13 +24,13 @@ export default {
   name: 'ModalEdit',
   mixins: [mixin.mixValidationRules, mixin.mixDialog, mixin.mixQuery],
   data: () => ({
-    type: 'holidays'
+    type: 'admins'
   }),
   computed: {
     entity() {
       return {
-        name: this.temp.name,
-        date: this.temp.date
+        email: this.temp.email,
+        password: this.temp.password
       }
     },
     ...mapGetters({
@@ -50,14 +46,14 @@ export default {
     },
     create() {
       const entity = {
-        holiday: this.entity
+        admin: this.entity
       }
       this.createEntity(entity)
     },
     update() {
       const entity = {
         id: this.temp.id,
-        holiday: this.entity
+        admin: this.entity
       }
       this.updateEntity(entity)
     }
