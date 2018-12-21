@@ -170,5 +170,8 @@ export default {
     .time-entries-filters-container .time-entries-filters {
       width: 280px;
     }
+    .cell {
+      text-align: center;
+    }
   }
 </style>

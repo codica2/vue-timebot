@@ -20,7 +20,7 @@
           clearable
           )
             el-option(
-            v-for="(user, userIndex) in included(type)"
+            v-for="(user, userIndex) in filterable('users')"
             :key="userIndex"
             :label="user.name"
             :value="user.id"
@@ -68,7 +68,8 @@ export default {
       loader: 'modals/loading',
       status: 'modals/status',
       modalVisible: 'modals/visible',
-      included: 'actionEntityTable/included'
+      included: 'actionEntityTable/included',
+      filterable: 'actionEntityTable/filterable'
     }),
     entity() {
       return {
