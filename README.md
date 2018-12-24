@@ -28,7 +28,7 @@ Roughly speaking, this is a comparison of plan and fact. We use it as an interna
 
 ![](docs/weeklyreports.gif)
 
-The present part of the Administration panel generates recording and analysis of time spent to fulfill the task, helping account to our customers. It allows our project managers to track down taken for a particular task and the project as a whole.
+The present part of the Administration panel generates recording and analysis of time spent to fulfil the task, helping account to our customers. It allows our project managers to track down taken for a particular task and the project as a whole.
 
 ## Time to work
 
@@ -40,7 +40,7 @@ This option provides a report on working for a scheduled time on each team membe
 
 ![](docs/absencereport.gif)
 
-This given feature allows browsing sick leaves and vacations of all the team members. It’s mostly useful for project managers and HR Department to keep a record on non-valid hours. It shows data on each team member with a number of days of absence.
+This given feature allows browsing sick leaves and vacations of all the team members. It’s mostly useful for project managers and HR Department to keep a record of non-valid hours. It shows data of each team member with a number of days of absence.
 
 ## Settings
 
@@ -56,11 +56,11 @@ The given board shows the current teams in the company. It also includes the Tec
 
 ### Projects
 
-The given page shows information on all the running projeсts. It provides all relevant data, necessary for project managers, such as the date of project initiation and the current team working on it.
+The given page shows information on all the running projeсts. It provides all the relevant data, necessary for project managers, such as the date of project initiation and the current team working on it.
 
 ### Holidays
 
-This option of the Admin panel provides an opportunity to input holidays to the Timebot. We implemented this feature so that the Timebot could correctly display the number of estimated and valid hours.
+This option of the Admin panel provides an opportunity to add holidays to the Timebot. We have implemented this feature so that the Timebot could correctly display the number of estimated and valid hours.
 
 ### Admins
 
