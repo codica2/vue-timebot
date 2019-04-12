@@ -67,7 +67,7 @@ This option of the Admin panel provides an opportunity to add holidays to the Ti
 This section grants access for particular registered users to handle the information through the whole Administration panel. They can view, edit, remove and add the necessary data. It substantially simplifies the creation of reports for the accounting period.
 
 ## License
-Timebot is Copyright © 2015-2018 Codica. It is released under the [MIT License](https://opensource.org/licenses/MIT).
+Timebot is Copyright © 2015-2019 Codica. It is released under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## About Codica
 
